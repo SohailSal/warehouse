@@ -1,0 +1,4 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '@suadelabs/vue3-multiselect/dist/vue3-multiselect.css';
