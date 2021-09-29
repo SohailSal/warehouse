@@ -37,7 +37,7 @@
             sm:rounded-lg
           "
         >
-          Welcome to MZ ERP
+          Welcome to MZ ERP - Warehouse
         </div>
 
         <!-- <welcome /> -->
