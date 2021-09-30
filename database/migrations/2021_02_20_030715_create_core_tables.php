@@ -130,8 +130,14 @@ class CreateCoreTables extends Migration
             $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
-    }
+        
 
+       
+        
+         
+       
+        }
+        
     /**
      * Reverse the migrations.
      *
@@ -149,5 +155,8 @@ class CreateCoreTables extends Migration
         Schema::dropIfExists('account_groups');
         Schema::dropIfExists('companies');
         Schema::dropIfExists('account_types');
+     
+        
+        
     }
 }
