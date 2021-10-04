@@ -15,6 +15,12 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\LedgerController;
 use App\Http\Controllers\DashboardController;
 use Database\Seeders\GroupSeeder;
+use App\Http\Controllers\UnitTypeController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ReceiptController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -78,11 +84,6 @@ Route::get('pl', [ReportController::class, 'pl'])
     ->middleware('auth');
 
 
-//Ledger Sheet -------------------- Starts ---------------------------
-// Route::post('ledger/{id}', [ReportController::class, 'ledger'])
-//     ->name('ledger')
-//     ->middleware('auth');
-
 Route::get('range', [ReportController::class, 'rangeLedger'])
     ->name('range')
     ->middleware('auth');
@@ -96,9 +97,6 @@ Route::get('companies/coch/{id}', [CompanyController::class, 'coch'])
 Route::get('years/yrch/{id}', [YearController::class, 'yrch'])
     ->name('years.yrch');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->name('dashboard');
 
 Route::get('dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
@@ -108,9 +106,7 @@ Route::get('dashboard', [DashboardController::class, 'index'])
     ->name('dashboard.roleassign')
     ->middleware('auth');
 
-// Route::get('accountgroups/generate', [AccountGroupController::class, 'generate'])
-//     ->name('accountgroups.generate')
-//     ->middleware('auth');
+
 
 Route::get('accountgroups/generate', [GroupSeeder::class, 'run'])
     ->name('accountgroups.generate')
@@ -284,3 +280,123 @@ Route::delete('years/{year}', [YearController::class, 'destroy'])
     ->name('years.destroy')
     ->middleware('auth');
 //YEARS ------------------------------------ END ------------------
+
+
+//Unit Types
+Route::get('unittypes', [UnitTypeController::class, 'index'])
+    ->name('unittypes')
+    ->middleware('auth');
+
+Route::get('unittypes/create', [UnitTypeController::class, 'create'])
+    ->name('unittypes.create')
+    ->middleware('auth');
+
+Route::get('unittypes/{unittype}', [UnitTypeController::class, 'show'])
+    ->name('unittypes.show')
+    ->middleware('auth');
+
+Route::post('unittypes', [UnitTypeController::class, 'store'])
+    ->name('unittypes.store')
+    ->middleware('auth');
+
+Route::get('unittypes/{unittype}/edit', [UnitTypeController::class, 'edit'])
+    ->name('unittypes.edit')
+    ->middleware('auth');
+
+Route::put('unittypes/{unittype}', [UnitTypeController::class, 'update'])
+    ->name('unittypes.update')
+    ->middleware('auth');
+
+    Route::delete('unittypes/{unittype}', [UnitTypeController::class, 'destroy'])
+    ->name('unittypes.destroy')
+    ->middleware('auth');
+
+
+    //Items
+Route::get('items', [ItemController::class, 'index'])
+->name('items')
+->middleware('auth');
+
+Route::get('items/create', [ItemController::class, 'create'])
+->name('items.create')
+->middleware('auth');
+
+Route::get('items/{item}', [ItemController::class, 'show'])
+->name('items.show')
+->middleware('auth');
+
+Route::post('items', [ItemController::class, 'store'])
+->name('items.store')
+->middleware('auth');
+
+Route::get('items/{item}/edit', [ItemController::class, 'edit'])
+->name('items.edit')
+->middleware('auth');
+
+Route::put('items/{item}', [ItemController::class, 'update'])
+->name('items.update')
+->middleware('auth');
+
+Route::delete('items/{item}', [ItemController::class, 'destroy'])
+->name('items.destroy')
+->middleware('auth');
+
+
+//Invoice
+Route::get('invoices', [InvoiceController::class, 'index'])
+->name('invoices')
+->middleware('auth');
+
+Route::get('invoices/create', [InvoiceController::class, 'create'])
+->name('invoices.create')
+->middleware('auth');
+
+Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])
+->name('invoices.show')
+->middleware('auth');
+
+Route::post('invoices', [InvoiceController::class, 'store'])
+->name('invoices.store')
+->middleware('auth');
+
+Route::get('invoices/{invoice}/edit', [InvoiceController::class, 'edit'])
+->name('invoices.edit')
+->middleware('auth');
+
+Route::put('invoices/{invoice}', [InvoiceController::class, 'update'])
+->name('invoices.update')
+->middleware('auth');
+
+Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])
+->name('invoices.destroy')
+->middleware('auth');
+
+
+//Receipt
+Route::get('receipts', [ReceiptController::class, 'index'])
+->name('receipts')
+->middleware('auth');
+
+Route::get('receipts/create', [ReceiptController::class, 'create'])
+->name('receipts.create')
+->middleware('auth');
+
+Route::get('receipts/{receipt}', [ReceiptController::class, 'show'])
+->name('receipts.show')
+->middleware('auth');
+
+Route::post('receipts', [ReceiptController::class, 'store'])
+->name('receipts.store')
+->middleware('auth');
+
+Route::get('receipts/{receipt}/edit', [ReceiptController::class, 'edit'])
+->name('receipts.edit')
+->middleware('auth');
+
+Route::put('receipts/{receipt}', [ReceiptController::class, 'update'])
+->name('receipts.update')
+->middleware('auth');
+
+Route::delete('receipts/{receipt}', [ReceiptController::class, 'destroy'])
+->name('receipts.destroy')
+->middleware('auth');
