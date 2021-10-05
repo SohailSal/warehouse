@@ -179,39 +179,6 @@ class CompanyController extends Controller
         ]);
     }
 
-    // public function store()
-    // {
-    //     Request::validate([
-    //         'name' => ['required'],
-    //         'address' => ['nullable'],
-    //         'email' => ['nullable'],
-    //         'web' => ['nullable'],
-    //         'phone' => ['nullable'],
-    //         'fiscal' => ['required'],
-    //         'incorp' => ['nullable', 'date'],
-    //     ]);
-    //     $comp = Company::create([
-    //         'name' => Request::input('name'),
-    //         'address' => Request::input('address'),
-    //         'email' => Request::input('email'),
-    //         'web' => Request::input('web'),
-    //         'phone' => Request::input('phone'),
-    //         'fiscal' => Request::input('fiscal'),
-    //         'incorp' => Request::input('incorp'),
-    //     ]);
-
-    //     Setting::create([
-    //         'key' => 'active_company',
-    //         'value' => $comp->id,
-    //         'user_id' => Auth::user()->id,
-    //     ]);
-
-    //     session(['company_id' => $comp->id]);
-    //     session(['year_id' => null]);
-
-    //     return Redirect::route('years.create')->with('success', 'Company created. Please create Year for your to Company.');
-    // }
-
     public function store()
     {
         Request::validate([
