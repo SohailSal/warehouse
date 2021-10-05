@@ -42,8 +42,7 @@ class InvoiceController extends Controller
     public function create()
     {
 
-        $clients = \App\Models\Client::all()->map->only('id', 'name');
-
+        $clients = \App\Models\Client::all();
 
         if ($clients) {
 

@@ -112,6 +112,8 @@ class CreateWarehouseTables extends Migration
             $table->string('number');
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->foreign('invoice_id')->references('id')->	on('invoices');
+            $table->tinyInteger('enabled')->default('1');
+            $table->timestamps();
 
         });  
 

@@ -17,6 +17,11 @@ class Invoice extends Model
   {
       return $this->belongsTo('App\Models\Client', 'client_id');
   }
+
+  public function quantities()
+  {
+      return $this->hasMany('App\Models\Quantity', 'invoice_id');
+  }
     
   
 }

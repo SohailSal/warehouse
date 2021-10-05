@@ -162,6 +162,41 @@
                   >
                     Receipt
                   </jet-dropdown-link>
+                  <jet-dropdown-link
+                    :href="route('quantities')"
+                    v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                    :active="route().current('quantities')"
+                  >
+                    Quantity
+                  </jet-dropdown-link>
+                  <jet-dropdown-link
+                    :href="route('importers')"
+                    v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                    :active="route().current('importers')"
+                  >
+                    Importer
+                  </jet-dropdown-link>
+                  <jet-dropdown-link
+                    :href="route('agents')"
+                    v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                    :active="route().current('agents')"
+                  >
+                    Agent
+                  </jet-dropdown-link>
+                  <jet-dropdown-link
+                    :href="route('clients')"
+                    v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                    :active="route().current('clients')"
+                  >
+                    Client
+                  </jet-dropdown-link>
+                  <jet-dropdown-link
+                    :href="route('files')"
+                    v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                    :active="route().current('files')"
+                  >
+                    File
+                  </jet-dropdown-link>
                 </template>
               </jet-dropdown>
             </div>

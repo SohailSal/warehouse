@@ -19,6 +19,11 @@ use App\Http\Controllers\UnitTypeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\QuantityController;
+use App\Http\Controllers\ImporterController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AgentController;
+use App\Http\Controllers\FileController;
 
 
 
@@ -400,3 +405,143 @@ Route::put('receipts/{receipt}', [ReceiptController::class, 'update'])
 Route::delete('receipts/{receipt}', [ReceiptController::class, 'destroy'])
 ->name('receipts.destroy')
 ->middleware('auth');
+
+
+//Quantity
+Route::get('quantities', [QuantityController::class, 'index'])
+->name('quantities')
+->middleware('auth');
+
+Route::get('quantities/create', [QuantityController::class, 'create'])
+->name('quantities.create')
+->middleware('auth');
+
+Route::get('quantities/{quantity}', [QuantityController::class, 'show'])
+->name('quantities.show')
+->middleware('auth');
+
+Route::post('quantities', [QuantityController::class, 'store'])
+->name('quantities.store')
+->middleware('auth');
+
+Route::get('quantities/{quantity}/edit', [QuantityController::class, 'edit'])
+->name('quantities.edit')
+->middleware('auth');
+
+Route::put('quantities/{quantity}', [QuantityController::class, 'update'])
+->name('quantities.update')
+->middleware('auth');
+
+Route::delete('quantities/{quantity}', [QuantityController::class, 'destroy'])
+->name('quantities.destroy')
+->middleware('auth');
+
+//IMPORTER ------------------------------------ STARTS ------------------
+Route::get('importers', [ImporterController::class, 'index'])
+    ->name('importers')
+    ->middleware('auth');
+
+Route::get('importers/create', [ImporterController::class, 'create'])
+    ->name('importers.create')
+    ->middleware('auth');
+
+Route::post('importers', [ImporterController::class, 'store'])
+    ->name('importers.store')
+    ->middleware('auth');
+
+Route::get('importers/{importer}/edit', [ImporterController::class, 'edit'])
+    ->name('importers.edit')
+    ->middleware('auth');
+
+Route::put('importers/{importer}', [ImporterController::class, 'update'])
+    ->name('importers.update')
+    ->middleware('auth');
+
+Route::delete('importers/{importer}', [ImporterController::class, 'destroy'])
+    ->name('importers.destroy')
+    ->middleware('auth');
+//IMPORTER ------------------------------------ END ------------------
+
+
+
+//CLIENT ------------------------------------ STARTS ------------------
+Route::get('clients', [ClientController::class, 'index'])
+    ->name('clients')
+    ->middleware('auth');
+
+Route::get('clients/create', [ClientController::class, 'create'])
+    ->name('clients.create')
+    ->middleware('auth');
+
+Route::post('clients', [ClientController::class, 'store'])
+    ->name('clients.store')
+    ->middleware('auth');
+
+Route::get('clients/{client}/edit', [ClientController::class, 'edit'])
+    ->name('clients.edit')
+    ->middleware('auth');
+
+Route::put('clients/{client}', [ClientController::class, 'update'])
+    ->name('clients.update')
+    ->middleware('auth');
+
+Route::delete('clients/{client}', [ClientController::class, 'destroy'])
+    ->name('clients.destroy')
+    ->middleware('auth');
+//CLIENT ------------------------------------ END ------------------
+
+
+
+//Agent ------------------------------------ STARTS ------------------
+Route::get('agents', [AgentController::class, 'index'])
+    ->name('agents')
+    ->middleware('auth');
+
+Route::get('agents/create', [AgentController::class, 'create'])
+    ->name('agents.create')
+    ->middleware('auth');
+
+Route::post('agents', [AgentController::class, 'store'])
+    ->name('agents.store')
+    ->middleware('auth');
+
+Route::get('agents/{agent}/edit', [AgentController::class, 'edit'])
+    ->name('agents.edit')
+    ->middleware('auth');
+
+Route::put('agents/{agent}', [AgentController::class, 'update'])
+    ->name('agents.update')
+    ->middleware('auth');
+
+Route::delete('agents/{agent}', [AgentController::class, 'destroy'])
+    ->name('agents.destroy')
+    ->middleware('auth');
+//AGENT ------------------------------------ END ------------------
+
+
+
+//FILE ------------------------------------ STARTS ------------------
+Route::get('files', [FileController::class, 'index'])
+    ->name('files')
+    ->middleware('auth');
+
+Route::get('files/create', [FileController::class, 'create'])
+    ->name('files.create')
+    ->middleware('auth');
+
+Route::post('files', [FileController::class, 'store'])
+    ->name('files.store')
+    ->middleware('auth');
+
+Route::get('files/{file}/edit', [FileController::class, 'edit'])
+    ->name('files.edit')
+    ->middleware('auth');
+
+Route::put('files/{file}', [FileController::class, 'update'])
+    ->name('files.update')
+    ->middleware('auth');
+
+Route::delete('files/{file}', [FileController::class, 'destroy'])
+    ->name('files.destroy')
+    ->middleware('auth');
+//FILE ------------------------------------ END ------------------
