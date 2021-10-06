@@ -96,7 +96,7 @@ class CreateWarehouseTables extends Migration
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients');          
             $table->date('date');  
-            $table->date('amount');     
+            $table->decimal('amount',14,2);
             $table->tinyInteger('enabled')->default('1');
             $table->timestamps();
         });
@@ -112,6 +112,8 @@ class CreateWarehouseTables extends Migration
             $table->string('number');
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->foreign('invoice_id')->references('id')->	on('invoices');
+            $table->tinyInteger('enabled')->default('1');
+            $table->timestamps();
 
         });  
 
@@ -119,8 +121,8 @@ class CreateWarehouseTables extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients');      
-            $table->date('date');  
-            $table->double('amount');  
+            $table->date('date');   
+            $table->decimal('amount',14,2); 
             $table->double('i_tax');
             $table->double('s_tax');
             $table->double('com');
@@ -129,7 +131,7 @@ class CreateWarehouseTables extends Migration
         });
 
 
-        Schema::create('pakages', function (Blueprint $table) {
+        Schema::create('packages', function (Blueprint $table) {
             $table->id();
             $table->string('type')->nullable();
         });
