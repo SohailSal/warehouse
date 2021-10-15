@@ -10,12 +10,12 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = [
-      'client_id', 'date' , 'amount' ,
+      'file_id', 'date' , 'amount' ,
     ];
 
-    public function clients()
+    public function files()
   {
-      return $this->belongsTo('App\Models\Client', 'client_id');
+      return $this->belongsTo('App\Models\File', 'file_id');
   }
 
   public function quantities()

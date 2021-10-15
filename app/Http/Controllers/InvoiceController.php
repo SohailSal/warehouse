@@ -43,14 +43,15 @@ class InvoiceController extends Controller
     {
 
         $clients = \App\Models\Client::all();
+        // dd($clients->first());
 
-        if ($clients) {
+        if ($clients->first()) {
 
             return Inertia::render('Invoices/Create', [
                 'clients' => $clients, 
             ]);
         } else {
-            return Redirect::route('clients.create')->with('success', 'Client NOT FOUND, Please create Client first.');
+            return Redirect::route('clients.create')->with('warning', 'Client NOT FOUND, Please create Client first.');
         }
     }
 

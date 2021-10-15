@@ -31,6 +31,18 @@
           {{ type.name }}
         </option>
       </select>
+      <button
+        class="border bg-indigo-300 rounded-xl px-4 py-1 mx-1"
+        @click="itemCreate"
+      >
+        <span>Add Item</span>
+      </button>
+      <button
+        class="border bg-indigo-300 rounded-xl px-4 py-1 mx-1"
+        @click="quantityCreate"
+      >
+        <span>Add Quantity</span>
+      </button>
       <div class="">
         <table class="w-full shadow-lg border mt-4 ml-2 rounded-xl">
           <thead>
@@ -130,6 +142,14 @@ export default {
   methods: {
     create() {
       this.$inertia.get(route("files.create"));
+    },
+
+    itemCreate() {
+      this.$inertia.get(route("items.create"));
+    },
+
+    quantityCreate() {
+      this.$inertia.get(route("quantities.create"));
     },
 
     edit(id) {

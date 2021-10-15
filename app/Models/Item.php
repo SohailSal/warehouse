@@ -17,7 +17,12 @@ class Item extends Model
     {
         return $this->belongsTo('App\Models\UnitType', 'unit_id');
     }
-
+   
+    public function items()
+    {
+      return $this->hasMany('App\Models\Item', 'item_id');
+  
+    }
 
 
     public function quantities()

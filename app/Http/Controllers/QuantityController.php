@@ -43,12 +43,29 @@ class QuantityController extends Controller
 
     public function create()
     {
-        return Inertia::render('Quantity/Create', [
-                'items' => \App\Models\Item::all(), 
-                'files' => \App\Models\File::all(), 
-                'invoices' => \App\Models\Invoice::all(), 
-            ]);
+        $items = \App\Models\Item::all(); 
+                $files = \App\Models\File::all(); 
+                $invoices = \App\Models\Invoice::all(); 
+
+       if($items->first()){
+         if($files->first()){
+               if($invoices->first()){
+
+                   return Inertia::render('Quantity/Create', [
+                       'items' => $items, 
+                       'files' => $files, 
+                       'invoices' => $invoices, 
+                    ]);
+                }else{
+              return Redirect::route('invoices.create')->with('warning', 'INVOICE NOT FOUND, Please create Invoice first.');
+                }
+           }else{
+             return Redirect::route('files.create')->with('warning', 'FILE NOT FOUND, Please create file first.');
         }
+        } else {
+            return Redirect::route('items.create')->with('warning', 'ITEM NOT FOUND, Please create Item first.');
+        }
+    }
 
     public function store()
     {

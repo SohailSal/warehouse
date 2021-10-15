@@ -30,11 +30,38 @@ class File extends Model
   {
       return $this->belongsTo('App\Models\Client', 'client_id');
   }
+
+
+  public function receipts()
+  {
+    return $this->hasMany('App\Models\Receipt', 'file_id');
+
+  }
+
+
+  public function deliveries()
+  {
+    return $this->hasMany('App\Models\Delivery', 'file_id');
+
+  }
+
+  public function invoices()
+  {
+    return $this->hasMany('App\Models\Invoice', 'file_id');
+
+  }
   
 
   public function quantities()
   {
     return $this->hasMany('App\Models\Quantity', 'file_id');
   }
+
+  public function items()
+  {
+    return $this->hasMany('App\Models\Item', 'file_id');
+
+  }
+ 
 
 }

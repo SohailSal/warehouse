@@ -45,16 +45,16 @@ class ReceiptController extends Controller
     public function create()
     {
 
-        $clients = \App\Models\Client::all()->map->only('id', 'name');
+        $clients = \App\Models\Client::all();
 
 
-        if ($clients) {
-
+        if ($clients->first()) {
+            
             return Inertia::render('Receipts/Create', [
                 'clients' => $clients, 
             ]);
         } else {
-            return Redirect::route('clients.create')->with('success', 'Client NOT FOUND, Please create Client first.');
+            return Redirect::route('clients.create')->with('warning', 'Client NOT FOUND, Please create Client first.');
         }
     }
 
