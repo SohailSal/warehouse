@@ -20,7 +20,7 @@ class ReceiptController extends Controller
             ->map(function ($receipt){
                 return[
                     'id' => $receipt->id,
-                    'client_id' => $receipt->clients->name,
+                    'file_id' => $receipt->files->file_no,
                     'date' => $receipt->date,
                     'amount' => $receipt->amount,    
                     'i_tax' => $receipt->i_tax,    
@@ -45,34 +45,41 @@ class ReceiptController extends Controller
     public function create()
     {
 
-        $clients = \App\Models\Client::all();
+        $files = \App\Models\File::all();
 
 
-        if ($clients->first()) {
+        if ($files->first()) {
             
             return Inertia::render('Receipts/Create', [
-                'clients' => $clients, 
+                'files' => $files, 
             ]);
         } else {
-            return Redirect::route('clients.create')->with('warning', 'Client NOT FOUND, Please create Client first.');
+            return Redirect::route('files.create')->with('warning', 'File NOT FOUND, Please create File first.');
         }
     }
 
     public function store()
     {
+        // dd(Request::input('file_id')['id']);
+        // dd(Request::input('date'));
+        // dd(Request::input('amount'));
+        // dd(Request::input('i_tax'));
+        // dd(Request::input('s_tax'));
+        // dd(Request::input('com'));
         Request::validate([
+            'file_id' => ['required'],
             'date' => ['required'],
             'amount' => ['required'],
         ]);
         
         Receipt::create([
-            'client_id' => Request::input('client_id'),
+            
+            'file_id' => Request::input('file_id')['id'],
             'date' => Request::input('date'),
             'amount' => Request::input('amount'),
             'i_tax' => Request::input('i_tax'),
             's_tax' => Request::input('s_tax'),
             'com' => Request::input('com'),
-            
         ]);
 
         return Redirect::route('receipts')->with('success', 'Receipt created.');

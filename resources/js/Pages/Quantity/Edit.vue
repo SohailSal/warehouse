@@ -25,10 +25,10 @@
             <div v-if="errors.item_id">{{ errors.item_id }}</div>
           </div>
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold">Number :</label
+            <label class="my-2 mr-8 text-right w-36 font-bold">Quantity :</label
             ><input
-              type="text"
-              v-model="form.number"
+              type="number"
+              v-model="form.qty"
               class="
                 pr-2
                 pb-2
@@ -37,9 +37,10 @@
                 rounded-md
                 placeholder-indigo-300
               "
-              label="name"
+              placeholder="Enter Quantity"
+              label="qty"
             />
-            <div v-if="errors.number">{{ errors.number }}</div>
+            <div v-if="errors.qty">{{ errors.qty }}</div>
           </div>
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">
@@ -119,7 +120,7 @@ export default {
     return {
       form: this.$inertia.form({
         item_id: this.quantity.item_id,
-        number: this.quantity.number,
+        qty: this.quantity.qty,
         file_id: this.quantity.file_id,
         invoice_id: this.quantity.invoice_id,
       }),

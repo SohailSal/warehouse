@@ -48,6 +48,7 @@
           <thead>
             <tr class="bg-indigo-100">
               <th class="py-2 px-4 border">File No</th>
+              <th class="py-2 px-4 border">File Code</th>
               <th class="py-2 px-4 border">GD No</th>
               <th class="py-2 px-4 border">Bond No</th>
               <th class="py-2 px-4 border">Date Bond</th>
@@ -56,7 +57,17 @@
               <th class="py-2 px-4 border">Gross wt</th>
               <th class="py-2 px-4 border">Net wt</th>
               <th class="py-2 px-4 border">BL no</th>
+
+              <th class="py-2 px-4 border">VIR no</th>
+              <th class="py-2 px-4 border">Index no</th>
+
               <th class="py-2 px-4 border">Insurance</th>
+
+              <th class="py-2 px-4 border">LC no</th>
+              <th class="py-2 px-4 border">Amount</th>
+              <th class="py-2 px-4 border">s_tax</th>
+              <th class="py-2 px-4 border">Quantity</th>
+
               <th class="py-2 px-4 border">Agent</th>
               <th class="py-2 px-4 border">Importer</th>
               <th class="py-2 px-4 border">Client</th>
@@ -66,6 +77,7 @@
           <tbody>
             <tr v-for="item in balances.data" :key="item.id">
               <td class="py-1 px-4 border">{{ item.file_no }}</td>
+              <td class="py-1 px-4 border">{{ item.file_code }}</td>
               <td class="py-1 px-4 border">{{ item.gd_no }}</td>
               <td class="py-1 px-4 border">{{ item.bond_no }}</td>
               <td class="py-1 px-4 border">{{ item.date_bond }}</td>
@@ -74,7 +86,13 @@
               <td class="py-1 px-4 border">{{ item.gross_wt }}</td>
               <td class="py-1 px-4 border">{{ item.net_wt }}</td>
               <td class="py-1 px-4 border">{{ item.bl_no }}</td>
+              <td class="py-1 px-4 border">{{ item.vir_no }}</td>
+              <td class="py-1 px-4 border">{{ item.index_no }}</td>
               <td class="py-1 px-4 border">{{ item.insurance }}</td>
+              <td class="py-1 px-4 border">{{ item.lc_no }}</td>
+              <td class="py-1 px-4 border">{{ item.amount }}</td>
+              <td class="py-1 px-4 border">{{ item.s_tax }}</td>
+              <td class="py-1 px-4 border">{{ item.qty }}</td>
               <td class="py-1 px-4 border">{{ item.agent_id }}</td>
               <td class="py-1 px-4 border">{{ item.importer_id }}</td>
               <td class="py-1 px-4 border">{{ item.client_id }}</td>

@@ -49,7 +49,7 @@ class CreateWarehouseTables extends Migration
            Schema::create('files', function (Blueprint $table) 			{
             $table->id();
             $table->string('file_no');
-            $table->string('file_code')->nullabe();
+            $table->string('file_code')->nullable();
             $table->string('gd_no')->nullable();	 	    
             $table->string('bond_no')->nullable();
             $table->string('date_bond')->nullable();
