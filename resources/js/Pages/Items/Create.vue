@@ -73,8 +73,7 @@
                         px-4
                         py-2
                         m-1
-                        hover:text-white
-                        hover:bg-red-600
+                        hover:text-white hover:bg-red-600
                       "
                     >
                       Delete
@@ -141,6 +140,7 @@ export default {
           description: null,
           hscode: null,
           unit_id: props.unittypes[0].id,
+          // unit_id: null,
         },
       ],
     });

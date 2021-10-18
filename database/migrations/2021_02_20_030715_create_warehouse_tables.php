@@ -49,7 +49,7 @@ class CreateWarehouseTables extends Migration
            Schema::create('files', function (Blueprint $table) 			{
             $table->id();
             $table->string('file_no');
-            $table->string('file_code')->nullabe();
+            $table->string('file_code')->nullable();
             $table->string('gd_no')->nullable();	 	    
             $table->string('bond_no')->nullable();
             $table->string('date_bond')->nullable();
@@ -95,7 +95,7 @@ class CreateWarehouseTables extends Migration
             $table->unsignedBigInteger('unit_id')->nullable();
             $table->foreign('unit_id')->references('id')->on('unit_types');
             $table->tinyInteger('enabled')->default('1');
-            $table->unsignedBigInteger('file_id')->nullabe();
+            $table->unsignedBigInteger('file_id')->nullable();
             $table->foreign('file_id')->references('id')->on('files');          
             $table->timestamps();
          });  
