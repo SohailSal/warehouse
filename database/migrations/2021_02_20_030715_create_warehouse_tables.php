@@ -11,7 +11,8 @@ class CreateWarehouseTables extends Migration
      *
      * @return void
      */
-    public function up()
+
+     public function up()
     {
         
         Schema::create('agents', function (Blueprint $table) {
@@ -48,6 +49,7 @@ class CreateWarehouseTables extends Migration
            Schema::create('files', function (Blueprint $table) 			{
             $table->id();
             $table->string('file_no');
+            $table->string('file_code')->nullable();
             $table->string('gd_no')->nullable();	 	    
             $table->string('bond_no')->nullable();
             $table->string('date_bond')->nullable();
@@ -56,8 +58,13 @@ class CreateWarehouseTables extends Migration
             $table->string('gross_wt')->nullable();
             $table->string('net_wt')->nullable();
             $table->string('bl_no')->nullable();
+            $table->string('vir_no')->nullable();
+            $table->string('index_no')->nullable();
             $table->string('insurance')->nullable();
-            
+            $table->string('lc_no')->nullable();
+            $table->decimal('amount',14,2)->nullable();
+            $table->decimal('s_tax',14,2)->nullable();
+            $table->BigInteger('qty')->nullable();            
             $table->tinyInteger('enabled')->default('1');
             
             $table->unsignedBigInteger('agent_id')->nullable();
@@ -88,15 +95,17 @@ class CreateWarehouseTables extends Migration
             $table->unsignedBigInteger('unit_id')->nullable();
             $table->foreign('unit_id')->references('id')->on('unit_types');
             $table->tinyInteger('enabled')->default('1');
+            $table->unsignedBigInteger('file_id')->nullabe();
+            $table->foreign('file_id')->references('id')->on('files');          
             $table->timestamps();
          });  
          
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients');          
+            $table->unsignedBigInteger('file_id');
+            $table->foreign('file_id')->references('id')->on('files');          
             $table->date('date');  
-            $table->decimal('amount',14,2);
+            $table->decimal('amount',14,2)->nullable();
             $table->tinyInteger('enabled')->default('1');
             $table->timestamps();
         });
@@ -109,7 +118,7 @@ class CreateWarehouseTables extends Migration
             $table->foreign('item_id')->references('id')->	on('items');
             $table->unsignedBigInteger('file_id')->nullable();
             $table->foreign('file_id')->references('id')->	on('files');
-            $table->string('number');
+            $table->string('qty');
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->foreign('invoice_id')->references('id')->	on('invoices');
             $table->tinyInteger('enabled')->default('1');
@@ -119,13 +128,13 @@ class CreateWarehouseTables extends Migration
 
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients');      
+            $table->unsignedBigInteger('file_id');
+            $table->foreign('file_id')->references('id')->on('files');      
             $table->date('date');   
-            $table->decimal('amount',14,2); 
-            $table->double('i_tax');
-            $table->double('s_tax');
-            $table->double('com');
+            $table->decimal('amount',14,2)->nullable(); 
+            $table->double('i_tax')->nullable();
+            $table->double('s_tax')->nullable();
+            $table->double('com')->nullable();
             $table->tinyInteger('enabled')->default('1');
             $table->timestamps();
         });
@@ -134,7 +143,34 @@ class CreateWarehouseTables extends Migration
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
             $table->string('type')->nullable();
+            $table->timestamps();
         });
+
+
+        Schema::create('deliveries', function (Blueprint $table) {
+            $table->id();
+            $table->date('date');
+            $table->unsignedBigInteger('file_id');
+            $table->foreign('file_id')->references('id')->on('files');     
+            // $table->unsignedBigInteger('importer_id');
+            // $table->foreign('importer_id')->references('id')->on('importers');      
+            // $table->string('discription');
+            // $table->string('bond_no');
+            // $table->string('file_no');
+            // $table->string('index_no');
+            $table->string('Cash_no')->nullable();
+            // $table->time('time');
+            $table->string('Vehicle_no')->nullable();
+            $table->unsignedBigInteger('item_id');
+            $table->foreign('item_id')->references('id')->on('items');                  
+            $table->string('qty');
+            $table->timestamps();
+
+
+            
+        });
+
+
 
         
          
@@ -160,8 +196,8 @@ class CreateWarehouseTables extends Migration
         Schema::dropIfExists('quantities');
         Schema::dropIfExists('invoices');
         Schema::dropIfExists('receipts');
-        Schema::dropIfExists('pakages');
-        
+        Schema::dropIfExists('packages');
+        Schema::dropIfExists('deliveries');
         
     }
 }

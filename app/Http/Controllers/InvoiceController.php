@@ -20,9 +20,9 @@ class InvoiceController extends Controller
             ->map(function ($invoice){
                 return[
                     'id' => $invoice->id,
-                    'client_id' => $invoice->clients->name,
+                    'file_id' => $invoice->files->file_no,
                     'date' => $invoice->date,
-                    'amount' => $invoice->amount,    
+                    'amount' => $invoice->amount,
                 ];
             }),    
 
@@ -42,27 +42,29 @@ class InvoiceController extends Controller
     public function create()
     {
 
-        $clients = \App\Models\Client::all();
+        $files = \App\Models\File::all();
+        // dd($clients->first());
 
-        if ($clients) {
+        if ($files->first()) {
 
             return Inertia::render('Invoices/Create', [
-                'clients' => $clients, 
+                'files' => $files, 
             ]);
         } else {
-            return Redirect::route('clients.create')->with('success', 'Client NOT FOUND, Please create Client first.');
+            return Redirect::route('files.create')->with('warning', 'File NOT FOUND, Please create File first.');
         }
     }
 
     public function store()
     {
         Request::validate([
+            'file_id' => ['required'],
             'date' => ['required'],
             'amount' => ['required'],
         ]);
         
         Invoice::create([
-            'client_id' => Request::input('client_id'),
+            'file_id' => Request::input('file_id')['id'],
             'date' => Request::input('date'),
             'amount' => Request::input('amount'),
         

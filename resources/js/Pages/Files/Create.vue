@@ -5,6 +5,12 @@
         Create File
       </h2>
     </template>
+    <div
+      v-if="$page.props.flash.warning"
+      class="bg-yellow-600 text-white text-center"
+    >
+      {{ $page.props.flash.warning }}
+    </div>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
         <form @submit.prevent="form.post(route('files.store'))">
@@ -25,6 +31,27 @@
               placeholder="Enter File No :"
             />
             <div v-if="errors.file_no">{{ errors.file_no }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >File Code :</label
+            >
+            <input
+              type="text"
+              v-model="form.file_code"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="file_code"
+              placeholder="Enter File Code :"
+            />
+            <div v-if="errors.file_code">{{ errors.file_code }}</div>
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -188,6 +215,46 @@
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">VIR No :</label>
+            <input
+              type="text"
+              v-model="form.vir_no"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="vir_no"
+              placeholder="Enter VIR No :"
+            />
+            <div v-if="errors.vir_no">{{ errors.vir_no }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Index No :</label
+            >
+            <input
+              type="text"
+              v-model="form.index_no"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="index_no"
+              placeholder="Enter Index No :"
+            />
+            <div v-if="errors.index_no">{{ errors.index_no }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold"
               >Insurance :</label
             >
@@ -206,6 +273,87 @@
               placeholder="Enter Insurance :"
             />
             <div v-if="errors.insurance">{{ errors.insurance }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">LC No :</label>
+            <input
+              type="text"
+              v-model="form.lc_no"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="lc_no"
+              placeholder="Enter LC No :"
+            />
+            <div v-if="errors.lc_no">{{ errors.lc_no }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">Amount :</label>
+            <input
+              type="number"
+              v-model="form.amount"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="amount"
+              placeholder="Enter Amount :"
+            />
+            <div v-if="errors.amount">{{ errors.amount }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Sale Tax :</label
+            >
+            <input
+              type="number"
+              v-model="form.s_tax"
+              readonly
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="s_tax"
+              placeholder="Sale Tax :"
+            />
+            <div v-if="errors.s_tax">{{ errors.s_tax }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Quantity :</label
+            >
+            <input
+              type="number"
+              v-model="form.qty"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="qty"
+              placeholder="Enter Quantity :"
+            />
+            <div v-if="errors.qty">{{ errors.qty }}</div>
           </div>
 
           <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
@@ -311,6 +459,7 @@ export default {
   setup(props) {
     const form = useForm({
       file_no: null,
+      file_code: null,
       gd_no: null,
       bond_no: null,
       date_bond: null,
@@ -319,7 +468,13 @@ export default {
       gross_wt: null,
       net_wt: null,
       bl_no: null,
+      vir_no: null,
+      index_no: null,
       insurance: null,
+      lc_no: null,
+      amount: null,
+      s_tax: null,
+      qty: null,
       agent_id: null,
       importer_id: null,
       client_id: null,

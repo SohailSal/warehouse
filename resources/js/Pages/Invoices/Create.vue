@@ -14,13 +14,10 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
         <form @submit.prevent="form.post(route('invoices.store'))">
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Client Name:</label
-            >
-            <!-- class="rounded-md w-full"> -->
+          <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">File No :</label>
             <select
-              v-model="form.client_id"
+              v-model="form.file_id"
               class="
                 pr-2
                 pb-2
@@ -30,16 +27,29 @@
                 placeholder-indigo-300
               "
             >
-              <option
-                v-for="client in clients"
-                :key="client.id"
-                :value="client.id"
-              >
-                {{ client.name }}
+              <option v-for="file in files" :key="file.id" :value="file.id">
+                {{ file.file_no }}
               </option>
             </select>
-            <div v-if="errors.client_id">{{ errors.client_id }}</div>
+            <div v-if="errors.file_id">{{ errors.file_id }}</div>
+          </div> -->
+
+          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Select File :</label
+            >
+            <multiselect
+              style="width: 25%"
+              class="rounded-md border border-black"
+              v-model="form.file_id"
+              :options="files"
+              placeholder="Select File"
+              label="file_no"
+              track-by="id"
+            ></multiselect>
+            <div v-if="errors.file_id">{{ errors.file_id }}</div>
           </div>
+
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Date:</label
             ><input
@@ -58,6 +68,7 @@
             />
             <div v-if="errors.date">{{ errors.date }}</div>
           </div>
+
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label
             ><input
@@ -72,7 +83,7 @@
                 placeholder-indigo-300
               "
               label="date"
-              placeholder="xyz"
+              placeholder="10,000"
             />
             <div v-if="errors.amount">{{ errors.amount }}</div>
           </div>
@@ -105,21 +116,23 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
+import Multiselect from "@suadelabs/vue3-multiselect";
 
 export default {
   components: {
     AppLayout,
+    Multiselect,
   },
 
   props: {
     errors: Object,
-    clients: Object,
+    files: Array,
   },
 
   setup(props) {
     const form = useForm({
-      client_id: props.clients[0].id,
-      date: null,
+      file_id: null,
+      date: new Date().toISOString().substr(0, 10),
       amount: null,
     });
     return { form };

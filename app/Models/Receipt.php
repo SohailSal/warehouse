@@ -13,9 +13,9 @@ class Receipt extends Model
       'client_id', 'date' , 'amount' ,'i_tax' , 's_tax' , 'com' ,
     ];
 
-    public function clients()
+    public function files()
   {
-      return $this->belongsTo('App\Models\Client', 'client_id');
+      return $this->belongsTo('App\Models\File', 'file_id');
   }
   
   

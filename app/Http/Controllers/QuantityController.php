@@ -43,12 +43,29 @@ class QuantityController extends Controller
 
     public function create()
     {
-        return Inertia::render('Quantity/Create', [
-                'items' => \App\Models\Item::all(), 
-                'files' => \App\Models\File::all(), 
-                'invoices' => \App\Models\Invoice::all(), 
-            ]);
+        $items = \App\Models\Item::all(); 
+                $files = \App\Models\File::all(); 
+                $invoices = \App\Models\Invoice::all(); 
+
+       if($items->first()){
+         if($files->first()){
+               if($invoices->first()){
+
+                   return Inertia::render('Quantity/Create', [
+                       'items' => $items, 
+                       'files' => $files, 
+                       'invoices' => $invoices, 
+                    ]);
+                }else{
+              return Redirect::route('invoices.create')->with('warning', 'INVOICE NOT FOUND, Please create Invoice first.');
+                }
+           }else{
+             return Redirect::route('files.create')->with('warning', 'FILE NOT FOUND, Please create file first.');
         }
+        } else {
+            return Redirect::route('items.create')->with('warning', 'ITEM NOT FOUND, Please create Item first.');
+        }
+    }
 
     public function store()
     {
@@ -59,7 +76,7 @@ class QuantityController extends Controller
         Quantity::create([
             'item_id' => Request::input('item_id'),
             'file_id' => Request::input('file_id'),
-            'number' => Request::input('number'),
+            'qty' => Request::input('qty'),
             'invoice_id' => Request::input('invoice_id'),
         ]);
 
@@ -80,7 +97,7 @@ class QuantityController extends Controller
             'quantity' => [
                 'id' => $quantity->id,
                 'item_id' => $quantity->item_id,
-                'number' => $quantity->number,
+                'qty' => $quantity->qty,
                 'file_id' => $quantity->file_id,
                 'invoice_id' => $quantity->invoice_id,
             ],
@@ -90,11 +107,11 @@ class QuantityController extends Controller
     public function update(Quantity $quantity)
     {
         Request::validate([
-            'number' => ['required'],
+            'qty' => ['required'],
         ]);
 
         $quantity->item_id = Request::input('item_id');
-        $quantity->number = Request::input('number');
+        $quantity->qty = Request::input('qty');
         $quantity->file_id = Request::input('file_id');
         $quantity->invoice_id = Request::input('invoice_id');
         $quantity->save();

@@ -49,14 +49,13 @@ class ItemController extends Controller
     {
         $unittype = \App\Models\UnitType::all()->map->only('id', 'name');
 
-
-        if ($unittype) {
+        if ($unittype->first()) {
 
             return Inertia::render('Items/Create', [
                 'unittypes' => $unittype, 
             ]);
         } else {
-            return Redirect::route('unittypes.create')->with('success', 'UNIT TYPE NOT FOUND, Please create unit type first.');
+            return Redirect::route('unittypes.create')->with('warning', 'UNIT TYPE NOT FOUND, Please create unit type first.');
         }
     }
 

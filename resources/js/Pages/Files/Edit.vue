@@ -28,6 +28,27 @@
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >File Code :</label
+            >
+            <input
+              type="text"
+              v-model="form.file_code"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="file_code"
+              placeholder="Enter File Code :"
+            />
+            <div v-if="errors.file_code">{{ errors.file_code }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">GD No :</label>
             <input
               type="text"
@@ -188,6 +209,46 @@
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">VIR No :</label>
+            <input
+              type="text"
+              v-model="form.vir_no"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="vir_no"
+              placeholder="Enter VIR No :"
+            />
+            <div v-if="errors.vir_no">{{ errors.vir_no }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Index No :</label
+            >
+            <input
+              type="text"
+              v-model="form.index_no"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="index_no"
+              placeholder="Enter Index No :"
+            />
+            <div v-if="errors.index_no">{{ errors.index_no }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold"
               >Insurance :</label
             >
@@ -206,6 +267,86 @@
               placeholder="Enter Insurance :"
             />
             <div v-if="errors.insurance">{{ errors.insurance }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">LC No :</label>
+            <input
+              type="text"
+              v-model="form.lc_no"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="lc_no"
+              placeholder="Enter LC No :"
+            />
+            <div v-if="errors.lc_no">{{ errors.lc_no }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">Amount :</label>
+            <input
+              type="number"
+              v-model="form.amount"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="amount"
+              placeholder="Enter Amount :"
+            />
+            <div v-if="errors.amount">{{ errors.amount }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Sale Tax :</label
+            >
+            <input
+              type="number"
+              v-model="form.s_tax"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="s_tax"
+              placeholder="Enter Sale Tax :"
+            />
+            <div v-if="errors.s_tax">{{ errors.s_tax }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Quantity :</label
+            >
+            <input
+              type="number"
+              v-model="form.qty"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="qty"
+              placeholder="Enter Quantity :"
+            />
+            <div v-if="errors.qty">{{ errors.qty }}</div>
           </div>
 
           <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
@@ -298,6 +439,10 @@ export default {
     agents: Array,
     importers: Array,
     clients: Array,
+
+    agent: Array,
+    importer: Array,
+    client: Array,
   },
 
   data() {
@@ -308,6 +453,7 @@ export default {
 
       form: this.$inertia.form({
         file_no: this.file.file_no,
+        file_code: this.file.file_code,
         gd_no: this.file.gd_no,
         bond_no: this.file.bond_no,
         date_bond: this.file.date_bond,
@@ -316,10 +462,20 @@ export default {
         gross_wt: this.file.gross_wt,
         net_wt: this.file.net_wt,
         bl_no: this.file.bl_no,
+        vir_no: this.file.vir_no,
+        index_no: this.file.index_no,
         insurance: this.file.insurance,
-        agent_id: this.file.agent_id,
-        importer_id: this.file.importer_id,
-        client_id: this.file.client_id,
+        lc_no: this.file.lc_no,
+        amount: this.file.amount,
+        s_tax: this.file.s_tax,
+        qty: this.file.qty,
+
+        // agent_id: this.file.agent_id,
+        // importer_id: this.file.importer_id,
+        // client_id: this.file.client_id,
+        agent_id: this.agent,
+        importer_id: this.importer,
+        client_id: this.client,
       }),
     };
   },

@@ -17,14 +17,7 @@ class UnitTypeController extends Controller
         return Inertia::render('UnitTypes/Index', [
 
             'data' => UnitType::all(),
-                // ->where('company_id', session('company_id'))
-                // ->map(function ($unit_type) {
-                    // return [
-                        // 'id' => $unit_type->id,
-                        // 'name' => $unit_type->name,
-                    // ];
-                // }),
-
+                
 
             'companies' => Company::all()
                 ->map(

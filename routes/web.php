@@ -1,3 +1,5 @@
+<?php
+
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +26,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\QuantityController;
+use App\Http\Controllers\WarehouseReportController;
 
 
 
@@ -60,6 +63,17 @@ Route::get('/', function () {
 Route::get('reports', [ReportController::class, 'index'])
     ->name('reports')
     ->middleware('auth');
+//Warehouse Reports ======================================= Start ===================================
+Route::get('warehousereports', [WarehouseReportController::class, 'index'])
+    ->name('warehousereports')
+    ->middleware('auth');
+
+//Delivery Order -------------------- START ---------------------------
+Route::get('deliveryorder', [WarehouseReportController::class, 'deliveryorder'])
+    ->name('deliveryorder')
+    ->middleware('auth');
+
+//Warehouse Reports ======================================= End ===================================
 
 Route::get('ledgers', [LedgerController::class, 'index'])
     ->name('ledgers')
