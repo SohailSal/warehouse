@@ -14,32 +14,27 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
         <form @submit.prevent="form.post(route('quantities.store'))">
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Item Name:</label
+              >Select Item :</label
             >
-            <select
+            <multiselect
+              style="width: 25%"
+              class="rounded-md border border-black"
               v-model="form.item_id"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-            >
-              <option v-for="item in items" :key="item.id" :value="item.id">
-                {{ item.name }}
-              </option>
-            </select>
+              :options="items"
+              placeholder="Select Item"
+              label="name"
+              track-by="id"
+            ></multiselect>
             <div v-if="errors.item_id">{{ errors.item_id }}</div>
           </div>
+
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Quantity:</label
             ><input
-              type="text"
-              v-model="form.number"
+              type="number"
+              v-model="form.qty"
               class="
                 pr-2
                 pb-2
@@ -50,30 +45,26 @@
               "
               placeholder="Enter QTY."
             />
-            <div v-if="errors.number">{{ errors.number }}</div>
+            <div v-if="errors.qty">{{ errors.qty }}</div>
           </div>
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+
+          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold"
-              >file number:</label
+              >Select File :</label
             >
-            <select
+            <multiselect
+              style="width: 25%"
+              class="rounded-md border border-black"
               v-model="form.file_id"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-            >
-              <option v-for="file in files" :key="file.id" :value="file.id">
-                {{ file.file_no }}
-              </option>
-            </select>
+              :options="files"
+              placeholder="Select File"
+              label="file_no"
+              track-by="id"
+            ></multiselect>
             <div v-if="errors.file_id">{{ errors.file_id }}</div>
           </div>
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+
+          <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label>
             <select
               v-model="form.invoice_id"
@@ -95,7 +86,7 @@
               </option>
             </select>
             <div v-if="errors.invoice_id">{{ errors.invoice_id }}</div>
-          </div>
+          </div> -->
 
           <div
             class="
@@ -125,10 +116,12 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
+import Multiselect from "@suadelabs/vue3-multiselect";
 
 export default {
   components: {
     AppLayout,
+    Multiselect,
   },
 
   props: {
@@ -140,10 +133,10 @@ export default {
 
   setup(props) {
     const form = useForm({
-      item_id: props.items[0].id,
-      number: null,
-      file_id: props.files[0].id,
-      invoice_id: props.invoices[0].id,
+      item_id: null,
+      qty: null,
+      file_id: null,
+      invoice_id: null,
     });
     return { form };
   },

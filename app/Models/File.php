@@ -11,7 +11,8 @@ class File extends Model
 
     protected $fillable = [
         
-         'file_no','gd_no','bond_no', 'date_bond' ,'description', 'vessel', 'gross_wt' ,'net_wt', 'bl_no',
+         'file_no', 'file_code', 'gd_no','bond_no', 'date_bond' ,'description', 'vessel', 'gross_wt' ,'net_wt', 'bl_no',
+         'vir_no', 'index_no', 'insurance', 'lc_no', 'amount', 's_tax', 'qty',
          'agent_id' ,'importer_id', 'client_id',
   ];
 

@@ -17,21 +17,16 @@ class Item extends Model
     {
         return $this->belongsTo('App\Models\UnitType', 'unit_id');
     }
-   
-    public function items()
+
+    public function files()
     {
-      return $this->hasMany('App\Models\Item', 'item_id');
-  
+        return $this->belongsTo('App\Models\File', 'file_id');
     }
-
-
+   
     public function quantities()
     {
-        return $this->hasMany('App\Models\Quantity', 'item_id');
+      return $this->hasMany('App\Models\Quantity', 'item_id');
+  
     }
 
-    
-    
-
-  
 }

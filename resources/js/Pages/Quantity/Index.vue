@@ -47,7 +47,7 @@
           <tbody>
             <tr v-for="item in data" :key="item.id">
               <td class="py-1 px-4 border w-2/5">{{ item.item_id }}</td>
-              <td class="py-1 px-4 border w-2/5">{{ item.number }}</td>
+              <td class="py-1 px-4 border w-2/5">{{ item.qty }}</td>
               <td class="py-1 px-4 border w-2/5">{{ item.file_id }}</td>
               <td class="py-1 px-4 border w-2/5">{{ item.invoice_id }}</td>
               <td class="py-1 px-4 border text-center">
