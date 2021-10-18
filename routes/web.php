@@ -27,7 +27,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\QuantityController;
 use App\Http\Controllers\WarehouseReportController;
-
+use App\Http\Controllers\DeliveryController;
 
 
 /*
@@ -587,4 +587,38 @@ Route::put('quantities/{quantity}', [QuantityController::class, 'update'])
 
 Route::delete('quantities/{quantity}', [QuantityController::class, 'destroy'])
 ->name('quantities.destroy')
+->middleware('auth');
+
+
+
+
+
+
+//Delivery
+Route::get('deliveries', [DeliveryController::class, 'index'])
+->name('deliveries')
+->middleware('auth');
+
+Route::get('deliveries/create', [DeliveryController::class, 'create'])
+->name('deliveries.create')
+->middleware('auth');
+
+Route::get('deliveries/{delivery}', [DeliveryController::class, 'show'])
+->name('deliveries.show')
+->middleware('auth');
+
+Route::post('deliveries', [DeliveryController::class, 'store'])
+->name('deliveries.store')
+->middleware('auth');
+
+Route::get('deliveries/{delivery}/edit', [DeliveryController::class, 'edit'])
+->name('deliveries.edit')
+->middleware('auth');
+
+Route::put('deliveries/{delivery}', [DeliveryController::class, 'update'])
+->name('deliveries.update')
+->middleware('auth');
+
+Route::delete('deliveries/{delivery}', [DeliveryController::class, 'destroy'])
+->name('deliveries.destroy')
 ->middleware('auth');

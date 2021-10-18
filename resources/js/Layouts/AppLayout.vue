@@ -32,8 +32,7 @@
                         sm:-my-px
                         space-x-8
                         md:mt-4
-                        sm:ml-10
-                        sm:flex
+                        sm:ml-10 sm:flex
                       "
                     >
                       <!-- px-3 -->
@@ -340,6 +339,13 @@
                 >
                   Quantity
                 </jet-nav-link>
+                <jet-nav-link
+                  :href="route('deliveries')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('deliveries')"
+                >
+                  Delivery
+                </jet-nav-link>
 
                 <jet-nav-link
                   :href="route('warehousereports')"
@@ -491,10 +497,8 @@
                           rounded-md
                           text-gray-500
                           bg-white
-                          hover:bg-gray-50
-                          hover:text-gray-700
-                          focus:outline-none
-                          focus:bg-gray-50
+                          hover:bg-gray-50 hover:text-gray-700
+                          focus:outline-none focus:bg-gray-50
                           active:bg-gray-50
                           transition
                           ease-in-out
@@ -595,8 +599,7 @@
                         text-sm
                         border-2 border-transparent
                         rounded-full
-                        focus:outline-none
-                        focus:border-gray-300
+                        focus:outline-none focus:border-gray-300
                         transition
                         duration-150
                         ease-in-out
@@ -690,11 +693,8 @@
                   p-2
                   rounded-md
                   text-gray-400
-                  hover:text-gray-500
-                  hover:bg-gray-100
-                  focus:outline-none
-                  focus:bg-gray-100
-                  focus:text-gray-500
+                  hover:text-gray-500 hover:bg-gray-100
+                  focus:outline-none focus:bg-gray-100 focus:text-gray-500
                   transition
                   duration-150
                   ease-in-out

@@ -10,7 +10,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-     'name',  'description', 'hscode' , 'unit_id' ,
+     'name',  'description', 'hscode' , 'unit_id' ,'file_id',
     ];
 
     public function unitTypes()

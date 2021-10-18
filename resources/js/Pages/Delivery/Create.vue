@@ -2,7 +2,7 @@
   <app-layout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Create Item
+        Create Delivery
       </h2>
     </template>
     <div
@@ -15,53 +15,84 @@
     <div class="max-w-7xl mx-auto pb-2">
       <div class="relative mt-5 flex-row border-t border-b border-gray-200">
         <div v-if="isError">{{ firstError }}</div>
-        <form @submit.prevent="form.post(route('items.store'))">
+        <form @submit.prevent="form.post(route('deliveries.store'))">
           <div class="">
             <table class="shadow-lg border mt-4 mb-4 ml-12 rounded-xl w-11/12">
               <thead>
                 <tr class="bg-indigo-100 text-black text-centre font-bold">
+                  <th class="px-3 pt-3 pb-3 border">File No#.</th>
+                  <th class="px-3 pt-3 pb-3 border">Date</th>
+                  <th class="px-3 pt-3 pb-3 border">Cash No</th>
+                  <th class="px-3 pt-3 pb-3 border">vehicle No</th>
                   <th class="px-3 pt-3 pb-3 border">Item Name</th>
-                  <th class="px-3 pt-3 pb-3 border">Description</th>
-                  <th class="px-3 pt-3 pb-3 border">HS Code#</th>
-                  <th class="px-3 pt-3 pb-3 border">Unit Type</th>
+                  <th class="px-3 pt-3 pb-3 border">Qunatity</th>
                   <th class="px-3 pt-3 pb-3 border">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in form.items" :key="item.id">
+                <tr v-for="(item, index) in form.deliveries" :key="item.id">
                   <td class="w-3/12">
+                    <multiselect
+                      style="width: 99%"
+                      class="rounded-md border border-black"
+                      v-model="item.file_id"
+                      :options="files"
+                      placeholder="Select file No."
+                      label="file_no"
+                      track-by="id"
+                    ></multiselect>
+                  </td>
+                  <td class="w-2/12">
                     <input
-                      v-model="item.name"
+                      style="width: 100%"
+                      type="date"
+                      v-model="item.date"
+                      class="
+                        pr-2
+                        pb-2
+                        w-full
+                        lg:w-1/4
+                        rounded-md
+                        placeholder-indigo-300
+                      "
+                      placeholder="Enter Date :"
+                    />
+                  </td>
+                  <td class="w-2/12">
+                    <input
+                      style="width: 100%"
+                      v-model="item.cash_no"
                       type="text"
                       class="rounded-md w-full"
                     />
                   </td>
-                  <td class="w-3/12">
+                  <td class="w-2/12">
                     <input
-                      v-model="item.description"
+                      style="width: 100%"
+                      v-model="item.vehicle_no"
                       type="text"
                       class="rounded-md w-full"
                     />
                   </td>
-                  <td class="w-3/12">
+                  <td class="w-3/12 rounded-md">
+                    <multiselect
+                      style="width: 99%"
+                      class="rounded-md border border-black"
+                      v-model="item.item_id"
+                      :options="items"
+                      placeholder="Select Item"
+                      label="name"
+                      track-by="id"
+                    ></multiselect>
+                  </td>
+                  <td class="w-2/12">
                     <input
-                      v-model="item.hscode"
+                      style="width: 100%"
+                      v-model="item.qty"
                       type="text"
                       class="rounded-md w-full"
                     />
                   </td>
-                  <td class="w-4/12 rounded-md">
-                    <select v-model="item.unit_id" class="rounded-md w-full">
-                      <option
-                        v-for="unit in unittypes"
-                        :key="unit.id"
-                        :value="unit.id"
-                      >
-                        {{ unit.name }}
-                      </option>
-                    </select>
-                  </td>
-
                   <td>
                     <button
                       type="button"
@@ -120,27 +151,38 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
+import Multiselect from "@suadelabs/vue3-multiselect";
 
 export default {
   components: {
     AppLayout,
+    Multiselect,
   },
 
   props: {
     errors: Object,
     data: Object,
-    unittypes: Object,
+    files: Array,
+    items: Array,
+  },
+
+  data() {
+    return {
+      files: this.files,
+      items: this.items,
+    };
   },
 
   setup(props) {
     const form = useForm({
-      items: [
+      deliveries: [
         {
-          name: null,
-          description: null,
-          hscode: null,
-          unit_id: props.unittypes[0].id,
-          // unit_id: null,
+          file_id: null,
+          date: new Date().toISOString().substr(0, 10),
+          cash_no: null,
+          vehicle_no: null,
+          item_id: null,
+          qty: null,
         },
       ],
     });
@@ -158,16 +200,18 @@ export default {
 
   methods: {
     addRow() {
-      this.form.items.push({
-        name: null,
-        description: null,
-        hscode: null,
-        unit_id: this.unittypes[0].id,
+      this.form.deliveries.push({
+        file_id: null,
+        date: new Date().toISOString().substr(0, 10),
+        cash_no: null,
+        vehicle_no: null,
+        item_id: null,
+        qty: null,
       });
     },
 
     deleteRow(index) {
-      this.form.items.splice(index, 1);
+      this.form.deliveries.splice(index, 1);
     },
   },
 };

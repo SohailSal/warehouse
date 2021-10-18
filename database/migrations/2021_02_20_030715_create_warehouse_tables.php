@@ -95,7 +95,7 @@ class CreateWarehouseTables extends Migration
             $table->unsignedBigInteger('unit_id')->nullable();
             $table->foreign('unit_id')->references('id')->on('unit_types');
             $table->tinyInteger('enabled')->default('1');
-            $table->unsignedBigInteger('file_id')->nullabe();
+            $table->unsignedBigInteger('file_id')->nullable();
             $table->foreign('file_id')->references('id')->on('files');          
             $table->timestamps();
          });  

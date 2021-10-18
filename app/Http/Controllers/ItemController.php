@@ -77,6 +77,8 @@ class ItemController extends Controller
                 'description' => $item['description'],
                 'hscode' => $item['hscode'],
                 'unit_id' => $item['unit_id'],
+                'file_id' => null,
+                
              
             ]);
         }
