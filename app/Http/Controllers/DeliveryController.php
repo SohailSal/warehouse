@@ -10,7 +10,12 @@ use App\Models\Company;
 use App\Models\File;
 use App\Models\Item;
 use App\Models\Quantity;
+;
 use Inertia\Inertia;
+
+
+
+use App;
 
 class DeliveryController extends Controller
 {
@@ -147,5 +152,36 @@ class DeliveryController extends Controller
     {
         $delivery->delete();
         return Redirect::back()->with('success', 'Delivery deleted.');
+    }
+
+
+    public function pdf(Delivery $delivery)
+    {
+        
+        $invoices = File::where('id', $delivery->file_id)->get()
+            ->map(function ($invoice) {
+            return[
+            'id' => $invoice->id,
+            'file_no' => $invoice->file_no,
+            'qty' => $invoice->qty,
+            'description' => $invoice->description,
+            'amount' => $invoice->amount,
+            's_tax' => $invoice->s_tax,
+            'date_bond' => $invoice->date_bond,
+            'importer' => $invoice->importers->name  ,
+            'stn_no' => $invoice->importers->stn_no  ,
+            'agent' => $invoice->agents->name ,
+            'bond_no' => $invoice->bond_no,
+            'lc_no' => $invoice->lc_no,
+            ];
+        });
+    
+        
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('invoice', compact('invoices','delivery'));
+        return $pdf->stream('v.pdf');
+        
+       
     }
 }
