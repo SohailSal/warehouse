@@ -26,85 +26,71 @@
         <br/>
         NTN: 0712486-4 <t/>  Sale Tax No: S0712486-4
         <br />
-        <span style="text-align:left">Bill No: {{ $delivery->id}}</span>
 </p>
 </div>
     <div>
     <table style="width: 100%;">
         @foreach ($invoices as $invoice)
 
-
-        <!-- <tr>
-            <td style="width:50%; text-align:left;"
-            >
-                <h5>Generated on: {{ $dt}}</h5>
-            </td>
-            <td></td>
-            <td>
+        <tr>   
+        <td style="width:15%;">
                 Bill No:  
             </td>
-            <td>{{ $delivery->id}}</td> 
-            <td></td> 
-            <td>            
-                <h5 style="text-align:center;" >
-                    F-237 S.I.T.E.,<br/>
+            <td style="width:35%;" ><strong>{{ $delivery->id}}</strong></td>  
+            
+        </td >
+        <td style="width:15%;">
+            <td style="width:35%; text-align:center;"> <strong><span style="font-size: 14px; ">F-237 S.I.T.E.,<br/>
                     KARACHI-75700<br/>
-                    PAKISTAN
-                </h5>
-            </td>
-        </tr> -->
-
-        <tr>   
-            <td>
-                Importer Name  : 
-            </td>
-            <td>{{$invoice['importer']}}</td> 
-            <td>
-                Date :
-            </td>
-            <td>{{$delivery->date}}</td>
+                    PAKISTAN <br/><br/></span></strong></td>
         </tr>
         
         <tr>
-            <td></td>
-            <td></td>
-            <td>
-                File Number : 
+        <td style="width:15%;">
+                Importer Name: 
             </td>
-            <td>{{ $invoice['file_no']}}</td>
+            <td style="width:35%; font-weight: bold; border-bottom: 1px solid black;">{{$invoice['importer']}}</td> 
+            <td style="width:15%;">
+                Date:
+            </td >
+            <td  style="width:35%; font-weight: bold; border-bottom: 1px solid black;">{{$delivery->date}}</td></td>
+           
+           
         </tr>
 
         <tr>
-            <td>            
-               NTN No : 
+            <td style="width:15%;">            
+               NTN No: 
             </td>
-            <td>{{$invoice['stn_no']}}</td>
-            <td>            
-                Bond No : 
+            <td style="width:35%; font-weight: bold; border-bottom: 1px solid black;">{{$invoice['stn_no']}}</td>
+            <td style="width:15%;">
+                File Number: 
             </td>
-            <td>{{$invoice['lc_no']}}</td> 
+            <td style="width:35%; font-weight: bold; border-bottom: 1px solid black;" >{{ $invoice['file_no']}}</td>
+           
+           
         </tr>
 
-
-
         <tr>
-            <td>            
-                Sale Tax Number : 
+            <td style="width:15%;">            
+                Sale Tax Number: 
             </td>
-            <td>{{$invoice['stn_no']}}</td>
-            <td>            
-                L\C Number : 
+            <td style="width:35%; font-weight: bold; border-bottom: 1px solid black;">{{$invoice['stn_no']}}</td>
+            <td style="width:15%;">            
+                L\C Number: 
             </td>
-            <td>{{$invoice['lc_no']}}</td> 
+            <td style="width:35%; font-weight:bold; border-bottom: 1px solid black;">{{$invoice['lc_no']}}</td> 
         </tr>
 
         <tr>        
-            <td>
-                Clearing Agent : 
+            <td style="width:15%;">
+                Clearing Agent: 
             </td>
-            <td>{{$invoice['agent']}}</td>
-            <td></td>
-            <td></td>
+            <td style=" width:35%; font-weight:bold; border-bottom: 1px solid black;"> {{$invoice['agent']}}</td>
+            <td style="width:15%;">            
+                Bond No: 
+            </td>
+            <td style="width:35%; font-weight:bold; border-bottom: 1px solid black;">{{$invoice['bond_no']}}</td> 
         </tr>
 
     </table>
@@ -150,31 +136,31 @@
 
 
 <tr style="">
-    <td style="width:5%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;" >
+    <td style="width:5%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;" >
          {{ $number }}
     </td>
-    <td style="width: 10%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;">
+    <td style="width: 10%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;">
           {{$invoice['qty']}}
     </td>
 
-    <td style="width: 25%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;">
+    <td style="width: 25%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;">
           {{$invoice['description']}}
     </td>
 
-    <td style="width: %15;text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;">
+    <td style="width: %15;text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;">
           {{$invoice['amount']}}
     </td>
 
-    <td style="width: 15%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;">
+    <td style="width: 15%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;">
           {{$invoice['date_bond']}}
     </td>
-    <td style="width: 15%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;">
+    <td style="width: 15%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;">
           {{$invoice['amount']}}
               </td>
-          <td style="width: 10%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;">
+          <td style="width: 10%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;">
           {{$invoice['s_tax']}}
     </td>
-    <td style="width: 15%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 300px 0px;">
+    <td style="width: 15%; text-align: center; border-collapse: collapse;  border: 1px solid black; padding: 50px 0px 240px 0px;">
     
           {{$invoice['amount'] + $invoice['s_tax']}}
     </td>
@@ -185,7 +171,7 @@
 </table>
 <p style="width: 100%; text-align:right; font-size: 12px" >E.&.O.E</p>
 <p style="width:100%">        
-    <strong>Rupees in Word : {{ucwords($amt->format($invoice['amount'])) }} only.</strong></td>
+    <strong>Rupees in Word : {{ucwords($amt->format($invoice['amount'] + $invoice['s_tax'])) }} only.</strong></td>
         </p>
     @endforeach
 <br/>
