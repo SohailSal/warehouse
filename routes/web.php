@@ -622,3 +622,12 @@ Route::put('deliveries/{delivery}', [DeliveryController::class, 'update'])
 Route::delete('deliveries/{delivery}', [DeliveryController::class, 'destroy'])
 ->name('deliveries.destroy')
 ->middleware('auth');
+
+// Route::get('deliveries/{delivery}/pdf', [DeliveryController::class, 'pdf'])
+// ->name('deliveries.pdf')
+// ->middleware('auth');
+
+
+Route::get('pdf/{delivery}', [DeliveryController::class, 'pdf'])
+->name('pdf')
+->middleware('auth');

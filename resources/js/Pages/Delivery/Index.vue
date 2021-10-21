@@ -60,6 +60,30 @@
                 >
                   <span>Edit</span>
                 </button>
+
+                <div
+                  class="
+                    border
+                    bg-indigo-300
+                    rounded-xl
+                    px-4
+                    py-1
+                    m-1
+                    inline-block
+                  "
+                >
+                  <a v-bind:href="'/pdf/' + item.id" target="_target"
+                    >Generate pdf</a
+                  >
+                </div>
+
+                <!-- <inertia-link
+                  class="border bg-indigo-300 rounded-xl px-4 py-1 m-1"
+                  @click="pdf(item.id)"
+                >
+                  <span>PDF</span>
+                </inertia-link> -->
+
                 <button
                   class="border bg-red-500 rounded-xl px-4 py-1 m-1"
                   @click="destroy(item.id)"
@@ -99,7 +123,12 @@ export default {
     },
 
     edit(id) {
+      S;
       this.$inertia.get(route("deliveries.edit", id));
+    },
+
+    pdf(id) {
+      this.$inertia.get(route("deliveries.pdf", id));
     },
 
     destroy(id) {

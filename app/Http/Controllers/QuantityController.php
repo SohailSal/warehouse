@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use App\Models\Quantity;
@@ -67,20 +68,41 @@ class QuantityController extends Controller
         }
     }
 
-    public function store()
-    {
+
+    
+    //     $items = $request->items;
+    //     foreach ($items as $item) {
+    //         Item::create([
+    //             'name' => $item['name'],
+    //             'description' => $item['description'],
+    //             'hscode' => $item['hscode'],
+    //             'unit_id' => $item['unit_id'],
+    //             'file_id' => null,
+                
+             
+    //         ]);
+    //     }
+    //     return Redirect::route('items')->with('success', 'Item created.');
+    // }
+
+
+    public function store(Req  $request)
+    { 
+        // dd($request);
         Request::validate([
-            'item_id' => ['required'],
-            'qty' => ['required'],
+            'quantities.*.item_id' => 'required',
+            'quantities.*.qty' => 'required',
         ]);
+        $quantities = $request->quantities;
+        foreach ($quantities as $quantity) {
         
         Quantity::create([
-            'item_id' => Request::input('item_id')['id'],
-            'file_id' => Request::input('file_id')['id'],
-            'qty' => Request::input('qty'),
-            'invoice_id' => Request::input('invoice_id'),
-        ]);
+            'item_id' => $quantity['item_id']['id'],
+            'qty' => $quantity['qty'],
+            'file_id' => $quantity['file_id']['id'],
 
+        ]);
+    }
         return Redirect::route('quantities')->with('success', 'Quantity created.');
     }
 
