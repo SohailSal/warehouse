@@ -32,19 +32,19 @@
     
 <table style="width: 100%;">
     <tr>
-        <td style="width:100%;text-align:left;">
+        <td style="width:15%;text-align:left;">
             Code : 
         </td>
-        <td style="width:100%;text-align:left;border-bottom: 1px solid black">
+        <td style="width:35%;text-align:left;border-bottom: 1px solid black">
         </td>
-        <td style="width:100%;text-align:right;">
+        <td style="width:15%;text-align:right;">
             No of Pkgs. 
         </td>
-        <td style="width:100%;text-align:left;border-bottom: 1px solid black">
+        <td style="width:35%;text-align:left;border-bottom: 1px solid black">
         </td>
     </tr>
 
-    <tr>
+    <!-- <tr>
         <td style="width:100%;text-align:left;">
             Importer : 
         </td>
@@ -55,17 +55,17 @@
         <td style="width:100%;text-align:left;border-bottom: 1px solid black">
         </td>
         
-    </tr>
+    </tr> -->
 
     <tr>
-        <td style="text-align:left;">
+        <td style="width:15%;text-align:left;">
             Description of Goods : 
         </td>
-        <td style="width:100%;text-align:left;border-bottom: 1px solid black">
+        <td style="width:35%;text-align:left;border-bottom: 1px solid black">
         </td>
-        <td style="width:100%;text-align:left;border-bottom: 1px solid black">
+        <td style="width:10%;text-align:left;border-bottom: 1px solid black">
         </td>
-        <td style="width:100%;text-align:left;border-bottom: 1px solid black">
+        <td style="width:35%;text-align:left;border-bottom: 1px solid black">
         </td>
     </tr>
 
