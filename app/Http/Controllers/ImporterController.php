@@ -8,8 +8,12 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company;
+use Illuminate\Database\Seeder;
 use App\Models\Importer;
+use App\Models\Account;
+use Artisan;
 
 class ImporterController extends Controller
 {
@@ -62,6 +66,7 @@ class ImporterController extends Controller
 
     public function create()
     {
+       
         return Inertia::render('Importers/Create');
     }
 
