@@ -84,7 +84,7 @@ class GroupSeeder extends Seeder
                 'type_id' => $type_id,
                 'company_id' => session('company_id'),
             ]);
-
+         
             $type_id = \App\Models\AccountType::where('name', 'Revenue')->first()->id;
             AccountGroup::create([
                 'name' => 'Sales & Service',

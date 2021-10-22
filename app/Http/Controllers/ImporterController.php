@@ -66,7 +66,38 @@ class ImporterController extends Controller
 
     public function create()
     {
-       
+        // $checkimpor = Importer::all();
+        $checkacc = Account::all();
+        if(!$checkacc[0]){
+            $exitCode = Artisan::call('db:seed', [
+                '--class' => 'DatabaseSeeder',
+            ]);
+        }
+    //     // print_r("hi");
+    //     // die();
+    //     // $this->call([
+    //     //     // UserSeeder::class,
+    //     //     // PostSeeder::class,
+    //     //     // CommentSeeder::class,
+    //     //     // AccountSeeder::class,
+    //     //     GroupSeeder::class,
+    //     // ]);
+    //     return GroupSeeder::class;
+    //     return Redirect::back()->with('success', 'Account Group deleted.');
+
+
+        // $this->call([
+        //     TypeSeeder::class,
+        // ]);
+
+        //  $this->call([
+        //     TulipSeeder::class,
+        // ]);
+
+
+        //  $this->call([
+        //     GroupSeeder::class,
+        // ]);
         return Inertia::render('Importers/Create');
     }
 

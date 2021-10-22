@@ -24,5 +24,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TypeSeeder::class,
         ]);
+
+         $this->call([
+            TulipSeeder::class,
+        ]);
+
+         $this->call([
+            GroupSeeder::class,
+        ]);
     }
 }
