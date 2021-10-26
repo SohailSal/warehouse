@@ -438,6 +438,11 @@ Route::put('files/{file}', [FileController::class, 'update'])
 Route::delete('files/{file}', [FileController::class, 'destroy'])
     ->name('files.destroy')
     ->middleware('auth');
+
+
+Route::get('pdf/{file}', [FileController::class, 'pdf'])
+->name('pdf')
+->middleware('auth');
 //FILE ------------------------------------ END ------------------
 
 //Unit Types
@@ -628,6 +633,6 @@ Route::delete('deliveries/{delivery}', [DeliveryController::class, 'destroy'])
 // ->middleware('auth');
 
 
-Route::get('pdf/{delivery}', [DeliveryController::class, 'pdf'])
-->name('pdf')
-->middleware('auth');
+// Route::get('pdf/{delivery}', [DeliveryController::class, 'pdf'])
+// ->name('pdf')
+// ->middleware('auth');

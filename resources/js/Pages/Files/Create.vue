@@ -97,7 +97,7 @@
               >Date Bond :</label
             >
             <input
-              type="text"
+              type="date"
               v-model="form.date_bond"
               class="
                 pr-2
