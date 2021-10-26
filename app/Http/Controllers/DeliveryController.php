@@ -157,31 +157,52 @@ class DeliveryController extends Controller
 
     public function pdf(Delivery $delivery)
     {
-        
-        $invoices = File::where('id', $delivery->file_id)->get()
-            ->map(function ($invoice) {
+        $items = Delivery::where('date', $delivery->date)->get()
+            ->map(function ($item){
+                return[
+                    'item' => $item->items->name,
+                    'quantity' => $item->qty,
+                ];
+            });
+            // dd($items);
+        // $delivery = Delivery::where('id', $delivery->id)->get()
+        $delivery = Delivery::where('id', $delivery->id)->get()
+        ->map(function ($delivery) {
             return[
-            'id' => $invoice->id,
-            'file_no' => $invoice->file_no,
-            'qty' => $invoice->qty,
-            'description' => $invoice->description,
-            'amount' => $invoice->amount,
-            's_tax' => $invoice->s_tax,
-            'date_bond' => $invoice->date_bond,
-            'importer' => $invoice->importers->name  ,
-            'stn_no' => $invoice->importers->stn_no  ,
-            'agent' => $invoice->agents->name ,
-            'bond_no' => $invoice->bond_no,
-            'lc_no' => $invoice->lc_no,
+                'code' => $delivery->files->file_code,
+                'no_of_pkgs' => $delivery->files->qty,
+                'importer' => $delivery->files->importers->name,
+                'descrip' => $delivery->files->description,
+                'file_no' => $delivery->files->file_no,
+                'index' => $delivery->files->index_no,
+                'vehicle_no' => $delivery->Vehicle_no,
+                'quantity' => $delivery->files->qty,
             ];
         });
-    
-        
+        // dd($delivery);
 
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('invoice', compact('invoices','delivery'));
+        // $pdf->loadView('invoice', compact('invoices','delivery'));
+        $pdf->loadView('deliveryOrder', compact('delivery', 'items'));
         return $pdf->stream('v.pdf');
         
-       
+        // $invoices = File::where('id', $delivery->file_id)->get()
+        //     ->map(function ($invoice) {
+        //     return[
+        //     'id' => $invoice->id,
+        //     'file_no' => $invoice->file_no,
+        //     'file_code' => $invoice->file_code,
+        //     'qty' => $invoice->qty,
+        //     'description' => $invoice->description,
+        //     'amount' => $invoice->amount,
+        //     's_tax' => $invoice->s_tax,
+        //     'date_bond' => $invoice->date_bond,
+        //     'importer' => $invoice->importers->name ? $invoice->importers->name : null,
+        //     'stn_no' => $invoice->importers->stn_no ? $invoice->importers->stn_no : null,
+        //     'agent' => $invoice->agents ? $invoice->agents->name : null,
+        //     'bond_no' => $invoice->bond_no,
+        //     'lc_no' => $invoice->lc_no,
+        //     ];
+        // });
     }
 }

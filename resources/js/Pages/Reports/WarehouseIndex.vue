@@ -28,8 +28,7 @@
           p-2
           m-2
           inline-block
-          hover:bg-gray-600
-          hover:text-white
+          hover:bg-gray-600 hover:text-white
         "
       >
         <a href="deliveryorder" target="_blank">Delivery Order</a>
@@ -43,8 +42,7 @@
           p-2
           m-2
           inline-block
-          hover:bg-gray-600
-          hover:text-white
+          hover:bg-gray-600 hover:text-white
         "
       >
         <a href="bs" target="_blank">Balance Sheet</a>
@@ -58,8 +56,7 @@
           p-2
           m-2
           inline-block
-          hover:bg-gray-600
-          hover:text-white
+          hover:bg-gray-600 hover:text-white
         "
       >
         <a href="pl" target="_blank">Profit or Loss A/C</a>

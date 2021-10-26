@@ -16,14 +16,7 @@
               </div>
 
               <!-- Navigation Links -->
-              <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex bg-blue">
-                <jet-nav-link
-                  :href="route('companies')"
-                  :active="route().current('companies')"
-                >
-                  Companies
-                </jet-nav-link>
-
+              <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex bg-blue">
                 <jet-dropdown>
                   <template #trigger>
                     <span
@@ -141,6 +134,13 @@
                     >
                       File
                     </jet-dropdown-link> -->
+
+                    <jet-dropdown-link
+                      :href="route('companies')"
+                      :active="route().current('companies')"
+                    >
+                      Companies
+                    </jet-dropdown-link>
 
                     <jet-dropdown-link
                       v-if="this.$page.props.co_id"
