@@ -35,23 +35,43 @@ class FileController extends Controller
                 'field' => ['in:name,email']
             ]);
 
+            
+        
+            //Searching request
+            $query = File::query();
+
             // Client data query
-            $query = File::paginate(6)
-                ->withQueryString()
+            // $query = File::paginate(6)
+            $query = File::paginate(12)
+                // ->withQueryString()
                 ->through(
                     fn ($file) =>
                     [
                         'id' => $file->id,
-                        'name' => $file->name,
-                        'email' => $file->email,
-                        'address' => $file->address,
-                        'phone_no' => $file->phone_no,
-                        'ntn_no' => $file->ntn_no,
+                        'file_no' => $file->file_no,
+                        'file_code' => $file->file_code,
+                        'gd_no' => $file->gd_no,
+                        'bond_no' => $file->bond_no,
+                        'date_bond' => $file->date_bond,
+                        'description' => $file->description,
+                        'vessel' => $file->vessel,
+                        'gross_wt' => $file->gross_wt,
+                        'net_wt' => $file->net_wt,
+                        'bl_no' => $file->bl_no,
+                        'vir_no' => $file->vir_no,
+                        'index_no' => $file->index_no,
+                        'insurance' => $file->insurance,
+                        'lc_no' => $file->lc_no,
+                        'amount' => $file->amount,
+                        's_tax' => $file->s_tax,
+                        'qty' => $file->qty,
+                        'importer' => $file->importers ? $file->importers->name : null,
+                        'client' => $file->clients ? $file->clients->name : null,
+                        'agent' => $file->agents ? $file->agents->name : null,
                     ],
                 );
-        
-            //Searching request
-            $query = File::query();
+
+
             if (request('search')) {
                 $query->where('file_no', 'LIKE', '%' . request('search') . '%');
             }
@@ -66,7 +86,8 @@ class FileController extends Controller
             return Inertia::render('Files/Index', [
                 'companies' => Company::all(),
                 'file' => File::first(),
-                'balances' => $query->paginate(12),
+                // 'balances' => $query->paginate(12),
+                'balances' => $query,
                 'filters' => request()->all(['search', 'field', 'direction'])
             ]);
         }else{

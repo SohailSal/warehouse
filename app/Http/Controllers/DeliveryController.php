@@ -155,7 +155,7 @@ class DeliveryController extends Controller
     }
 
 
-    public function pdf(Delivery $delivery)
+    public function deliveryReport(Delivery $delivery)
     {
         $items = Delivery::where('date', $delivery->date)->get()
             ->map(function ($item){

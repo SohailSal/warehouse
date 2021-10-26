@@ -72,8 +72,8 @@
                     inline-block
                   "
                 >
-                  <a v-bind:href="'/pdf/' + item.id" target="_target"
-                    >Generate pdf</a
+                  <a v-bind:href="'/deliveryReport/' + item.id" target="_target"
+                    >Generate delivery</a
                   >
                 </div>
 
@@ -128,7 +128,7 @@ export default {
     },
 
     pdf(id) {
-      this.$inertia.get(route("deliveries.pdf", id));
+      this.$inertia.get(route("deliveries.deliveryReport", id));
     },
 
     destroy(id) {

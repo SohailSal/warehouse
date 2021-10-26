@@ -633,6 +633,6 @@ Route::delete('deliveries/{delivery}', [DeliveryController::class, 'destroy'])
 // ->middleware('auth');
 
 
-// Route::get('pdf/{delivery}', [DeliveryController::class, 'pdf'])
-// ->name('pdf')
-// ->middleware('auth');
+Route::get('deliveryReport/{delivery}', [DeliveryController::class, 'deliveryReport'])
+->name('deliveries.deliveryReport')
+->middleware('auth');
