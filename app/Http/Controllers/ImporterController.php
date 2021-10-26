@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 
 use Inertia\Inertia;
+use Illuminate\Http\Request as Req;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +15,7 @@ use App\Models\Company;
 use Illuminate\Database\Seeder;
 use App\Models\Importer;
 use App\Models\Account;
+use App\Models\AccountGroup;
 use Artisan;
 
 class ImporterController extends Controller
@@ -36,8 +39,8 @@ class ImporterController extends Controller
                     'name' => $impo->name,
                     'email' => $impo->email,
                     'address' => $impo->address,
-                    'stn_no' => $impo->stn_no,
                     'phone_no' => $impo->phone_no,
+                    'stn_no' => $impo->stn_no,
                     'ntn_no' => $impo->ntn_no,
                 ],
             );
@@ -66,56 +69,46 @@ class ImporterController extends Controller
 
     public function create()
     {
-        // $checkimpor = Importer::all();
-        $checkacc = Account::all();
-        if(!$checkacc[0]){
+        $checkacc = Account::where('company_id' , session('company_id'));
+
+        if(!$checkacc->first()){
             $exitCode = Artisan::call('db:seed', [
                 '--class' => 'DatabaseSeeder',
             ]);
         }
-    //     // print_r("hi");
-    //     // die();
-    //     // $this->call([
-    //     //     // UserSeeder::class,
-    //     //     // PostSeeder::class,
-    //     //     // CommentSeeder::class,
-    //     //     // AccountSeeder::class,
-    //     //     GroupSeeder::class,
-    //     // ]);
-    //     return GroupSeeder::class;
-    //     return Redirect::back()->with('success', 'Account Group deleted.');
-
-
-        // $this->call([
-        //     TypeSeeder::class,
-        // ]);
-
-        //  $this->call([
-        //     TulipSeeder::class,
-        // ]);
-
-
-        //  $this->call([
-        //     GroupSeeder::class,
-        // ]);
+  
         return Inertia::render('Importers/Create');
     }
 
-    public function store()
+    public function store(Req $request)
     {
         Request::validate([
             'name' => ['required'],
         ]);
-            $importer = Importer::create([
-                'name' => strtoupper(Request::input('name')),
-                'email' => Request::input('email'),
-                'address' => Request::input('address'),
-                'stn_no' => Request::input('stn_no'),
-                'phone_no' => Request::input('phone_no'),
-                'ntn_no' => Request::input('ntn_no'),
+        DB::transaction(function () use ($request) {
+            // dd($request->name);
+            Importer::create([
+                'name' => strtoupper($request->name),
+                'email' => $request->email,
+                'address' => $request->address,
+                'stn_no' => $request->stn_no,
+                'phone_no' => $request->phone_no,
+                'ntn_no' => $request->ntn_no,
 
             ]);
 
+            $accgroup = AccountGroup::where('company_id' , session('company_id'))->get()->first();
+            $accnumber = Account::where('group_id' , $accgroup->id)->get()->last();
+
+            Account::create([
+                'number' => $accnumber->number + 1,
+                'name' => strtoupper($request->name),
+                'group_id' => $accgroup->id,
+                'company_id' => session('company_id'),
+            ]);
+
+
+        });
         return Redirect::route('importers')->with('success', 'Importer created');
     }
 
@@ -162,4 +155,4 @@ class ImporterController extends Controller
         $importer->delete();
         return Redirect::back()->with('success', 'Importer deleted.');
     }
-}
+}   
