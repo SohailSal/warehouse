@@ -46,12 +46,23 @@ class WarehouseReportController extends Controller
 // FOR Delivery Order GENERATION -------------------------- --------
     public function deliveryorder()
     {
-        $data['accounts'] = Account::where('company_id', session('company_id'))->get();
 
         $tb = App::make('dompdf.wrapper');
-        // $pdf->loadView('pdf', compact('a'));
-        $tb->loadView('deliveryOrder', $data);
-        return $tb->stream('deliveryOrder.pdf');
+        $tb->loadView('receipt');
+        return $tb->stream('receipt.pdf');
+
+
+
+
+
+//DELIVERY REPORT
+        // $data['accounts'] = Account::where('company_id', session('company_id'))->get();
+
+        // $tb = App::make('dompdf.wrapper');
+        // // $pdf->loadView('pdf', compact('a'));
+        // $tb->loadView('deliveryOrder', $data);
+        // return $tb->stream('deliveryOrder.pdf');
+//DELIVERY REPORT
     }
 
 }

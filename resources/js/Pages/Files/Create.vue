@@ -97,7 +97,7 @@
               >Date Bond :</label
             >
             <input
-              type="text"
+              type="date"
               v-model="form.date_bond"
               class="
                 pr-2
@@ -293,11 +293,36 @@
             />
             <div v-if="errors.lc_no">{{ errors.lc_no }}</div>
           </div>
-
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Include Tax :</label
+            >
+            <!-- v-model="form.qty" -->
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="1"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Without Incl. Tax :</label
+            >
+            <!-- v-model="form.qty" -->
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="0"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+            <div v-if="errors.qty">{{ errors.qty }}</div>
+          </div>
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount :</label>
             <input
               type="number"
+              @change="cal_s_tax"
               v-model="form.amount"
               class="
                 pr-2
@@ -313,7 +338,10 @@
             <div v-if="errors.amount">{{ errors.amount }}</div>
           </div>
 
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+          <div
+            v-if="form.status == 0"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          >
             <label class="my-2 mr-8 text-right w-36 font-bold"
               >Sale Tax :</label
             >
@@ -458,6 +486,7 @@ export default {
 
   setup(props) {
     const form = useForm({
+      status: null,
       file_no: null,
       file_code: null,
       gd_no: null,
@@ -480,6 +509,12 @@ export default {
       client_id: null,
     });
     return { form };
+  },
+
+  methods: {
+    cal_s_tax() {
+      this.form.s_tax = ((this.form.amount * 13) / 100).toFixed(2);
+    },
   },
 };
 </script>

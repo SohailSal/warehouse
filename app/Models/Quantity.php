@@ -10,7 +10,7 @@ class Quantity extends Model
     use HasFactory;
 
     protected $fillable = [
-      'item_id' , 'number', 'file_id' , 'invoice_id',
+      'item_id' , 'qty', 'file_id' , 'invoice_id',
     ];
 
     public function items()
@@ -22,8 +22,6 @@ class Quantity extends Model
     {
         return $this->belongsTo('App\Models\Invoice','invoice_id');
     }
-    
-  
 
     public function files()
     {

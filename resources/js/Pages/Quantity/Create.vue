@@ -11,109 +11,102 @@
     >
       {{ $page.props.flash.success }}
     </div>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
-      <div class="">
-        <form @submit.prevent="form.post(route('quantities.store'))">
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Item Name:</label
-            >
-            <select
-              v-model="form.item_id"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-            >
-              <option v-for="item in items" :key="item.id" :value="item.id">
-                {{ item.name }}
-              </option>
-            </select>
-            <div v-if="errors.item_id">{{ errors.item_id }}</div>
-          </div>
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold">Quantity:</label
-            ><input
-              type="text"
-              v-model="form.number"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-              placeholder="Enter QTY."
-            />
-            <div v-if="errors.number">{{ errors.number }}</div>
-          </div>
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >file number:</label
-            >
-            <select
-              v-model="form.file_id"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-            >
-              <option v-for="file in files" :key="file.id" :value="file.id">
-                {{ file.file_no }}
-              </option>
-            </select>
-            <div v-if="errors.file_id">{{ errors.file_id }}</div>
-          </div>
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label>
-            <select
-              v-model="form.invoice_id"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-            >
-              <option
-                v-for="invoice in invoices"
-                :key="invoice.id"
-                :value="invoice.id"
-              >
-                {{ invoice.amount }}
-              </option>
-            </select>
-            <div v-if="errors.invoice_id">{{ errors.invoice_id }}</div>
-          </div>
 
+    <div class="max-w-7xl mx-auto pb-2">
+      <div class="relative mt-5 flex-row border-t border-b border-gray-200">
+        <div v-if="isError">{{ firstError }}</div>
+        <form @submit.prevent="form.post(route('quantities.store'))">
+          <div class="">
+            <table class="shadow-lg border mt-4 mb-4 ml-12 rounded-xl w-11/12">
+              <thead>
+                <tr class="bg-indigo-100 text-black text-centre font-bold">
+                  <th class="px-3 pt-3 pb-3 border">Select Item</th>
+                  <th class="px-3 pt-3 pb-3 border">Quantity</th>
+                  <th class="px-3 pt-3 pb-3 border">Select File</th>
+                  <th class="px-3 pt-3 pb-3 border">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in form.quantities" :key="item.id">
+                  <td class="w-4/12">
+                    <multiselect
+                      style="width: 99%"
+                      class="rounded-md border border-black"
+                      v-model="item.item_id"
+                      :options="items"
+                      placeholder="Select Item"
+                      label="name"
+                      track-by="id"
+                    ></multiselect>
+                  </td>
+                  <td class="w-4/12">
+                    <input
+                      style="width: 100%"
+                      type="number"
+                      v-model="item.qty"
+                      class="rounded-md w-full"
+                      placeholder="Enter QTY."
+                    />
+                  </td>
+                  <td class="w-4/12">
+                    <multiselect
+                      style="width: 99%"
+                      class="rounded-md border border-black"
+                      v-model="item.file_id"
+                      :options="files"
+                      placeholder="Select File"
+                      label="file_no"
+                      track-by="id"
+                    ></multiselect>
+                  </td>
+
+                  <td>
+                    <button
+                      type="button"
+                      @click.prevent="deleteRow(index)"
+                      class="
+                        border
+                        bg-red-500
+                        rounded-xl
+                        px-4
+                        py-2
+                        m-1
+                        hover:text-white hover:bg-red-600
+                      "
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div
             class="
-              px-4
-              py-2
+              relative
+              mt-5
+              mb-5
+              ml-7
+              flex-row
               bg-gray-100
-              border-t border-gray-200
-              flex
-              justify-center
+              justify-start
               items-center
             "
           >
             <button
-              class="border bg-indigo-300 rounded-xl px-4 py-2 ml-4 mt-4"
+              class="border bg-indigo-300 rounded-xl px-4 py-1 m-1"
+              type="button"
+              @click.prevent="addRow"
+            >
+              Add More Quantity
+            </button>
+
+            <button
               type="submit"
+              class="border bg-indigo-300 rounded-xl px-6 py-1 m-1"
               :disabled="form.processing"
             >
-              Create Quanitiy
+              Save
             </button>
           </div>
         </form>
@@ -125,10 +118,12 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
+import Multiselect from "@suadelabs/vue3-multiselect";
 
 export default {
   components: {
     AppLayout,
+    Multiselect,
   },
 
   props: {
@@ -140,12 +135,38 @@ export default {
 
   setup(props) {
     const form = useForm({
-      item_id: props.items[0].id,
-      number: null,
-      file_id: props.files[0].id,
-      invoice_id: props.invoices[0].id,
+      quantities: [
+        {
+          item_id: null,
+          qty: null,
+          file_id: null,
+          invoice_id: null,
+        },
+      ],
     });
     return { form };
+  },
+  watch: {
+    errors: function () {
+      if (this.errors) {
+        this.firstError = this.errors[Object.keys(this.errors)[0]];
+        this.isError = true;
+      }
+    },
+  },
+  methods: {
+    addRow() {
+      this.form.quantities.push({
+        item_id: null,
+        qty: null,
+        file_id: null,
+        invoice_id: null,
+      });
+    },
+
+    deleteRow(index) {
+      this.form.quantities.splice(index, 1);
+    },
   },
 };
 </script>

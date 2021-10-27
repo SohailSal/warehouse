@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use App\Models\Quantity;
@@ -20,10 +21,10 @@ class QuantityController extends Controller
                 ->map(function ($quantity) {
                     return [
                         'id' => $quantity->id,
-                         'item_id' => $quantity->items->name,  
-                        'number' => $quantity->number,
+                        'item_id' => $quantity->items->name,  
+                        'qty' => $quantity->qty,
                         'file_id' => $quantity->files->file_no,
-                        'invoice_id' => $quantity->invoices->amount,
+                        'invoice_id' => $quantity->invoices,
                     ];
                 }),
 
@@ -44,8 +45,8 @@ class QuantityController extends Controller
     public function create()
     {
         $items = \App\Models\Item::all(); 
-                $files = \App\Models\File::all(); 
-                $invoices = \App\Models\Invoice::all(); 
+        $files = \App\Models\File::all(); 
+        $invoices = \App\Models\Invoice::all(); 
 
        if($items->first()){
          if($files->first()){
@@ -67,19 +68,41 @@ class QuantityController extends Controller
         }
     }
 
-    public function store()
-    {
+
+    
+    //     $items = $request->items;
+    //     foreach ($items as $item) {
+    //         Item::create([
+    //             'name' => $item['name'],
+    //             'description' => $item['description'],
+    //             'hscode' => $item['hscode'],
+    //             'unit_id' => $item['unit_id'],
+    //             'file_id' => null,
+                
+             
+    //         ]);
+    //     }
+    //     return Redirect::route('items')->with('success', 'Item created.');
+    // }
+
+
+    public function store(Req  $request)
+    { 
+        // dd($request);
         Request::validate([
-            'number' => ['required'],
+            'quantities.*.item_id' => 'required',
+            'quantities.*.qty' => 'required',
         ]);
+        $quantities = $request->quantities;
+        foreach ($quantities as $quantity) {
         
         Quantity::create([
-            'item_id' => Request::input('item_id'),
-            'file_id' => Request::input('file_id'),
-            'qty' => Request::input('qty'),
-            'invoice_id' => Request::input('invoice_id'),
-        ]);
+            'item_id' => $quantity['item_id']['id'],
+            'qty' => $quantity['qty'],
+            'file_id' => $quantity['file_id']['id'],
 
+        ]);
+    }
         return Redirect::route('quantities')->with('success', 'Quantity created.');
     }
 
@@ -93,6 +116,10 @@ class QuantityController extends Controller
             'items' => \App\Models\Item::all(), 
             'files' => \App\Models\File::all(), 
             'invoices' => \App\Models\Invoice::all(), 
+
+            'item' => \App\Models\Item::where('id', $quantity->item_id)->first(),
+            'file' => \App\Models\File::where('id', $quantity->file_id)->first(), 
+            'invoice' => \App\Models\Invoice::where('id', $quantity->invoice_id)->first(),
             
             'quantity' => [
                 'id' => $quantity->id,
@@ -107,13 +134,14 @@ class QuantityController extends Controller
     public function update(Quantity $quantity)
     {
         Request::validate([
+            'item_id' => ['required'],
             'qty' => ['required'],
         ]);
 
-        $quantity->item_id = Request::input('item_id');
+        $quantity->item_id = Request::input('item_id')['id'];
         $quantity->qty = Request::input('qty');
-        $quantity->file_id = Request::input('file_id');
-        $quantity->invoice_id = Request::input('invoice_id');
+        $quantity->file_id = Request::input('file_id')['id'];
+        $quantity->invoice_id = Request::input('invoice_id') ? Request::input('invoice_id')['id'] : null;
         $quantity->save();
 
         return Redirect::route('quantities')->with('success', 'Quantity updated.');

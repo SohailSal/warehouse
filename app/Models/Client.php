@@ -17,14 +17,4 @@ class Client extends Model
     {
         return $this->hasMany('App\Models\File','client_id');
     }
-
-    public function Invoices()
-    {
-        return $this->hasMany('App\Models\Invoice','client_id');
-    }
- 
-    public function Receipts()
-    {
-        return $this->hasMany('App\Models\Receipt','client_id');
-    }
 }

@@ -117,10 +117,7 @@ class AccountController extends Controller
         return Redirect::route('accounts')->with('success', 'Account created.');
     }
 
-    // public function show(AccountGroup $accountgroup)
-    // {
-    // }
-
+   
     public function edit(Account $account)
     {
         $groups = \App\Models\AccountGroup::all()->where('company_id', session('company_id'))->map->only('id', 'name');
