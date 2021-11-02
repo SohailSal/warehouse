@@ -10,19 +10,15 @@ use App\Models\Company;
 use App\Models\File;
 use App\Models\Item;
 use App\Models\Quantity;
-;
 use Inertia\Inertia;
-
-
-
 use App;
 
 class DeliveryController extends Controller
 {
     public function index()
     {
-     
-       
+
+
 
         return Inertia::render('Delivery/Index', [
             'data' =>Delivery::all()
@@ -36,12 +32,12 @@ class DeliveryController extends Controller
                     'vehicle_no' => $item->Vehicle_no,
                     'item_id' => $item->items->name,
                     'qty' => $item->qty,
-                    
-    
+
+
                 ];
-            }),    
-               
-           
+            }),
+
+
 
             'companies' => Company::all()
                 ->map(
@@ -59,19 +55,19 @@ class DeliveryController extends Controller
     public function create()
     {
         $files = File::all()->map->only('id', 'file_no');
-        
+
         $items = Item::all()->map->only('id', 'name');
         if ($files->first()) {
             if($items->first()){
                 return Inertia::render('Delivery/Create', [
-                    'items' => $items, 
-                    'files' => $files, 
+                    'items' => $items,
+                    'files' => $files,
                 ]);
             }
             else{
                 return Redirect::route('items.create')->with('warning', 'ITEM NOT FOUND, Please create Item first.');
             }
-            
+
         } else {
             return Redirect::route('files.create')->with('warning', 'FILE NOT FOUND, Please create File first.');
         }
@@ -82,16 +78,16 @@ class DeliveryController extends Controller
         Request::validate([
 
             'deliveries.*.file_id' => 'required',
-            
+
 
         ]);
 
-        
+
         $deliveries = $request->deliveries;
-        
+
         foreach ($deliveries as $delivery) {
-         
-               
+
+
                 Delivery::create([
                     'file_id' => $delivery['file_id']['id'],
                     'date' => $delivery['date'],
@@ -99,16 +95,16 @@ class DeliveryController extends Controller
                     'vehicle_no' => $delivery['vehicle_no'],
                     'item_id' => $delivery['item_id']['id'],
                     'qty' => $delivery['qty'],
-                 
+
                 ]);
                 return Redirect::route('deliveries')->with('success', 'Delivery created.');
-        
+
         }
     }
 
     public function edit(Delivery $delivery)
     {
-        $files = File::all()->map->only('id', 'file_no');   
+        $files = File::all()->map->only('id', 'file_no');
         $items = Item::all()->map->only('id', 'name');
         $item_first = Item::where('id', $delivery->item_id)->first();
         $file_first = File::where('id', $delivery->file_id)->first();
@@ -185,7 +181,7 @@ class DeliveryController extends Controller
         // $pdf->loadView('invoice', compact('invoices','delivery'));
         $pdf->loadView('deliveryOrder', compact('delivery', 'items'));
         return $pdf->stream('v.pdf');
-        
+
         // $invoices = File::where('id', $delivery->file_id)->get()
         //     ->map(function ($invoice) {
         //     return[

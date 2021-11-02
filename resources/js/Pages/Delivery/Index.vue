@@ -1,3 +1,5 @@
+
+
 <template>
   <app-layout>
     <template #header>
@@ -102,35 +104,28 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import JetButton from "@/Jetstream/Button";
-
 export default {
   components: {
     AppLayout,
     JetButton,
   },
-
   props: ["data", "companies"],
-
   data() {
     return {
       co_id: this.$page.props.co_id,
     };
   },
-
   methods: {
     create() {
       this.$inertia.get(route("deliveries.create"));
     },
-
     edit(id) {
       S;
       this.$inertia.get(route("deliveries.edit", id));
     },
-
     pdf(id) {
       this.$inertia.get(route("deliveries.deliveryReport", id));
     },
-
     destroy(id) {
       this.$inertia.delete(route("deliveries.destroy", id));
     },

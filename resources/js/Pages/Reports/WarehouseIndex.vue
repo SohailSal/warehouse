@@ -31,21 +31,7 @@
           hover:bg-gray-600 hover:text-white
         "
       >
-        <a href="deliveryorder" target="_blank">Delivery Order</a>
-      </div>
-
-      <div
-        class="
-          border
-          rounded-lg
-          shadow-md
-          p-2
-          m-2
-          inline-block
-          hover:bg-gray-600 hover:text-white
-        "
-      >
-        <a href="bs" target="_blank">Balance Sheet</a>
+        <a href="deliveryorder" target="_blank">Receipt</a>
       </div>
 
       <div

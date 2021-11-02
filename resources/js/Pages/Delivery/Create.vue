@@ -41,6 +41,7 @@
                       label="file_no"
                       track-by="id"
                     ></multiselect>
+                    <!-- @update:model-value="file_id" -->
                   </td>
                   <td class="w-2/12">
                     <input
@@ -199,6 +200,10 @@ export default {
   },
 
   methods: {
+    // file_id() {
+    //   this.$inertia.get(route("deliveries.create"), this.form.file_id);
+    // },
+
     addRow() {
       this.form.deliveries.push({
         file_id: null,
