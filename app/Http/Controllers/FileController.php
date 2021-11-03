@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia; 
+use Inertia\Inertia;
 use App;
 use Carbon\Carbon;
 use App\Models\Company;
@@ -19,7 +19,7 @@ use App\Models\Client;
 
 class FileController extends Controller
 {
-    
+
     public function index()
     {
 
@@ -35,8 +35,8 @@ class FileController extends Controller
                 'field' => ['in:name,email']
             ]);
 
-            
-        
+
+
             //Searching request
             $query = File::query();
 
@@ -101,7 +101,7 @@ class FileController extends Controller
                 return Redirect::route('importers.create')->with('warning', 'Importer not found please create an Importer.');
             // }
         }
-        
+
     }
 
     public function create()
@@ -201,10 +201,10 @@ class FileController extends Controller
             'file_no' => ['required'],
         ]);
 
-        
+
         $file->file_no = Request::input('file_no');
         $file->file_code = Request::input('file_code');
-        $file->gd_no = Request::input('gd_no');    
+        $file->gd_no = Request::input('gd_no');
         $file->bond_no = Request::input('bond_no');
         $file->date_bond = Request::input('date_bond');
         $file->description = Request::input('description');
@@ -242,19 +242,19 @@ class FileController extends Controller
     public function pdf(File $file)
     {
         $files = File::where('id', $file->id)->get()
-        
+
         ->map(function ($file) {
-        
+
          $date = explode("-" , $file->date_bond);
          $startMonth = $date[1];
             $endMonth = $date[1] + 1;
             if ($endMonth == 13) {
                 $endMonth = 1;
             }
-            
+
             $startMonthDays = $date[2];
             // if($startMonthDays == 31){
-            //     $endMonthDays = $date[2] - 2;    
+            //     $endMonthDays = $date[2] - 2;
             // }
             // else{
                 $endMonthDays = $date[2] -1;
@@ -262,8 +262,8 @@ class FileController extends Controller
                 //     $endMonthDay = Carbon::create()->month($date[1])->daysInMonth;
                 //     if($endMonthDay == 31){
                 //         $endMonthDays = $endMonthDay - 1;
-                       
-                //         $endMonth = $endMonth - 1 ;   
+
+                //         $endMonth = $endMonth - 1 ;
                 //     }
                 // }
                 if ($endMonthDays == 31) {
@@ -284,7 +284,7 @@ class FileController extends Controller
 
             $startDate = $startYear . '-'  . $startMonth . '-' . $startMonthDays;
             $endDate = $endYear . '-'  . $endMonth . '-' . $endMonthDays;
-            
+
             $date = new Carbon($file->date_bond);
             $endDate = new Carbon($endDate);
             return[
@@ -303,13 +303,13 @@ class FileController extends Controller
             'lc_no' => $file->lc_no,
             ];
         });
-    // 
+    //
         // dd($file);
 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('invoice', compact('files'));
         return $pdf->stream('v.pdf');
-        
-       
+
+
     }
 }

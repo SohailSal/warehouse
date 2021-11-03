@@ -73,6 +73,10 @@ Route::get('deliveryorder', [WarehouseReportController::class, 'deliveryorder'])
     ->name('deliveryorder')
     ->middleware('auth');
 
+    // Route::get('bincard', [WarehouseReportController::class, 'bincard'])
+    // ->name('bincard')
+    // ->middleware('auth');
+
 //Warehouse Reports ======================================= End ===================================
 
 Route::get('ledgers', [LedgerController::class, 'index'])
@@ -439,6 +443,9 @@ Route::delete('files/{file}', [FileController::class, 'destroy'])
     ->name('files.destroy')
     ->middleware('auth');
 
+    Route::get('bincard/{bincard}', [WarehouseReportController::class, 'bincard'])
+    ->name('bincard')
+    ->middleware('auth');
 
 Route::get('pdf/{file}', [FileController::class, 'pdf'])
 ->name('pdf')
@@ -633,6 +640,6 @@ Route::delete('deliveries/{delivery}', [DeliveryController::class, 'destroy'])
 // ->middleware('auth');
 
 
-Route::get('deliveryReport/{delivery}', [DeliveryController::class, 'deliveryReport'])
-->name('deliveries.deliveryReport')
-->middleware('auth');
+// Route::get('pdf/{delivery}', [DeliveryController::class, 'pdf'])
+// ->name('pdf')
+// ->middleware('auth');

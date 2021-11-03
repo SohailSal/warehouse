@@ -6,10 +6,10 @@
       </h2>
     </template>
     <div
-      v-if="$page.props.flash.success"
+      v-if="$page.props.flash.warning"
       class="bg-yellow-600 text-white text-center"
     >
-      {{ $page.props.flash.success }}
+      {{ $page.props.flash.warning }}
     </div>
 
     <div class="max-w-7xl mx-auto pb-2">
