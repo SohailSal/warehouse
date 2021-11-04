@@ -140,7 +140,7 @@
         <div class="information">
             <table width="100%" style="border-collapse: collapse; border: 1px solid black;">
                 <thead Style="background-color: #a8b3b8;">
-           
+
                     <tr>
                         <th
                             style="width: 5%;  font-size: 15px; border-collapse: collapse;  border: 1px solid black; padding: 15px 0px 15px 0px; ">
@@ -178,13 +178,13 @@
                         </th>
 
                     </tr>
-       
+
                 </thead>
 
                 <tbody>
 
                     <?php $number = 1;
-                  
+
                     ?>
 
 
@@ -216,14 +216,14 @@
 
                         <td style="width: 10%;font-size: 12px; text-align: center; border-collapse: collapse;  border: 1px solid black;
                 padding: 15px 0px 15px 0px; ">
-                    
+
                           {{ $item['t_qty'] - $balance }}
                         </td>
                         <td style="width: 12%; font-size: 12px; text-align: center; border-collapse: collapse;  border: 1px solid black;
                 padding: 15px 0px 15px 0px; ">
                             {{ 'sign' }}
                         </td>
-                        <td style="width: 10%; font-size: 12px; text-align: center; border-collapse: collapse;  border: 1px solid black; 
+                        <td style="width: 10%; font-size: 12px; text-align: center; border-collapse: collapse;  border: 1px solid black;
                     padding: 15px 0px 15px 0px;">
                             {{  $item['vehicle_no']  }}
                         </td>
