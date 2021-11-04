@@ -120,7 +120,6 @@ export default {
       this.$inertia.get(route("deliveries.create"));
     },
     edit(id) {
-      S;
       this.$inertia.get(route("deliveries.edit", id));
     },
     pdf(id) {

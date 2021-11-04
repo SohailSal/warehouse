@@ -73,9 +73,9 @@ Route::get('deliveryorder', [WarehouseReportController::class, 'deliveryorder'])
     ->name('deliveryorder')
     ->middleware('auth');
 
-    // Route::get('bincard', [WarehouseReportController::class, 'bincard'])
-    // ->name('bincard')
-    // ->middleware('auth');
+// Route::get('bincard', [WarehouseReportController::class, 'bincard'])
+// ->name('bincard')
+// ->middleware('auth');
 
 //Warehouse Reports ======================================= End ===================================
 
@@ -133,7 +133,7 @@ Route::get('dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
     ->middleware('auth');
 
-    Route::post('dashboard/roleassign', [DashboardController::class, 'roleassign'])
+Route::post('dashboard/roleassign', [DashboardController::class, 'roleassign'])
     ->name('dashboard.roleassign')
     ->middleware('auth');
 
@@ -443,13 +443,13 @@ Route::delete('files/{file}', [FileController::class, 'destroy'])
     ->name('files.destroy')
     ->middleware('auth');
 
-    Route::get('bincard/{bincard}', [WarehouseReportController::class, 'bincard'])
+Route::get('bincard/{bincard}', [WarehouseReportController::class, 'bincard'])
     ->name('bincard')
     ->middleware('auth');
 
 Route::get('pdf/{file}', [FileController::class, 'pdf'])
-->name('pdf')
-->middleware('auth');
+    ->name('pdf')
+    ->middleware('auth');
 //FILE ------------------------------------ END ------------------
 
 //Unit Types
@@ -477,129 +477,129 @@ Route::put('unittypes/{unittype}', [UnitTypeController::class, 'update'])
     ->name('unittypes.update')
     ->middleware('auth');
 
-    Route::delete('unittypes/{unittype}', [UnitTypeController::class, 'destroy'])
+Route::delete('unittypes/{unittype}', [UnitTypeController::class, 'destroy'])
     ->name('unittypes.destroy')
     ->middleware('auth');
 
 
-    //Items
+//Items
 Route::get('items', [ItemController::class, 'index'])
-->name('items')
-->middleware('auth');
+    ->name('items')
+    ->middleware('auth');
 
 Route::get('items/create', [ItemController::class, 'create'])
-->name('items.create')
-->middleware('auth');
+    ->name('items.create')
+    ->middleware('auth');
 
 Route::get('items/{item}', [ItemController::class, 'show'])
-->name('items.show')
-->middleware('auth');
+    ->name('items.show')
+    ->middleware('auth');
 
 Route::post('items', [ItemController::class, 'store'])
-->name('items.store')
-->middleware('auth');
+    ->name('items.store')
+    ->middleware('auth');
 
 Route::get('items/{item}/edit', [ItemController::class, 'edit'])
-->name('items.edit')
-->middleware('auth');
+    ->name('items.edit')
+    ->middleware('auth');
 
 Route::put('items/{item}', [ItemController::class, 'update'])
-->name('items.update')
-->middleware('auth');
+    ->name('items.update')
+    ->middleware('auth');
 
 Route::delete('items/{item}', [ItemController::class, 'destroy'])
-->name('items.destroy')
-->middleware('auth');
+    ->name('items.destroy')
+    ->middleware('auth');
 
 
 //Invoice
 Route::get('invoices', [InvoiceController::class, 'index'])
-->name('invoices')
-->middleware('auth');
+    ->name('invoices')
+    ->middleware('auth');
 
 Route::get('invoices/create', [InvoiceController::class, 'create'])
-->name('invoices.create')
-->middleware('auth');
+    ->name('invoices.create')
+    ->middleware('auth');
 
 Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])
-->name('invoices.show')
-->middleware('auth');
+    ->name('invoices.show')
+    ->middleware('auth');
 
 Route::post('invoices', [InvoiceController::class, 'store'])
-->name('invoices.store')
-->middleware('auth');
+    ->name('invoices.store')
+    ->middleware('auth');
 
 Route::get('invoices/{invoice}/edit', [InvoiceController::class, 'edit'])
-->name('invoices.edit')
-->middleware('auth');
+    ->name('invoices.edit')
+    ->middleware('auth');
 
 Route::put('invoices/{invoice}', [InvoiceController::class, 'update'])
-->name('invoices.update')
-->middleware('auth');
+    ->name('invoices.update')
+    ->middleware('auth');
 
 Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])
-->name('invoices.destroy')
-->middleware('auth');
+    ->name('invoices.destroy')
+    ->middleware('auth');
 
 
 //Receipt
 Route::get('receipts', [ReceiptController::class, 'index'])
-->name('receipts')
-->middleware('auth');
+    ->name('receipts')
+    ->middleware('auth');
 
 Route::get('receipts/create', [ReceiptController::class, 'create'])
-->name('receipts.create')
-->middleware('auth');
+    ->name('receipts.create')
+    ->middleware('auth');
 
 Route::get('receipts/{receipt}', [ReceiptController::class, 'show'])
-->name('receipts.show')
-->middleware('auth');
+    ->name('receipts.show')
+    ->middleware('auth');
 
 Route::post('receipts', [ReceiptController::class, 'store'])
-->name('receipts.store')
-->middleware('auth');
+    ->name('receipts.store')
+    ->middleware('auth');
 
 Route::get('receipts/{receipt}/edit', [ReceiptController::class, 'edit'])
-->name('receipts.edit')
-->middleware('auth');
+    ->name('receipts.edit')
+    ->middleware('auth');
 
 Route::put('receipts/{receipt}', [ReceiptController::class, 'update'])
-->name('receipts.update')
-->middleware('auth');
+    ->name('receipts.update')
+    ->middleware('auth');
 
 Route::delete('receipts/{receipt}', [ReceiptController::class, 'destroy'])
-->name('receipts.destroy')
-->middleware('auth');
+    ->name('receipts.destroy')
+    ->middleware('auth');
 
 
 //Quantity
 Route::get('quantities', [QuantityController::class, 'index'])
-->name('quantities')
-->middleware('auth');
+    ->name('quantities')
+    ->middleware('auth');
 
 Route::get('quantities/create', [QuantityController::class, 'create'])
-->name('quantities.create')
-->middleware('auth');
+    ->name('quantities.create')
+    ->middleware('auth');
 
 Route::get('quantities/{quantity}', [QuantityController::class, 'show'])
-->name('quantities.show')
-->middleware('auth');
+    ->name('quantities.show')
+    ->middleware('auth');
 
 Route::post('quantities', [QuantityController::class, 'store'])
-->name('quantities.store')
-->middleware('auth');
+    ->name('quantities.store')
+    ->middleware('auth');
 
 Route::get('quantities/{quantity}/edit', [QuantityController::class, 'edit'])
-->name('quantities.edit')
-->middleware('auth');
+    ->name('quantities.edit')
+    ->middleware('auth');
 
 Route::put('quantities/{quantity}', [QuantityController::class, 'update'])
-->name('quantities.update')
-->middleware('auth');
+    ->name('quantities.update')
+    ->middleware('auth');
 
 Route::delete('quantities/{quantity}', [QuantityController::class, 'destroy'])
-->name('quantities.destroy')
-->middleware('auth');
+    ->name('quantities.destroy')
+    ->middleware('auth');
 
 
 
@@ -608,37 +608,37 @@ Route::delete('quantities/{quantity}', [QuantityController::class, 'destroy'])
 
 //Delivery
 Route::get('deliveries', [DeliveryController::class, 'index'])
-->name('deliveries')
-->middleware('auth');
+    ->name('deliveries')
+    ->middleware('auth');
 
 Route::get('deliveries/create', [DeliveryController::class, 'create'])
-->name('deliveries.create')
-->middleware('auth');
+    ->name('deliveries.create')
+    ->middleware('auth');
 
 Route::get('deliveries/{delivery}', [DeliveryController::class, 'show'])
-->name('deliveries.show')
-->middleware('auth');
+    ->name('deliveries.show')
+    ->middleware('auth');
 
 Route::post('deliveries', [DeliveryController::class, 'store'])
-->name('deliveries.store')
-->middleware('auth');
+    ->name('deliveries.store')
+    ->middleware('auth');
 
 Route::get('deliveries/{delivery}/edit', [DeliveryController::class, 'edit'])
-->name('deliveries.edit')
-->middleware('auth');
+    ->name('deliveries.edit')
+    ->middleware('auth');
 
 Route::put('deliveries/{delivery}', [DeliveryController::class, 'update'])
-->name('deliveries.update')
-->middleware('auth');
+    ->name('deliveries.update')
+    ->middleware('auth');
 
 Route::delete('deliveries/{delivery}', [DeliveryController::class, 'destroy'])
-->name('deliveries.destroy')
-->middleware('auth');
+    ->name('deliveries.destroy')
+    ->middleware('auth');
 
-// Route::get('deliveries/{delivery}/pdf', [DeliveryController::class, 'pdf'])
-// ->name('deliveries.pdf')
-// ->middleware('auth');
-
+Route::get('deliveryReport/{delivery}', [DeliveryController::class, 'deliveryReport'])
+    ->name('deliveryReport')
+    ->middleware('auth');
+//
 
 // Route::get('pdf/{delivery}', [DeliveryController::class, 'pdf'])
 // ->name('pdf')

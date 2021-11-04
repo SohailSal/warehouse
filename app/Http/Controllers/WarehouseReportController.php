@@ -46,7 +46,7 @@ class WarehouseReportController extends Controller
         ]);
     }
 
-// FOR Delivery Order GENERATION -------------------------- --------
+    // FOR Delivery Order GENERATION -------------------------- --------
     public function deliveryorder()
     {
 
@@ -58,63 +58,59 @@ class WarehouseReportController extends Controller
 
 
 
-//DELIVERY REPORT
+        //DELIVERY REPORT
         // $data['accounts'] = Account::where('company_id', session('company_id'))->get();
 
         // $tb = App::make('dompdf.wrapper');
         // // $pdf->loadView('pdf', compact('a'));
         // $tb->loadView('deliveryOrder', $data);
         // return $tb->stream('deliveryOrder.pdf');
-//DELIVERY REPORT
+        //DELIVERY REPORT
     }
 
 
     public function bincard($bincard)
     {
-      $data = Delivery::where('file_id', $bincard)->get()
-      ->map(function ($delivery){
-        
-          $quantiy = Quantity::where('file_id', $delivery->file_id)->get()->sum('qty');
-                        return[
-                          'date' => $delivery->date,
-                          'item' => $delivery->items->name,
-                          'qty' => $delivery->qty,
-                          't_qty' => $quantiy,
-                          'vehicle_no' => $delivery->Vehicle_no,
-                        ];
+        $data = Delivery::where('file_id', $bincard)->get()
+            ->map(function ($delivery) {
+                $quantiy = Quantity::where('file_id', $delivery->file_id)->get()->sum('qty');
+                return [
+                    'date' => $delivery->date,
+                    'item' => $delivery->items->name,
+                    'qty' => $delivery->qty,
+                    't_qty' => $quantiy,
+                    'vehicle_no' => $delivery->Vehicle_no,
+                ];
             })->toArray();
 
-    
-        
-    // }
-    
-      $file = File::where('id', $bincard)->get()
-    //   dd($file);
-      ->map(function ($file){
 
-          return[
-            'bond_no' => $file->bond_no,
-            'file_no' => $file->file_no,
-            'date' => $file->date_bond,
-            's.s' => $file->bl_no,
-            'igm_no' => $file->vir_no,
-            'index_no' => $file->index_no,
-            'importer_id' => $file->importers ? $file->importers->name : null,
-            'client_id' =>   $file->clients ? $file->clients->name : null,
-            'agent_id' =>   $file->agents ? $file->agents->name : null,
-            'desc' => $file->description,
-            'qty' => $file->qty,
-            'file_code' => $file->file_code,
-        ];
-      })->toArray();  
-// dd($file);
-      
+
+        // }
+        // dd($quantity);
+        $file = File::where('id', $bincard)->get()
+            ->map(function ($file) {
+                $quantity = Quantity::where('file_id', $file->id)->get()->sum('qty');
+
+                return [
+                    'bond_no' => $file->bond_no,
+                    'file_no' => $file->file_no,
+                    'date' => $file->date_bond,
+                    's.s' => $file->bl_no,
+                    'igm_no' => $file->vir_no,
+                    'index_no' => $file->index_no,
+                    'importer_id' => $file->importers ? $file->importers->name : null,
+                    'client_id' =>   $file->clients ? $file->clients->name : null,
+                    'agent_id' =>   $file->agents ? $file->agents->name : null,
+                    'desc' => $file->description,
+                    'qty' => $quantity,
+                    'file_code' => $file->file_code,
+                ];
+            })->toArray();
+        // dd($file);
+
 
         $bc = App::make('dompdf.wrapper');
         $bc->loadView('bincard', compact('data', 'file'));
         return $bc->stream('BinCard.pdf');
-
     }
-
-
 }
