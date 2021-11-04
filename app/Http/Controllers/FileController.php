@@ -71,7 +71,6 @@ class FileController extends Controller
                     ],
                 );
 
-
             if (request('search')) {
                 $query->where('file_no', 'LIKE', '%' . request('search') . '%');
             }
