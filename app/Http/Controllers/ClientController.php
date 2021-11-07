@@ -14,7 +14,7 @@ use App\Models\Client;
 
 class ClientController extends Controller
 {
-    
+
     public function index()
     {
         //Validating request
@@ -37,8 +37,8 @@ class ClientController extends Controller
                     'ntn_no' => $client->ntn_no,
                 ],
             );
-     
-     
+
+
         //Searching request
         $query = Client::query();
         if (request('search')) {
@@ -51,7 +51,7 @@ class ClientController extends Controller
                 request('direction')
             );
         }
-     
+
         return Inertia::render('Clients/Index', [
             'companies' => Company::all(),
             'client' => Client::first(),
@@ -70,13 +70,13 @@ class ClientController extends Controller
         Request::validate([
             'name' => ['required'],
         ]);
-            $client = Client::create([
-                'name' => strtoupper(Request::input('name')),
-                'email' => Request::input('email'),
-                'address' => Request::input('address'),
-                'phone_no' => Request::input('phone_no'),
-                'ntn_no' => Request::input('ntn_no'),
-            ]);
+        $client = Client::create([
+            'name' => strtoupper(Request::input('name')),
+            'email' => Request::input('email'),
+            'address' => Request::input('address'),
+            'phone_no' => Request::input('phone_no'),
+            'ntn_no' => Request::input('ntn_no'),
+        ]);
 
         return Redirect::route('clients')->with('success', 'Client created');
     }

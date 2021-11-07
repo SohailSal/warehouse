@@ -14,22 +14,43 @@ class ItemController extends Controller
 {
     public function index()
     {
-     
+        //Validating request
+        request()->validate([
+            'direction' => ['in:asc,desc'],
+            'field' => ['in:name,email']
+        ]);
+
+        //Searching request
+        $query = Item::all();
+
+        if (request('search')) {
+            $query->where('name', 'LIKE', '%' . request('search') . '%');
+        }
+
+        if (request()->has(['field', 'direction'])) {
+            $query->orderBy(request('field'), request('direction'));
+        }
+        // else {
+        //     $query->orderBy(('name'), ('asc'));
+        // }
+        // dd($query);
+
 
         return Inertia::render('Items/Index', [
-            'data' =>Item::all()
-            ->map(function ($item){
-                return[
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'description' => $item->description,
-                    'hscode' => $item->hscode,
-                    'unit_id' => $item->unitTypes->name,
-                    
-    
-                ];
-            }),    
-               
+
+            'filters' => request()->all(['search', 'field', 'direction']),
+            'balances' => $query->paginate(10),
+            // ->through(function ($item) {
+            //     return [
+            //         'id' => $item->id,
+            //         'name' => $item->name,
+            //         'description' => $item->description,
+            //         'hscode' => $item->hscode,
+            //         'unit_id' => $item->unitTypes->name,
+
+            //     ];
+            // }),
+
 
 
             'companies' => Company::all()
@@ -52,7 +73,7 @@ class ItemController extends Controller
         if ($unittype->first()) {
 
             return Inertia::render('Items/Create', [
-                'unittypes' => $unittype, 
+                'unittypes' => $unittype,
             ]);
         } else {
             return Redirect::route('unittypes.create')->with('warning', 'UNIT TYPE NOT FOUND, Please create unit type first.');
@@ -64,7 +85,7 @@ class ItemController extends Controller
         Request::validate([
 
             'items.*.name' => 'required',
-            
+
 
         ]);
 
@@ -78,8 +99,8 @@ class ItemController extends Controller
                 'hscode' => $item['hscode'],
                 'unit_id' => $item['unit_id'],
                 'file_id' => null,
-                
-             
+
+
             ]);
         }
         return Redirect::route('items')->with('success', 'Item created.');
@@ -95,8 +116,8 @@ class ItemController extends Controller
             'item' => [
                 'id' => $item->id,
                 'name' => $item->name,
-                'description' =>$item->description,
-                'hscode' =>$item->hscode,
+                'description' => $item->description,
+                'hscode' => $item->hscode,
                 // 'unit_id' =>$item->unit_id,
 
             ],
