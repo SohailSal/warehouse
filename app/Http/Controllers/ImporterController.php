@@ -20,7 +20,7 @@ use Artisan;
 
 class ImporterController extends Controller
 {
-    
+
     public function index()
     {
         //Validating request
@@ -44,8 +44,8 @@ class ImporterController extends Controller
                     'ntn_no' => $impo->ntn_no,
                 ],
             );
-     
-     
+
+
         //Searching request
         $query = Importer::query();
         if (request('search')) {
@@ -58,7 +58,7 @@ class ImporterController extends Controller
                 request('direction')
             );
         }
-     
+
         return Inertia::render('Importers/Index', [
             'companies' => Company::all(),
             'importer' => Importer::first(),
@@ -69,14 +69,14 @@ class ImporterController extends Controller
 
     public function create()
     {
-        $checkacc = Account::where('company_id' , session('company_id'));
+        $checkacc = Account::where('company_id', session('company_id'));
 
-        if(!$checkacc->first()){
+        if (!$checkacc->first()) {
             $exitCode = Artisan::call('db:seed', [
                 '--class' => 'DatabaseSeeder',
             ]);
         }
-  
+
         return Inertia::render('Importers/Create');
     }
 
@@ -97,8 +97,8 @@ class ImporterController extends Controller
 
             ]);
 
-            $accgroup = AccountGroup::where('company_id' , session('company_id'))->get()->first();
-            $accnumber = Account::where('group_id' , $accgroup->id)->get()->last();
+            $accgroup = AccountGroup::where('company_id', session('company_id'))->get()->first();
+            $accnumber = Account::where('group_id', $accgroup->id)->get()->last();
 
             Account::create([
                 'number' => $accnumber->number + 1,
@@ -106,8 +106,6 @@ class ImporterController extends Controller
                 'group_id' => $accgroup->id,
                 'company_id' => session('company_id'),
             ]);
-
-
         });
         return Redirect::route('importers')->with('success', 'Importer created');
     }
@@ -155,4 +153,4 @@ class ImporterController extends Controller
         $importer->delete();
         return Redirect::back()->with('success', 'Importer deleted.');
     }
-}   
+}

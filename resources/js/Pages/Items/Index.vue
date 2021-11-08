@@ -22,8 +22,15 @@
         type="search"
         v-model="params.search"
         aria-label="Search"
-        placeholder="Search"
-        class="border rounded-xl px-4 py-1 m-1"
+        placeholder="Search By Item Name"
+        class="pr-2 pb-2 w-full lg:w-1/4 ml-6 rounded-md placeholder-indigo-300"
+      />
+      <input
+        type="search"
+        v-model="params.searche"
+        aria-label="Search"
+        placeholder="Search By #HSCode"
+        class="pr-2 pb-2 w-full lg:w-1/4 ml-1 rounded-md placeholder-indigo-300"
       />
       <select
         v-model="co_id"
@@ -43,7 +50,7 @@
             <tr class="bg-indigo-100">
               <th class="py-2 px-4 border">
                 <span @click="sort('name')">
-                  Name
+                  Item Name
                   <!-- Name Descending  Starts-->
                   <svg
                     version="1.1"
@@ -124,7 +131,6 @@
                   </svg>
                   <!-- Name Ascending Ends-->
                 </span>
-                Item Name
               </th>
               <th class="py-2 px-4 border">Description</th>
               <th class="py-2 px-4 border">HS-Code #</th>
@@ -193,6 +199,7 @@ export default {
       co_id: this.$page.props.co_id,
       params: {
         search: this.filters.search,
+        searche: this.filters.searche,
         field: this.filters.field,
         direction: this.filters.direction,
       },

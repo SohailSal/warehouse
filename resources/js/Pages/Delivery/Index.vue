@@ -1,5 +1,3 @@
-
-
 <template>
   <app-layout>
     <template #header>

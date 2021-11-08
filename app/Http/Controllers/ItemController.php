@@ -21,35 +21,39 @@ class ItemController extends Controller
         ]);
 
         //Searching request
-        $query = Item::all();
+        $query = Item::query();
 
         if (request('search')) {
             $query->where('name', 'LIKE', '%' . request('search') . '%');
         }
 
+
+        if (request('searche')) {
+            $query->where('hscode', 'LIKE', '%' . request('searche') . '%');
+        }
+
         if (request()->has(['field', 'direction'])) {
             $query->orderBy(request('field'), request('direction'));
+        } else {
+            $query->orderBy(('name'), ('asc'));
         }
-        // else {
-        //     $query->orderBy(('name'), ('asc'));
-        // }
         // dd($query);
 
 
         return Inertia::render('Items/Index', [
 
-            'filters' => request()->all(['search', 'field', 'direction']),
-            'balances' => $query->paginate(10),
-            // ->through(function ($item) {
-            //     return [
-            //         'id' => $item->id,
-            //         'name' => $item->name,
-            //         'description' => $item->description,
-            //         'hscode' => $item->hscode,
-            //         'unit_id' => $item->unitTypes->name,
+            'filters' => request()->all(['search', 'searche', 'field', 'direction']),
+            'balances' => $query->paginate(10)
+                ->through(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'name' => $item->name,
+                        'description' => $item->description,
+                        'hscode' => $item->hscode,
+                        'unit_id' => $item->unitTypes->name,
 
-            //     ];
-            // }),
+                    ];
+                }),
 
 
 
