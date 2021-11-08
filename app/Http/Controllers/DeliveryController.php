@@ -118,7 +118,7 @@ class DeliveryController extends Controller
 
                 ]);
             } else {
-                return Redirect::route('deliveries.create')->with('warning', 'Out of stock ' . $aval . ' Avalible Quantity');
+                return Redirect::route('deliveries.create')->with('warning', $delivery['item_id']['name'] . ' Out of stock ' . $aval . ' Avalible Quantity');
             }
         }
         return Redirect::route('deliveries')->with('success', 'Delivery created.');
@@ -185,7 +185,7 @@ class DeliveryController extends Controller
             $delivery->save();
             return Redirect::route('deliveries')->with('success', 'Item updated.');
         } else {
-            return Redirect::back()->with('warning', 'Out of stock ' . $add . ' Avalible Quantity');
+            return Redirect::back()->with('warning',  Request::input('item_id')['name'] . ' Out of stock ' . $add . ' Avalible Quantity');
         }
     }
 
