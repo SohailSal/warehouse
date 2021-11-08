@@ -47,6 +47,19 @@
       >
         <a href="pl" target="_blank">Profit or Loss A/C</a>
       </div>
+      <div
+        class="
+          border
+          rounded-lg
+          shadow-md
+          p-2
+          m-2
+          inline-block
+          hover:bg-gray-600 hover:text-white
+        "
+      >
+        <a href="labourcontract" target="_blank">Labour Contract</a>
+      </div>
     </div>
   </app-layout>
 </template>
@@ -91,6 +104,10 @@ export default {
 
     route() {
       this.$inertia.get(route("deliveryorder"));
+    },
+    
+    route() {
+      this.$inertia.get(route("labourcontract"));
     },
 
     coch() {

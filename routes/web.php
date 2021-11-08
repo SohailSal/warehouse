@@ -73,6 +73,10 @@ Route::get('deliveryorder', [WarehouseReportController::class, 'deliveryorder'])
     ->name('deliveryorder')
     ->middleware('auth');
 
+Route::get('labourcontract', [WarehouseReportController::class, 'labourcontract'])
+    ->name('labourcontract')
+    ->middleware('auth');
+
 Route::get('gatePass', [WarehouseReportController::class, 'gatePass'])
     ->name('gatePass')
     ->middleware('auth');

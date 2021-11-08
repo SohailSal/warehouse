@@ -67,6 +67,14 @@ class WarehouseReportController extends Controller
         // return $tb->stream('deliveryOrder.pdf');
         //DELIVERY REPORT
     }
+    
+    // FOR Labour Contract GENERATION -------------------------- --------
+    public function labourcontract()
+    {
+        $tb = App::make('dompdf.wrapper');
+        $tb->loadView('labourcontract');
+        return $tb->stream('labourcontract.pdf');
+    }
 
 
     public function bincard($bincard)
