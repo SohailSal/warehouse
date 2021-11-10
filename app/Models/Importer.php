@@ -10,13 +10,16 @@ class Importer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email' ,'address', 'stn_no', 'phone_no', 'phone_no'
+        'name', 'email', 'address', 'stn_no', 'phone_no', 'account_id'
     ];
+
+    public function accounts()
+    {
+        return $this->belongsTo('App\Models\Account', 'account_id');
+    }
 
     public function files()
     {
-        return $this->hasMany('App\Models\File','importer_id');
+        return $this->hasMany('App\Models\File', 'importer_id');
     }
-
-  
 }

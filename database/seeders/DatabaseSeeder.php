@@ -25,12 +25,16 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
         ]);
 
-         $this->call([
+        $this->call([
             TulipSeeder::class,
         ]);
 
-         $this->call([
+        $this->call([
             GroupSeeder::class,
+        ]);
+
+        $this->call([
+            DocumentTypeSeeder::class,
         ]);
     }
 }

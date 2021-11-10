@@ -10,18 +10,16 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = [
-      'file_id', 'date' , 'amount' ,
+        'file_id', 'date', 'amount', 's_tax'
     ];
 
     public function files()
-  {
-      return $this->belongsTo('App\Models\File', 'file_id');
-  }
+    {
+        return $this->belongsTo('App\Models\File', 'file_id');
+    }
 
-  public function quantities()
-  {
-      return $this->hasMany('App\Models\Quantity', 'invoice_id');
-  }
-    
-  
+    public function quantities()
+    {
+        return $this->hasMany('App\Models\Quantity', 'invoice_id');
+    }
 }

@@ -17,7 +17,7 @@ class ItemController extends Controller
         //Validating request
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,email']
+            'field' => ['in:name']
         ]);
 
         //Searching request

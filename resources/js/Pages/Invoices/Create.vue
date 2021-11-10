@@ -73,6 +73,7 @@
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label
             ><input
               type="number"
+              @change="cal_s_tax"
               v-model="form.amount"
               class="
                 pr-2
@@ -86,6 +87,46 @@
               placeholder="10,000"
             />
             <div v-if="errors.amount">{{ errors.amount }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">Sales Tax:</label
+            ><input
+              type="number"
+              v-model="form.s_tax"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              readonly
+              label="date"
+              placeholder="0"
+            />
+            <div v-if="errors.s_tax">{{ errors.s_tax }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">Total:</label
+            ><input
+              type="number"
+              v-model="form.total"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              readonly
+              label="date"
+              placeholder="0"
+            />
+            <div v-if="errors.total">{{ errors.total }}</div>
           </div>
 
           <div
@@ -134,8 +175,20 @@ export default {
       file_id: null,
       date: new Date().toISOString().substr(0, 10),
       amount: null,
+      s_tax: null,
+      total: null,
     });
     return { form };
+  },
+
+  methods: {
+    cal_s_tax() {
+      this.form.s_tax = ((this.form.amount * 13) / 100).toFixed(2);
+      this.form.total = (
+        parseInt(this.form.amount) + parseInt(this.form.s_tax)
+      ).toFixed(2);
+      //   this.form.amount + this.form.s_tax;
+    },
   },
 };
 </script>

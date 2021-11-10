@@ -86,16 +86,6 @@ class ImporterController extends Controller
             'name' => ['required'],
         ]);
         DB::transaction(function () use ($request) {
-            // dd($request->name);
-            Importer::create([
-                'name' => strtoupper($request->name),
-                'email' => $request->email,
-                'address' => $request->address,
-                'stn_no' => $request->stn_no,
-                'phone_no' => $request->phone_no,
-                'ntn_no' => $request->ntn_no,
-
-            ]);
 
             $accgroup = AccountGroup::where('company_id', session('company_id'))->get()->first();
             $accnumber = Account::where('group_id', $accgroup->id)->get()->last();
@@ -105,6 +95,20 @@ class ImporterController extends Controller
                 'name' => strtoupper($request->name),
                 'group_id' => $accgroup->id,
                 'company_id' => session('company_id'),
+            ]);
+
+
+            $account = Account::all()->last();
+
+            Importer::create([
+                'name' => strtoupper($request->name),
+                'email' => $request->email,
+                'address' => $request->address,
+                'stn_no' => $request->stn_no,
+                'phone_no' => $request->phone_no,
+                'ntn_no' => $request->ntn_no,
+                'account_id' => $account->id,
+
             ]);
         });
         return Redirect::route('importers')->with('success', 'Importer created');
