@@ -280,7 +280,6 @@
                       <!-- px-3 -->
                       <button
                         type="button"
-                        v-if="this.$page.props.co_id && this.$page.props.yr_id"
                         class="
                           inline-flex
                           items-center

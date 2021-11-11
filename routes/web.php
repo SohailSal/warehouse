@@ -455,9 +455,9 @@ Route::get('bincard/{bincard}', [WarehouseReportController::class, 'bincard'])
     ->name('bincard')
     ->middleware('auth');
 
-Route::get('pdf/{file}', [FileController::class, 'pdf'])
-    ->name('pdf')
-    ->middleware('auth');
+// Route::get('pdf/{file}', [FileController::class, 'pdf'])
+//     ->name('pdf')
+//     ->middleware('auth');
 //FILE ------------------------------------ END ------------------
 
 //Unit Types
@@ -535,6 +535,10 @@ Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])
 
 Route::post('invoices', [InvoiceController::class, 'store'])
     ->name('invoices.store')
+    ->middleware('auth');
+
+Route::get('pdf/{invoice}', [InvoiceController::class, 'pdf'])
+    ->name('pdf')
     ->middleware('auth');
 
 Route::get('invoices/{invoice}/edit', [InvoiceController::class, 'edit'])
