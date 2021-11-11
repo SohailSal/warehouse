@@ -70,6 +70,40 @@
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 ml-4 mr-5 text-right w-36 font-bold"
+              >Without Incl. Tax :</label
+            >
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="0"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+
+            <label class="my-2 mr-5 text-right w-36 font-bold"
+              >Include Tax :</label
+            >
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="1"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+
+            <label class="my-2 mr-5 text-right w-24 font-bold">None :</label>
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="2"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+            <div v-if="errors.status">{{ errors.qty }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label
             ><input
               type="number"
@@ -89,7 +123,10 @@
             <div v-if="errors.amount">{{ errors.amount }}</div>
           </div>
 
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+          <div
+            v-if="form.status != 2"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          >
             <label class="my-2 mr-8 text-right w-36 font-bold">Sales Tax:</label
             ><input
               type="number"
@@ -157,6 +194,7 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
+import { computed } from "vue";
 import Multiselect from "@suadelabs/vue3-multiselect";
 
 export default {
@@ -172,10 +210,11 @@ export default {
 
   setup(props) {
     const form = useForm({
+      status: 0,
       file_id: null,
       date: new Date().toISOString().substr(0, 10),
       amount: null,
-      s_tax: null,
+      s_tax: 0,
       total: null,
     });
     return { form };
@@ -183,12 +222,28 @@ export default {
 
   methods: {
     cal_s_tax() {
-      this.form.s_tax = ((this.form.amount * 13) / 100).toFixed(2);
+      if (this.form.status == 2) {
+        this.form.s_tax = 0;
+        console.log("value 2");
+      } else if (this.form.status == 0) {
+        this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
+        console.log(this.form.s_tax);
+      } else {
+        this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
+        this.form.amount = parseInt(this.form.amount - this.form.s_tax).toFixed(
+          2
+        );
+      }
       this.form.total = (
         parseInt(this.form.amount) + parseInt(this.form.s_tax)
       ).toFixed(2);
-      //   this.form.amount + this.form.s_tax;
     },
   },
+
+  //   computed: {
+  //     total() {
+  //       return this.form.amount + this.form.s_tax;
+  //     },
+  //   },
 };
 </script>

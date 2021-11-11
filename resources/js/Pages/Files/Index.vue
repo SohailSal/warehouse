@@ -58,7 +58,7 @@
               <!-- <th class="py-2 px-4 border">Gross wt</th> -->
               <!-- <th class="py-2 px-4 border">Net wt</th> -->
               <!-- <th class="py-2 px-4 border">BL no</th> -->
-              <!-- 
+              <!--
               <th class="py-2 px-4 border">VIR no</th>
               <th class="py-2 px-4 border">Index no</th>
 
@@ -104,21 +104,7 @@
                 >
                   <span>Edit</span>
                 </button>
-                <div
-                  class="
-                    border
-                    bg-indigo-300
-                    rounded-xl
-                    px-4
-                    py-1
-                    m-1
-                    inline-block
-                  "
-                >
-                  <a v-bind:href="'/pdf/' + item.id" target="_target"
-                    >Generate pdf</a
-                  >
-                </div>
+
                 <div
                   class="
                     border

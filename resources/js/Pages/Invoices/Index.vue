@@ -31,20 +31,34 @@
       <!-- </div> -->
       <!-- <div v-if="errors.type">{{ errors.type }}</div> -->
       <div class="">
-        <table class="shadow-lg w-full border mt-4 ml-2 rounded-xl">
+        <table class="shadow-lg w-full text-center border mt-4 ml-2 rounded-xl">
           <thead>
             <tr class="bg-indigo-100">
               <th class="py-2 px-4 border">File No</th>
               <th class="py-2 px-4 border">Date</th>
               <th class="py-2 px-4 border">Amount</th>
+              <th class="py-2 px-4 border">Sales Tax</th>
+              <th class="py-2 px-4 border">Total Amount</th>
               <th class="py-2 px-4 border">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in data" :key="item.id">
-              <td class="py-1 px-4 border w-2/5">{{ item.file_id }}</td>
-              <td class="py-1 px-4 border w-2/5">{{ item.date }}</td>
-              <td class="py-1 px-4 border w-2/5">{{ item.amount }}</td>
+              <td class="py-1 px-4 border" style="width: 15%">
+                {{ item.file_id }}
+              </td>
+              <td class="py-1 px-4 border" style="width: 15%">
+                {{ item.date }}
+              </td>
+              <td class="py-1 px-4 border" style="width: 15%">
+                {{ item.amount }}
+              </td>
+              <td class="py-1 px-4 border" style="width: 15%">
+                {{ item.s_tax }}
+              </td>
+              <td class="py-1 px-4 border" style="width: 15%">
+                {{ item.total }}
+              </td>
               <td class="py-1 px-4 border text-center">
                 <button
                   class="border bg-indigo-300 rounded-xl px-4 py-1 m-1"
@@ -52,6 +66,21 @@
                 >
                   <span>Edit</span>
                 </button>
+                <div
+                  class="
+                    border
+                    bg-indigo-300
+                    rounded-xl
+                    px-4
+                    py-1
+                    m-1
+                    inline-block
+                  "
+                >
+                  <a v-bind:href="'/pdf/' + item.id" target="_target"
+                    >Invoice pdf</a
+                  >
+                </div>
                 <button
                   class="border bg-red-500 rounded-xl px-4 py-1 m-1"
                   @click="destroy(item.id)"
