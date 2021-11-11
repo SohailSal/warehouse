@@ -491,7 +491,7 @@ export default {
       file_code: null,
       gd_no: null,
       bond_no: null,
-      date_bond: null,
+      date_bond: new Date().toISOString().substr(0, 10),
       description: null,
       vessel: null,
       gross_wt: null,

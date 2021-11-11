@@ -17,13 +17,41 @@ class DeliveryController extends Controller
 {
     public function index()
     {
+        request()->validate([
+            'direction' => ['in:asc,desc'],
+            'field' => ['in:file_id']
+        ]);
 
+        $query = Delivery::query();
+
+        // $file_id = $query->paginate(10)
+        //     ->through(function ($item) {
+        //         return [
+        //             'no' => $item->files->file_no,
+        //         ];
+        //     });
+
+        // // dd($file_id);
+        if (request('search')) {
+            $query->where('file_id', 'LIKE', '%' . request('search') . '%');
+        }
+
+
+        if (request('searche')) {
+            $query->where('item_id', 'LIKE', '%' . request('searche') . '%');
+        }
+
+        if (request()->has(['field', 'direction'])) {
+            $query->orderBy(request('field'), request('direction'));
+        } else {
+            $query->orderBy(('file_id'), ('asc'));
+        }
 
 
         return Inertia::render('Delivery/Index', [
-            'data' => Delivery::all()
-                ->map(function ($item) {
-                    // dd($item);
+            'filters' => request()->all(['search', 'searche', 'field', 'direction']),
+            'balances' => $query->paginate(10)
+                ->through(function ($item) {
                     return [
                         'id' => $item->id,
                         'date' => $item->date,
@@ -32,8 +60,6 @@ class DeliveryController extends Controller
                         'vehicle_no' => $item->Vehicle_no,
                         'item_id' => $item->items->name,
                         'qty' => $item->qty,
-
-
                     ];
                 }),
 
