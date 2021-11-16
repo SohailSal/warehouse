@@ -112,8 +112,8 @@ class CreateCoreTables extends Migration
             $table->unsignedBigInteger('document_id');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('year_id');
-            $table->decimal('debit',14,2);
-            $table->decimal('credit',14,2);
+            $table->decimal('debit', 14, 2);
+            $table->decimal('credit', 14, 2);
             $table->tinyInteger('enabled')->default('1');
             $table->foreign('company_id')->references('id')->on('companies');
             $table->foreign('document_id')->references('id')->on('documents');
@@ -130,14 +130,8 @@ class CreateCoreTables extends Migration
             $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
-        
+    }
 
-       
-        
-         
-       
-        }
-        
     /**
      * Reverse the migrations.
      *
@@ -155,8 +149,5 @@ class CreateCoreTables extends Migration
         Schema::dropIfExists('account_groups');
         Schema::dropIfExists('companies');
         Schema::dropIfExists('account_types');
-     
-        
-        
     }
 }

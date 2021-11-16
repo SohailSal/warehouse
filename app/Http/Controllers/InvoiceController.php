@@ -84,14 +84,17 @@ class InvoiceController extends Controller
                 's_tax' => Request::input('s_tax'),
             ]);
 
+
             $file = File::where('id', $request->file_id['id'])->get()->first();
             $importer = Importer::where('id', $file->importer_id)->get()->first();
-            // dd($importer->name);
+
+            //Refrence  Genrate
             $date = new Carbon($request->date);
             $prefix = \App\Models\DocumentType::where('id', 2)->first()->prefix;
             $date = $date->format('Y-m-d');
             $ref_date_parts = explode("-", $date);
             $reference = $prefix . "/" . $ref_date_parts[0] . "/" . $ref_date_parts[1] . "/" . $ref_date_parts[2];
+            //--End.
             Document::create([
                 'type_id' => 2,
                 'ref' => $reference,
@@ -101,17 +104,15 @@ class InvoiceController extends Controller
                 'company_id' => session('company_id'),
             ]);
 
-            $total = $request->amount + $request->s_tax;
 
-            // $file = File::where('id', $request->file_id['id'])->get()->first();
-            // $importer = Importer::where('id', $file->importer_id)->get()->first();
+
             $document = Document::all()->last();
             Entry::create([
                 'company_id' => session('company_id'),
                 'account_id' => $importer->account_id,
                 'year_id' => session('year_id'),
                 'document_id' => $document->id,
-                'debit' => $total,
+                'debit' => $request->total,
                 'credit' => 0,
             ]);
 
