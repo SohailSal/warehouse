@@ -100,7 +100,6 @@
               value="2"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
-            <div v-if="errors.status">{{ errors.qty }}</div>
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -194,7 +193,6 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
-import { computed } from "vue";
 import Multiselect from "@suadelabs/vue3-multiselect";
 
 export default {
