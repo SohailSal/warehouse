@@ -6,7 +6,7 @@
 
       <style>
       @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
-      .slip_sec{  
+      .slip_sec{
       width:700px;
       margin: 0% auto 0;
       display: table;
@@ -60,7 +60,7 @@
         text-align:right !important;
         vertical-align:middle;
       }
-      .slip_head#head p input[type="text"]{ 
+      .slip_head#head p input[type="text"]{
       border: 0;
       background-color: #fff;
       font-size: 14px;
@@ -88,7 +88,9 @@
       border-radius: 0;
       border-bottom: 2px solid #000000;
       }
-      td.custom {width: 90px;}
+      td.custom {
+
+        width: 90px;}
       td.text {
       width: 180px;}
       td.text.t {
@@ -112,10 +114,11 @@
 <body>
 
 <?php
+
   $dt = \Carbon\Carbon::now(new DateTimeZone('Asia/Karachi'))->format('M d, Y - h:m a');
-//   $amt = new NumberFormatter( 'en_GB', NumberFormatter::SPELLOUT );
+  $amt = new NumberFormatter( 'en_GB', NumberFormatter::SPELLOUT );
   ?>
- 
+
     <div class="slip_sec">
       <div class="slip_head" id="head">
         <h1>Tulip Industries (Pvt) Limited</h1>
@@ -126,20 +129,20 @@
       <div class="main_table table-responsive">
         <table  style="width:100%">
         <tr>
-            
-            <td  id="date"><strong>Date:</strong> <input type="text"  value='{{ $dt }}' ></td>
+
+            <td  id="date">Date:<strong> <input type="text"  value='{{ $receipts['date'] }}' ></strong></td>
         </tr>
           <tr>
            <td   class="text">Recived With thanks form</td>
-            <td ><input type="text"></td>
+            <td ><strong><input type="text" value="{{ $receipts['importer'] }}" ></strong> </td>
           </tr>
 
           <tr>
             <td colspan="2"><input type="text"></td>
           </tr>
           <tr>
-            <td class="text t">the sun of Rupees</td>
-            <td><input type="text"></td>
+            <td class="text t">the sum of Rupees</td>
+            <td> <strong><input type="text" value="{{ucwords($amt->format($receipts['amount'] + $receipts['i_tax'])) }} only."></strong></td>
           </tr>
           <tr>
             <td colspan="2"><input type="text"></td>
@@ -149,21 +152,25 @@
               <table class="inner_table" style="width:100%">
                 <tr>
                   <td class="custom">by cheque No</td>
-                  <td><input type="text"></td>
-                  <td class="custom">dated</td>
-                  <td><input type="text"></td>
+                  <td><strong><input type="text" value="{{' --- '}}"></strong> </td>
+                  <td class="custom" >dated</td>
+                  <td><strong><input type="text" value=" {{ '---' }} "></strong></td>
                   <td class="custom">drawn on</td>
-                  <td><input type="text"></td>
+                  <td><strong><input type="text" value="{{ '---' }}""></strong></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
+            <td class="text">on account of: <strong><input type="text" value="{{ $receipts['file_no']}}"></strong></td>
+          </tr>
+          <tr>
+
             <td colspan="2">
               <table class="inner_table" style="width:100%">
                 <tr>
                   <td colspan="2">Rs</td>
-                  <td ><input type="text"> <small>(subject to realization of cheque)</small></td>
+                  <td> <strong> <input type="text" value="{{ $receipts['amount'] + $receipts['i_tax']}}.00"></strong> <small>(subject to realization of cheque)</small></td>
                   <td > </td>
                   <td colspan="2" style="text-align: right; padding:60px 0 0 0;">For Tulip Industries (Pvt) Limited</td>
                 </tr>

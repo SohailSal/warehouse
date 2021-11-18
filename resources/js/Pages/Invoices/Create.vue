@@ -11,6 +11,7 @@
     >
       {{ $page.props.flash.success }}
     </div>
+
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
         <form @submit.prevent="form.post(route('invoices.store'))">

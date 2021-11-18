@@ -20,7 +20,7 @@
           {{ type.name }}
         </option>
       </select>
-      <div
+      <!-- <div
         class="
           border
           rounded-lg
@@ -32,7 +32,7 @@
         "
       >
         <a href="deliveryorder" target="_blank">Receipt</a>
-      </div>
+      </div> -->
 
       <div
         class="
@@ -105,7 +105,7 @@ export default {
     route() {
       this.$inertia.get(route("deliveryorder"));
     },
-    
+
     route() {
       this.$inertia.get(route("labourcontract"));
     },

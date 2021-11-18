@@ -31,6 +31,7 @@ class ReceiptController extends Controller
                         'i_tax' => $receipt->i_tax,
                         's_tax' => $receipt->s_tax,
                         'com' => $receipt->com,
+                        'total' => $receipt->amount + $receipt->i_tax . '.00',
                     ];
                 }),
 
@@ -40,6 +41,7 @@ class ReceiptController extends Controller
                         return [
                             'id' => $com->id,
                             'name' => $com->name,
+
                         ];
                     }
                 ),
@@ -62,7 +64,7 @@ class ReceiptController extends Controller
             return
                 [
                     'id' => $file->id,
-                    'file_no' => $file->importers->name . ' - ' . $res,
+                    'file_no' => $file->importers->name . ' - Rs. ' . $res,
                     'account_id' => $file->importers->accounts->id,
                     'res' => $res,
                 ];
@@ -81,7 +83,7 @@ class ReceiptController extends Controller
                     'files' => $files,
                 ]);
             } else {
-                return Redirect::route('invoices.create')->with('warning', 'Invoice Not Found, Please create Invoice first.');
+                return Redirect::route('invoices.create')->with('success', 'Invoice Not Found, Please create Invoice first.');
             }
         } else {
             return Redirect::route('files.create')->with('warning', 'File NOT FOUND, Please create File first.');
@@ -91,7 +93,6 @@ class ReceiptController extends Controller
     public function store(Req $request)
     {
 
-        // dd($request);
         Request::validate([
             'file_id' => ['required'],
             'date' => ['required'],
