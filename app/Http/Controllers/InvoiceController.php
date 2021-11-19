@@ -221,7 +221,7 @@ class InvoiceController extends Controller
                     'end_date' => $endDate->format('M d, Y'),
                     'importer' => $invoice->files->importers->name,
                     'stn_no' => $invoice->files->importers->stn_no,
-                    'agent' => $invoice->files->agents->name,
+                    'agent' => $invoice->files->agents ? $invoice->files->agents->name : "",
                     'bond_no' => $invoice->files->bond_no,
                     'lc_no' => $invoice->files->lc_no,
                 ];

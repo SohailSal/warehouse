@@ -32,4 +32,8 @@ class Account extends Model
     {
         return $this->hasMany('App\Models\Entry', 'account_id');
     }
+    public function payments()
+    {
+        return $this->hasMany('App\Models\Payment', 'account_id');
+    }
 }

@@ -25,6 +25,7 @@ use App\Http\Controllers\UnitTypeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QuantityController;
 use App\Http\Controllers\WarehouseReportController;
 use App\Http\Controllers\DeliveryController;
@@ -69,8 +70,8 @@ Route::get('warehousereports', [WarehouseReportController::class, 'index'])
     ->middleware('auth');
 
 //Delivery Order -------------------- START ---------------------------
-Route::get('deliveryorder', [WarehouseReportController::class, 'deliveryorder'])
-    ->name('deliveryorder')
+Route::get('receipt/{rec}', [WarehouseReportController::class, 'receipt'])
+    ->name('receipt')
     ->middleware('auth');
 
 Route::get('labourcontract', [WarehouseReportController::class, 'labourcontract'])
@@ -551,6 +552,41 @@ Route::put('invoices/{invoice}', [InvoiceController::class, 'update'])
 
 Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])
     ->name('invoices.destroy')
+    ->middleware('auth');
+
+
+
+//Invoice
+Route::get('payments', [PaymentController::class, 'index'])
+    ->name('payments')
+    ->middleware('auth');
+
+Route::get('payments/create', [PaymentController::class, 'create'])
+    ->name('payments.create')
+    ->middleware('auth');
+
+Route::get('payments/{payment}', [PaymentController::class, 'show'])
+    ->name('payments.show')
+    ->middleware('auth');
+
+Route::post('payments', [PaymentController::class, 'store'])
+    ->name('payments.store')
+    ->middleware('auth');
+
+// Route::get('pdf/{payment}', [PaymentController::class, 'pdf'])
+//     ->name('pdf')
+//     ->middleware('auth');
+
+Route::get('payments/{payment}/edit', [PaymentController::class, 'edit'])
+    ->name('payments.edit')
+    ->middleware('auth');
+
+Route::put('payments/{payment}', [PaymentController::class, 'update'])
+    ->name('payments.update')
+    ->middleware('auth');
+
+Route::delete('payments/{payment}', [PaymentController::class, 'destroy'])
+    ->name('payments.destroy')
     ->middleware('auth');
 
 

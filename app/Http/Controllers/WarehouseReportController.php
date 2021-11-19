@@ -18,6 +18,8 @@ use App\Models\Delivery;
 use App\Models\Quantity;
 use App\Models\File;
 use App\Models\DocumentType;
+use App\Models\Invoice;
+use App\Models\Receipt;
 use App\Models\User;
 use Inertia\Inertia;
 use Carbon\Carbon;
@@ -47,11 +49,23 @@ class WarehouseReportController extends Controller
     }
 
     // FOR Delivery Order GENERATION -------------------------- --------
-    public function deliveryorder()
+    public function receipt($rec)
     {
+        $receipts = Receipt::where('id', $rec)->get()
+            ->map(function ($receipt) {
+                return [
+                    'id' => $receipt->id,
+                    'importer' => $receipt->files->importers->name,
+                    'date' => $receipt->date,
+                    'amount' => $receipt->amount,
+                    'i_tax' => $receipt->i_tax,
+                    'file_no' => $receipt->files->file_no,
+                ];
+            })->first();
+        // dd($receipts);
 
         $tb = App::make('dompdf.wrapper');
-        $tb->loadView('receipt');
+        $tb->loadView('receipt', compact('receipts'));
         return $tb->stream('receipt.pdf');
 
 
@@ -67,7 +81,7 @@ class WarehouseReportController extends Controller
         // return $tb->stream('deliveryOrder.pdf');
         //DELIVERY REPORT
     }
-    
+
     // FOR Labour Contract GENERATION -------------------------- --------
     public function labourcontract()
     {
