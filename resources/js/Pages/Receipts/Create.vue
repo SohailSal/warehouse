@@ -7,7 +7,7 @@
     </template>
     <div
       v-if="$page.props.flash.success"
-      class="bg-yellow-600 text-white text-center"
+      class="bg-green-600 text-white text-center"
     >
       {{ $page.props.flash.success }}
     </div>
@@ -40,22 +40,6 @@
             <div v-if="errors.client_id">{{ errors.client_id }}</div>
           </div> -->
 
-          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Select File :</label
-            >
-            <multiselect
-              style="width: 25%"
-              class="rounded-md border border-black"
-              v-model="form.file_id"
-              :options="files"
-              placeholder="Select File"
-              label="file_no"
-              track-by="id"
-            ></multiselect>
-            <div v-if="errors.file_id">{{ errors.file_id }}</div>
-          </div>
-
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Date:</label
             ><input
@@ -74,11 +58,62 @@
             />
             <div v-if="errors.date">{{ errors.date }}</div>
           </div>
+
+          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Select Importer :</label
+            >
+            <multiselect
+              style="width: 25%"
+              class="rounded-md border border-black"
+              v-model="form.file_id"
+              :options="files"
+              placeholder="Select File"
+              label="file_no"
+              track-by="id"
+            ></multiselect>
+            <!-- @update:model-value="updateSelected" -->
+            <div v-if="errors.file_id">{{ errors.file_id }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 ml-4 mr-8 text-right w-36 font-bold"
+              >Without Incl. Tax :</label
+            >
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="0"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Include Tax :</label
+            >
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="1"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+
+            <label class="my-2 mr-8 text-right w-24 font-bold">None :</label>
+            <input
+              v-model="form.status"
+              name="status"
+              type="radio"
+              value="2"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+          </div>
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label
             ><input
               type="number"
               v-model="form.amount"
+              @change="cal_i_tax"
               class="
                 pr-2
                 pb-2
@@ -90,12 +125,18 @@
               label="date"
               placeholder="10,000"
             />
-            <div v-if="errors.amount">{{ errors.amount }}</div>
-          </div>
-          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Invoice Tax:</label
+            <!-- <div v-if="errors.amount">{{ errors.amount }}</div> -->
+            <!-- </div>
+          <div
+            v-if="form.status != 2"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          > -->
+            <label
+              v-if="form.status != 2"
+              class="my-2 mr-8 text-right w-36 font-bold"
+              >Income Tax:</label
             ><input
+              v-if="form.status != 2"
               type="number"
               v-model="form.i_tax"
               class="
@@ -106,12 +147,16 @@
                 rounded-md
                 placeholder-indigo-300
               "
-              label="date"
+              readonly
               placeholder="50"
             />
+            <br />
+
             <div v-if="errors.i_tax">{{ errors.i_tax }}</div>
           </div>
+          <div class="ml-52" v-if="errors.amount">{{ errors.amount }}</div>
 
+          <!--
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Sales Tax:</label
             ><input
@@ -129,7 +174,7 @@
               placeholder="50"
             />
             <div v-if="errors.s_tax">{{ errors.s_tax }}</div>
-          </div>
+          </div> -->
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Com:</label
@@ -193,7 +238,10 @@ export default {
 
   setup(props) {
     const form = useForm({
-      file_id: null,
+      status: 0,
+      total: null,
+      file_id: props.files[0],
+
       date: new Date().toISOString().substr(0, 10),
       amount: null,
       i_tax: null,
@@ -201,6 +249,25 @@ export default {
       com: null,
     });
     return { form };
+  },
+  methods: {
+    cal_i_tax() {
+      if (this.form.status == 2) {
+        this.form.i_tax = 0;
+        console.log("value 2");
+      } else if (this.form.status == 0) {
+        this.form.i_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
+        console.log(this.form.i_tax);
+      } else {
+        this.form.i_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
+        this.form.amount = parseInt(this.form.amount - this.form.i_tax).toFixed(
+          2
+        );
+      }
+      this.form.total = (
+        parseInt(this.form.amount) + parseInt(this.form.i_tax)
+      ).toFixed(2);
+    },
   },
 };
 </script>

@@ -69,13 +69,21 @@ class AccountSeeder extends Seeder
 
             $group_id = \App\Models\AccountGroup::where('name', 'Sales & Service')->where('company_id', session('company_id'))->first()->id;
             $account = Account::create([
-                'name' => 'Sales - Local',
+                'name' => 'Sales',
                 'group_id' => $group_id,
                 'company_id' => session('company_id'),
             ]);
             $account->update(['number' => $this->snum($account)]);
 
-            $opexp = ["Stock 1 Consumed", "Salaries & Wages", "Repair & Maintenance", "Rent, Rates & Taxes", "Utilities", "Depreciation Expense"];
+            $group_id = \App\Models\AccountGroup::where('name', 'Deposits, Prepayments & Other Receivables')->where('company_id', session('company_id'))->first()->id;
+            $account = Account::create([
+                'name' => '	Advance Income tax',
+                'group_id' => $group_id,
+                'company_id' => session('company_id'),
+            ]);
+            $account->update(['number' => $this->snum($account)]);
+
+            $opexp = ["Stock 1 Consumed", "Salaries & Wages", "Sales Tax", "Repair & Maintenance", "Rent, Rates & Taxes", "Utilities", "Depreciation Expense"];
             $group_id = \App\Models\AccountGroup::where('name', 'Operating Expenses')->where('company_id', session('company_id'))->first()->id;
             for ($i = 0; $i < count($opexp); $i++) {
                 $account = Account::create([

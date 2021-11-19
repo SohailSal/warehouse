@@ -43,6 +43,7 @@
       >
         <span>Add Quantity</span>
       </button>
+
       <div class="">
         <table class="w-full shadow-lg border mt-4 ml-2 rounded-xl">
           <thead>
@@ -56,8 +57,8 @@
               <!-- <th class="py-2 px-4 border">Vessel</th> -->
               <!-- <th class="py-2 px-4 border">Gross wt</th> -->
               <!-- <th class="py-2 px-4 border">Net wt</th> -->
-              <th class="py-2 px-4 border">BL no</th>
-              <!-- 
+              <!-- <th class="py-2 px-4 border">BL no</th> -->
+              <!--
               <th class="py-2 px-4 border">VIR no</th>
               <th class="py-2 px-4 border">Index no</th>
 
@@ -65,7 +66,7 @@
 
               <!-- <th class="py-2 px-4 border">LC no</th> -->
               <th class="py-2 px-4 border">Amount</th>
-              <!-- <th class="py-2 px-4 border">s_tax</th> -->
+              <th class="py-2 px-4 border">s_tax</th>
               <th class="py-2 px-4 border">Quantity</th>
 
               <!-- <th class="py-2 px-4 border">Agent</th> -->
@@ -82,20 +83,20 @@
               <td class="py-1 px-4 border">{{ item.bond_no }}</td>
               <td class="py-1 px-4 border">{{ item.date_bond }}</td>
               <td class="py-1 px-4 border">{{ item.description }}</td>
-              <!-- <td class="py-1 px-4 border">{{ item.vessel }}</td>
-              <td class="py-1 px-4 border">{{ item.gross_wt }}</td>
-              <td class="py-1 px-4 border">{{ item.net_wt }}</td> -->
-              <td class="py-1 px-4 border">{{ item.bl_no }}</td>
-              <!-- <td class="py-1 px-4 border">{{ item.vir_no }}</td>
-              <td class="py-1 px-4 border">{{ item.index_no }}</td>
-              <td class="py-1 px-4 border">{{ item.insurance }}</td>
-              <td class="py-1 px-4 border">{{ item.lc_no }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.vessel }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.gross_wt }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.net_wt }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.bl_no }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.vir_no }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.index_no }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.insurance }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.lc_no }}</td> -->
               <td class="py-1 px-4 border">{{ item.amount }}</td>
-              <!-- <td class="py-1 px-4 border">{{ item.s_tax }}</td> -->
+              <td class="py-1 px-4 border">{{ item.s_tax }}</td>
               <td class="py-1 px-4 border">{{ item.qty }}</td>
+              <!-- <td class="py-1 px-4 border">{{ item.agent }}</td> -->
               <td class="py-1 px-4 border">{{ item.importer }}</td>
-              <!-- <td class="py-1 px-4 border">{{ item.agent }}</td>
-              <td class="py-1 px-4 border">{{ item.client }}</td> -->
+              <!-- <td class="py-1 px-4 border">{{ item.client }}</td> -->
               <td class="py-1 px-4 border text-center">
                 <button
                   class="border bg-indigo-300 rounded-xl px-4 py-1 m-1"
@@ -103,20 +104,20 @@
                 >
                   <span>Edit</span>
                 </button>
+
                 <div
                   class="
                     border
-                    bg-indigo-300
-                    rounded-xl
-                    px-2
-                    py-1
-                    m-1
+                    rounded-lg
+                    shadow-md
+                    p-2
+                    m-2
                     inline-block
+                    hover:bg-gray-600 hover:text-white
                   "
                 >
-                  <!-- >Generate pdf</a -->
-                  <a v-bind:href="'/pdf/' + item.id" target="_target"
-                    >Invoice</a
+                  <a v-bind:href="'/bincard/' + item.id" target="_blank"
+                    >Bin Card</a
                   >
                 </div>
 

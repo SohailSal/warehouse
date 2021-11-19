@@ -10,19 +10,30 @@ class Account extends Model
     use HasFactory;
 
     protected $fillable = [
-        'number','name','group_id','enabled','company_id'
+        'number', 'name', 'group_id', 'enabled', 'company_id'
     ];
 
-    public function accountGroup(){
+    public function accountGroup()
+    {
         return $this->belongsTo('App\Models\AccountGroup', 'group_id');
     }
 
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo('App\Models\Company', 'company_id');
+    }
+
+    public function importers()
+    {
+        return $this->hasOne('App\Models\Importer', 'account_id');
     }
 
     public function entries()
     {
         return $this->hasMany('App\Models\Entry', 'account_id');
+    }
+    public function payments()
+    {
+        return $this->hasMany('App\Models\Payment', 'account_id');
     }
 }
