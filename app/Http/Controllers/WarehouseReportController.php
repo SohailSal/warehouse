@@ -90,6 +90,14 @@ class WarehouseReportController extends Controller
         return $tb->stream('labourcontract.pdf');
     }
 
+    // FOR paymentVoucher GENERATION -------------------------- --------
+    public function paymentVoucher()
+    {
+        $tb = App::make('dompdf.wrapper');
+        $tb->loadView('paymentVoucher');
+        return $tb->stream('paymentVoucher.pdf');
+    }
+
 
     public function bincard($bincard)
     {

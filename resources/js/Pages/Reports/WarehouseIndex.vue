@@ -60,6 +60,20 @@
       >
         <a href="labourcontract" target="_blank">Labour Contract</a>
       </div>
+
+      <div
+        class="
+          border
+          rounded-lg
+          shadow-md
+          p-2
+          m-2
+          inline-block
+          hover:bg-gray-600 hover:text-white
+        "
+      >
+        <a href="paymentVoucher" target="_blank">Payment Voucher</a>
+      </div>
     </div>
   </app-layout>
 </template>
@@ -110,6 +124,9 @@ export default {
       this.$inertia.get(route("labourcontract"));
     },
 
+    route() {
+      this.$inertia.get(route("paymentVoucher"));
+    },
     coch() {
       this.$inertia.get(route("companies.coch", this.co_id));
     },
