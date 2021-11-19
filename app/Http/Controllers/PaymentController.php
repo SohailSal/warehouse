@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Request;
 
 use App\Models\Payment;
 use App\Models\Company;
+use App\Models\Account;
 use Carbon\Carbon;
 use Inertia\Inertia;
 
@@ -58,7 +59,14 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        $accounts = Account::all();
+        if ($accounts->first()) {
+            return Inertia::render('Payments/Create', [
+                'accounts' => $accounts,
+            ]);
+        } else {
+            return Redirect::route('accounts.create')->with('warning', 'ACCOUNT NOT FOUND, Please create Account first.');
+        }
     }
 
     /**
