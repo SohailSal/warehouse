@@ -560,7 +560,17 @@ Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])
 
 
 
-//Invoice
+//Expenses
+Route::get('expenses/create', [PaymentController::class, 'expenses_create'])
+    ->name('expenses.create')
+    ->middleware('auth');
+
+Route::post('payments/create', [PaymentController::class, 'expenses_store'])
+    ->name('expenses.store')
+    ->middleware('auth');
+
+
+// Payment
 Route::get('payments', [PaymentController::class, 'index'])
     ->name('payments')
     ->middleware('auth');
@@ -568,6 +578,9 @@ Route::get('payments', [PaymentController::class, 'index'])
 Route::get('payments/create', [PaymentController::class, 'create'])
     ->name('payments.create')
     ->middleware('auth');
+
+
+
 
 Route::get('payments/{payment}', [PaymentController::class, 'show'])
     ->name('payments.show')

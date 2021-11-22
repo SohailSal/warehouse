@@ -77,7 +77,7 @@ class AccountSeeder extends Seeder
 
             $group_id = \App\Models\AccountGroup::where('name', 'Deposits, Prepayments & Other Receivables')->where('company_id', session('company_id'))->first()->id;
             $account = Account::create([
-                'name' => '	Advance Income tax',
+                'name' => 'Advance Income tax',
                 'group_id' => $group_id,
                 'company_id' => session('company_id'),
             ]);

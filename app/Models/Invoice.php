@@ -10,7 +10,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'file_id', 'date', 'amount', 's_tax'
+        'file_id', 'date', 'amount', 's_tax', 'invoice_no'
     ];
 
     public function files()

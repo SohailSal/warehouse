@@ -11,7 +11,7 @@ class Payment extends Model
 
 
     protected $fillable = [
-        'date', 'account_id', 'description', 'payee', 'cheque', 'amount', 'enabled'
+        'date', 'account_id', 'description', 'payee', 'cheque', 'amount', 'h_tax', 'payment_no', 'enabled'
     ];
 
     public function accounts()

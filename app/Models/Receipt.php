@@ -10,14 +10,11 @@ class Receipt extends Model
     use HasFactory;
 
     protected $fillable = [
-      'file_id', 'date' , 'amount' ,'i_tax' , 's_tax' , 'com' ,
+        'file_id', 'date', 'amount', 'i_tax', 's_tax', 'com', 'receipt_no'
     ];
 
     public function files()
-  {
-      return $this->belongsTo('App\Models\File', 'file_id');
-  }
-  
-  
-  
+    {
+        return $this->belongsTo('App\Models\File', 'file_id');
+    }
 }

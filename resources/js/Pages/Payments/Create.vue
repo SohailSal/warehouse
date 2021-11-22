@@ -7,7 +7,7 @@
     </template>
     <div
       v-if="$page.props.flash.success"
-      class="bg-yellow-600 text-white text-center"
+      class="bg-green-500 text-white text-center"
     >
       {{ $page.props.flash.success }}
     </div>
@@ -20,6 +20,9 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
+        <jet-button @click="create" class="mt-2 ml-2"
+          >Create Expense Type</jet-button
+        >
         <form @submit.prevent="form.post(route('payments.store'))">
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Date:</label
@@ -59,6 +62,20 @@
             <div v-if="errors.payee">{{ errors.payee }}</div>
           </div>
 
+          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">Debit :</label>
+            <multiselect
+              style="width: 25%"
+              class="rounded-md border border-black"
+              v-model="form.account_id"
+              :options="accounts"
+              placeholder="Select Name"
+              label="name"
+              track-by="id"
+            ></multiselect>
+            <div v-if="errors.account_id">{{ errors.account_id }}</div>
+          </div>
+
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold"
               >Description:</label
@@ -93,18 +110,6 @@
               value="0"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
-
-            <!-- <label class="my-2 mr-5 text-right w-36 font-bold"
-              >Include Tax :</label
-            >
-            <input
-              v-model="form.status"
-              name="status"
-              type="radio"
-              value="1"
-              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
-            /> -->
-
             <label class="my-2 ml-6 mr-5 text-right w-42 font-bold"
               >Bank :</label
             >
@@ -116,19 +121,27 @@
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
           </div>
-
-          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold">Debit :</label>
-            <multiselect
-              style="width: 25%"
-              class="rounded-md border border-black"
-              v-model="form.account_id"
-              :options="accounts"
-              placeholder="Select Name"
-              label="name"
-              track-by="id"
-            ></multiselect>
-            <div v-if="errors.account_id">{{ errors.account_id }}</div>
+          <div
+            v-if="form.p_status != 0"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          >
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Cheque No :</label
+            ><input
+              type="number"
+              v-model="form.cheque"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="date"
+              placeholder="0"
+            />
+            <div v-if="errors.h_tax">{{ errors.h_tax }}</div>
           </div>
 
           <div
@@ -187,30 +200,6 @@
               placeholder="10,000"
             />
             <div v-if="errors.amount">{{ errors.amount }}</div>
-          </div>
-
-          <div
-            v-if="form.t_status != 0 && form.p_status != 0"
-            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
-          >
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Cheque No :</label
-            ><input
-              type="number"
-              v-model="form.cheque"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-              readonly
-              label="date"
-              placeholder="0"
-            />
-            <div v-if="errors.h_tax">{{ errors.h_tax }}</div>
           </div>
 
           <div
@@ -286,11 +275,13 @@
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
 import Multiselect from "@suadelabs/vue3-multiselect";
+import JetButton from "@/Jetstream/Button";
 
 export default {
   components: {
     AppLayout,
     Multiselect,
+    JetButton,
   },
 
   props: {
@@ -305,7 +296,7 @@ export default {
       p_status: 0,
       date: new Date().toISOString().substr(0, 10),
       description: null,
-      account_id: props.accounts[35],
+      account_id: null,
       payee: null,
       amount: null,
       h_tax: 0,
@@ -316,21 +307,19 @@ export default {
   },
 
   methods: {
-    cal_i_tax() {
-      if (this.form.status == 2) {
-        this.form.s_tax = 0;
-        console.log("value 2");
-      } else if (this.form.status == 0) {
-        this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
-        console.log(this.form.s_tax);
+    create() {
+      this.$inertia.get(route("expenses.create"));
+    },
+
+    cal_h_tax() {
+      if (this.form.t_status == 0) {
+        this.form.h_tax = 0;
       } else {
-        this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
-        this.form.amount = parseInt(this.form.amount - this.form.s_tax).toFixed(
-          2
-        );
+        this.form.h_tax = parseInt((this.form.amount * 10) / 100).toFixed(2);
       }
+
       this.form.total = (
-        parseInt(this.form.amount) + parseInt(this.form.s_tax)
+        parseInt(this.form.amount) + parseInt(this.form.h_tax)
       ).toFixed(2);
     },
   },
