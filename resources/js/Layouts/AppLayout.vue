@@ -470,12 +470,20 @@
                   Receipt
                 </jet-nav-link>
                 <jet-nav-link
+                  :href="route('payments')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('payments')"
+                >
+                  Payment
+                </jet-nav-link>
+                <jet-nav-link
                   :href="route('quantities')"
                   v-if="this.$page.props.co_id && this.$page.props.yr_id"
                   :active="route().current('quantities')"
                 >
                   Quantity
                 </jet-nav-link>
+
                 <jet-nav-link
                   :href="route('deliveries')"
                   v-if="this.$page.props.co_id && this.$page.props.yr_id"

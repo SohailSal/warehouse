@@ -76,13 +76,27 @@ class InvoiceController extends Controller
         // dd($request);
 
         DB::transaction(function () use ($request) {
+            $invoice = Invoice::all()->last();
+            if ($invoice) {
+                Invoice::create([
+                    'file_id' => Request::input('file_id')['id'],
+                    'invoice_no' => $invoice->invoice_no + 1,
+                    'date' => Request::input('date'),
+                    'amount' => Request::input('amount'),
+                    's_tax' => Request::input('s_tax'),
+                ]);
+            } else {
+                Invoice::create([
+                    'file_id' => Request::input('file_id')['id'],
+                    'invoice_no' => 220000001,
+                    'date' => Request::input('date'),
+                    'amount' => Request::input('amount'),
+                    's_tax' => Request::input('s_tax'),
+                ]);
+            }
 
-            Invoice::create([
-                'file_id' => Request::input('file_id')['id'],
-                'date' => Request::input('date'),
-                'amount' => Request::input('amount'),
-                's_tax' => Request::input('s_tax'),
-            ]);
+
+
 
 
             $file = File::where('id', $request->file_id['id'])->get()->first();

@@ -31,4 +31,9 @@ class Document extends Model
     {
         return $this->hasMany('App\Models\Entry', 'document_id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Models\Payment', 'document_id');
+    }
 }

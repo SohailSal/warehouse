@@ -11,6 +11,7 @@ use App\Models\Receipt;
 use App\Models\Company;
 use App\Models\Entry;
 use App\Models\Document;
+use App\Models\Invoice;
 use Inertia\Inertia;
 
 class ReceiptController extends Controller
@@ -101,15 +102,28 @@ class ReceiptController extends Controller
 
         DB::transaction(function () use ($request) {
 
-            Receipt::create([
-                'file_id' => Request::input('file_id')['id'],
-                'date' => Request::input('date'),
-                'amount' => Request::input('amount'),
-                'i_tax' => Request::input('i_tax'),
-                's_tax' => Request::input('s_tax'),
-                'com' => Request::input('com'),
-            ]);
-
+            $receipt = Receipt::all()->last();
+            if ($receipt)
+                Receipt::create([
+                    'file_id' => Request::input('file_id')['id'],
+                    'receipt_no' => $receipt->receipt_no + 1,
+                    'date' => Request::input('date'),
+                    'amount' => Request::input('amount'),
+                    'i_tax' => Request::input('i_tax'),
+                    's_tax' => Request::input('s_tax'),
+                    'com' => Request::input('com'),
+                ]);
+            else {
+                Receipt::create([
+                    'file_id' => Request::input('file_id')['id'],
+                    'receipt_no' => 330000001,
+                    'date' => Request::input('date'),
+                    'amount' => Request::input('amount'),
+                    'i_tax' => Request::input('i_tax'),
+                    's_tax' => Request::input('s_tax'),
+                    'com' => Request::input('com'),
+                ]);
+            }
 
             //Refrence  Genrate
             $date = new Carbon($request->date);

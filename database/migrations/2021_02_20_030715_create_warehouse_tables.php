@@ -107,6 +107,7 @@ class CreateWarehouseTables extends Migration
 
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_no');
             $table->unsignedBigInteger('file_id');
             $table->foreign('file_id')->references('id')->on('files');
             $table->date('date');
@@ -137,6 +138,7 @@ class CreateWarehouseTables extends Migration
             $table->unsignedBigInteger('file_id');
             $table->foreign('file_id')->references('id')->on('files');
             $table->date('date');
+            $table->string('receipt_no');
             $table->decimal('amount', 14, 2)->nullable();
             $table->decimal('i_tax', 14, 2)->nullable();
             $table->decimal('s_tax', 14, 2)->nullable();
@@ -149,12 +151,16 @@ class CreateWarehouseTables extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->date('date');
+            $table->string('payment_no');
             $table->unsignedBigInteger('account_id')->nullable();
             $table->foreign('account_id')->references('id')->on('accounts');
+            $table->unsignedBigInteger('document_id')->nullable();
+            $table->foreign('document_id')->references('id')->on('documents');
             $table->string('description');
-            $table->decimal('payee', 14, 2)->nullable();
+            $table->string('payee')->nullable();
             $table->string('cheque')->nullable();
             $table->decimal('amount', 14, 2)->nullable();
+            $table->decimal('h_tax', 14, 2)->nullable();
             $table->tinyInteger('enabled')->default('1');
             $table->timestamps();
         });
