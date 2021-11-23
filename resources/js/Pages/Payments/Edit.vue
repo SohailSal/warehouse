@@ -246,6 +246,7 @@ export default {
         date: this.payment.date,
         description: this.payment.description,
         account_id: this.account,
+        document_id: this.payment.document_id,
         payee: this.payment.payee,
         cheque: this.payment.cheque,
         amount: this.payment.amount,

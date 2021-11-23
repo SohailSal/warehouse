@@ -123,32 +123,8 @@ class PaymentController extends Controller
         ]);
         // dd($request);
         DB::transaction(function () use ($request) {
+            dd($request);
 
-            $payment = Payment::all()->last();
-            if ($payment) {
-                Payment::create([
-                    'date' => $request->date,
-                    'account_id' => $request->account_id['id'],
-                    'description' => $request->description,
-                    'payment_no' => $payment->payment_no + 1,
-                    'payee' => $request->payee,
-                    'cheque' => $request->cheque,
-                    'amount' => $request->amount,
-                    'h_tax' => $request->h_tax,
-                ]);
-            } else {
-                Payment::create([
-                    'date' => $request->date,
-                    'account_id' => $request->account_id['id'],
-                    'description' => $request->description,
-                    'payment_no' => 440000001,
-                    'payee' => $request->payee,
-                    'cheque' => $request->cheque,
-                    'amount' => $request->amount,
-                    'h_tax' => $request->h_tax,
-                ]);
-            }
-            //Refrence  Genrate
             $date = new Carbon($request->date);
             $prefix = \App\Models\DocumentType::where('id', 1)->first()->prefix;
             $date = $date->format('Y-m-d');
@@ -165,6 +141,35 @@ class PaymentController extends Controller
             ]);
 
             $document = Document::all()->last();
+
+            $payment = Payment::all()->last();
+            if ($payment) {
+                Payment::create([
+                    'date' => $request->date,
+                    'account_id' => $request->account_id['id'],
+                    'description' => $request->description,
+                    'document_id' => $document->id,
+                    'payment_no' => $payment->payment_no + 1,
+                    'payee' => $request->payee,
+                    'cheque' => $request->cheque,
+                    'amount' => $request->amount,
+                    'h_tax' => $request->h_tax,
+                ]);
+            } else {
+                Payment::create([
+                    'date' => $request->date,
+                    'account_id' => $request->account_id['id'],
+                    'description' => $request->description,
+                    'document_id' => $document->id,
+                    'payment_no' => 440000001,
+                    'payee' => $request->payee,
+                    'cheque' => $request->cheque,
+                    'amount' => $request->amount,
+                    'h_tax' => $request->h_tax,
+                ]);
+            }
+            //Refrence  Genrate
+
             // dd($request->total);
             Entry::create([
                 'company_id' => session('company_id'),
@@ -197,7 +202,7 @@ class PaymentController extends Controller
             if ($request->t_status != 0) {
                 Entry::create([
                     'company_id' => session('company_id'),
-                    'account_id' => 18,
+                    'account_id' => 19,
                     'year_id' => session('year_id'),
                     'document_id' => $document->id,
                     'debit' => 0,
@@ -225,15 +230,14 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Payment $payment)
-    // 'date', 'account_id', 'description', 'payee', 'cheque', 'amount', 'h_tax', 'payment_no', 'enabled'
     {
         $accounts = Account::where('company_id', session('company_id'))->where('group_id', 15)->orwhere('group_id', 1)->get();
-
         return Inertia::render('Payments/Edit', [
             'accounts' => $accounts,
             'account' => Account::where('id', $payment->account_id)->first(),
             'payment' => [
                 'id' => $payment->id,
+                'document_id' => $payment->document_id,
                 'date' => $payment->date,
                 'payee' => $payment->payee,
                 'account_id' => $payment->account_id,
@@ -255,22 +259,27 @@ class PaymentController extends Controller
     public function update(Payment $payment, Req $request)
     {
 
-
+        // dd($request);
         Request::validate([
             'amount' => ['required'],
         ]);
 
-        DB::transaction(function () use ($request, $payment) {
+        $document = Document::where('id', $request->document_id)->get()->first();
+        $entries = Entry::where('document_id', $request->document_id)->get();
+
+        DB::transaction(function () use ($request, $payment, $document, $entries) {
+
+            // dd($entries);
+
 
 
             $payment->date = $request->date;
             $payment->payee = $request->payee;
-            $payment->account_id = $request->account_id;
+            $payment->account_id = $request->account_id['id'];
             $payment->description = $request->description;
             $payment->cheque = $request->cheque;
             $payment->amount = $request->amount;
             $payment->h_tax = $request->h_tax;
-
             $payment->save();
 
             $date = new Carbon($request->date);
@@ -278,59 +287,72 @@ class PaymentController extends Controller
             $date = $date->format('Y-m-d');
             $ref_date_parts = explode("-", $date);
             $reference = $prefix . "/" . $ref_date_parts[0] . "/" . $ref_date_parts[1] . "/" . $ref_date_parts[2];
+            // --End .
+            $document->ref = $reference;
+            $document->description = $request->description;
+            $document->save();
+
+
+            // $entries[0]->debit = $request->amount;
+            $entries[0]->account_id = $request->account_id['id'];
+            $entries[0]->save();
+            // $date = new Carbon($request->date);
+            // $prefix = \App\Models\DocumentType::where('id', 1)->first()->prefix;
+            // $date = $date->format('Y-m-d');
+            // $ref_date_parts = explode("-", $date);
+            // $reference = $prefix . "/" . $ref_date_parts[0] . "/" . $ref_date_parts[1] . "/" . $ref_date_parts[2];
             //--End.
-            Document::create([
-                'type_id' => 1,
-                'ref' => $reference,
-                'date' => $date,
-                'description' => $request->description,
-                'year_id' => session('year_id'),
-                'company_id' => session('company_id'),
-            ]);
+            // Document::create([
+            //     'type_id' => 1,
+            //     'ref' => $reference,
+            //     'date' => $date,
+            //     'description' => $request->description,
+            //     'year_id' => session('year_id'),
+            //     'company_id' => session('company_id'),
+            // ]);
 
-            $document = Document::all()->last();
-            // dd($request->total);
-            Entry::create([
-                'company_id' => session('company_id'),
-                'account_id' => $request->account_id['id'],
-                'year_id' => session('year_id'),
-                'document_id' => $document->id,
-                'debit' => $request->total,
-                'credit' => 0,
-            ]);
-            if ($request->p_status == 0) {
-                Entry::create([
-                    'company_id' => session('company_id'),
-                    'account_id' => 14,
-                    'year_id' => session('year_id'),
-                    'document_id' => $document->id,
-                    'debit' => 0,
-                    'credit' => $request->amount,
-                ]);
-            } else {
-                Entry::create([
-                    'company_id' => session('company_id'),
-                    'account_id' => 13,
-                    'year_id' => session('year_id'),
-                    'document_id' => $document->id,
-                    'debit' => 0,
-                    'credit' => $request->amount,
-                ]);
-            }
 
-            if ($request->t_status != 0) {
-                Entry::create([
-                    'company_id' => session('company_id'),
-                    'account_id' => 18,
-                    'year_id' => session('year_id'),
-                    'document_id' => $document->id,
-                    'debit' => 0,
-                    'credit' => $request->h_tax,
-                ]);
-            }
+            // Entry::create([
+            //     'company_id' => session('company_id'),
+            //     'account_id' => $request->account_id['id'],
+            //     'year_id' => session('year_id'),
+            //     'document_id' => $document->id,
+            //     'debit' => $request->total,
+            //     'credit' => 0,
+            // ]);
+            // if ($request->p_status == 0) {
+            //     Entry::create([
+            //         'company_id' => session('company_id'),
+            //         'account_id' => 14,
+            //         'year_id' => session('year_id'),
+            //         'document_id' => $document->id,
+            //         'debit' => 0,
+            //         'credit' => $request->amount,
+            //     ]);
+            // } else {
+            //     Entry::create([
+            //         'company_id' => session('company_id'),
+            //         'account_id' => 13,
+            //         'year_id' => session('year_id'),
+            //         'document_id' => $document->id,
+            //         'debit' => 0,
+            //         'credit' => $request->amount,
+            //     ]);
+            // }
+
+            // if ($request->t_status != 0) {
+            //     Entry::create([
+            //         'company_id' => session('company_id'),
+            //         'account_id' => 18,
+            //         'year_id' => session('year_id'),
+            //         'document_id' => $document->id,
+            //         'debit' => 0,
+            //         'credit' => $request->h_tax,
+            //     ]);
+            // }
         });
 
-        return Redirect::route('invoices')->with('success', 'Invoice updated.');
+        return Redirect::route('payments')->with('success', 'Invoice updated.');
     }
 
     /**

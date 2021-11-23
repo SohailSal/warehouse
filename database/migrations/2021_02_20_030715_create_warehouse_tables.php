@@ -154,6 +154,8 @@ class CreateWarehouseTables extends Migration
             $table->string('payment_no');
             $table->unsignedBigInteger('account_id')->nullable();
             $table->foreign('account_id')->references('id')->on('accounts');
+            $table->unsignedBigInteger('document_id')->nullable();
+            $table->foreign('document_id')->references('id')->on('documents');
             $table->string('description');
             $table->string('payee')->nullable();
             $table->string('cheque')->nullable();

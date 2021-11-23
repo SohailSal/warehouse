@@ -316,11 +316,17 @@ export default {
         this.form.h_tax = 0;
       } else {
         this.form.h_tax = parseInt((this.form.amount * 10) / 100).toFixed(2);
+        this.form.amount = parseInt(this.form.amount - this.form.h_tax).toFixed(
+          2
+        );
+        console.log(this.form.amount);
+        console.log(this.form.h_tax);
       }
 
       this.form.total = (
         parseInt(this.form.amount) + parseInt(this.form.h_tax)
       ).toFixed(2);
+      console.log(this.form.total);
     },
   },
 

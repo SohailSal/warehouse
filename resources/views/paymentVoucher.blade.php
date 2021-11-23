@@ -11,7 +11,7 @@
   $date = \Carbon\Carbon::now(new DateTimeZone('Asia/Karachi'))->format('M d, Y');
 //   $amt = new NumberFormatter( 'en_GB', NumberFormatter::SPELLOUT );
   ?>
- 
+
   <div>
     <div style="justify-content:center">
       <h2 style="text-align:center;margin-bottom:0px;"><span style="border-bottom:1px solid black;width:54%;">TULIP INDUSTRIES (Pvt) Limited</span></h2>
