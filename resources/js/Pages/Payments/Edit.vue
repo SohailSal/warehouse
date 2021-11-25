@@ -260,6 +260,9 @@ export default {
     cal_h_tax() {
       if (this.payment.h_tax != 0) {
         this.form.h_tax = parseInt((this.form.amount * 10) / 100).toFixed(2);
+        this.form.amount = parseInt(this.form.amount - this.form.h_tax).toFixed(
+          2
+        );
       } else {
         this.form.h_tax = 0;
       }

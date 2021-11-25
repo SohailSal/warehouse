@@ -1042,7 +1042,7 @@ export default {
     JetResponsiveNavLink,
   },
 
-  data() {
+  data(){
     return {
       showingNavigationDropdown: false,
     };

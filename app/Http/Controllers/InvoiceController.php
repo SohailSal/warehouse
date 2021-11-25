@@ -76,6 +76,7 @@ class InvoiceController extends Controller
         // dd($request);
 
         DB::transaction(function () use ($request) {
+
             $invoice = Invoice::all()->last();
             if ($invoice) {
                 Invoice::create([
@@ -101,7 +102,6 @@ class InvoiceController extends Controller
 
             $file = File::where('id', $request->file_id['id'])->get()->first();
             $importer = Importer::where('id', $file->importer_id)->get()->first();
-
             //Refrence  Genrate
             $date = new Carbon($request->date);
             $prefix = \App\Models\DocumentType::where('id', 2)->first()->prefix;
@@ -144,7 +144,7 @@ class InvoiceController extends Controller
 
                 Entry::create([
                     'company_id' => session('company_id'),
-                    'account_id' => 20,
+                    'account_id' => 22,
                     'year_id' => session('year_id'),
                     'document_id' => $document->id,
                     'debit' => 0,
