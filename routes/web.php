@@ -17,6 +17,7 @@ use App\Http\Controllers\DashboardController;
 
 //Warehouse Controllers
 use App\Http\Controllers\ImporterController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\FileController;
@@ -373,6 +374,32 @@ Route::delete('importers/{importer}', [ImporterController::class, 'destroy'])
     ->middleware('auth');
 //IMPORTER ------------------------------------ END ------------------
 
+
+//IMPORTER ------------------------------------ STARTS ------------------
+Route::get('suppliers', [SupplierController::class, 'index'])
+    ->name('suppliers')
+    ->middleware('auth');
+
+Route::get('suppliers/create', [SupplierController::class, 'create'])
+    ->name('suppliers.create')
+    ->middleware('auth');
+
+Route::post('suppliers', [SupplierController::class, 'store'])
+    ->name('suppliers.store')
+    ->middleware('auth');
+
+Route::get('suppliers/{supplier}/edit', [SupplierController::class, 'edit'])
+    ->name('suppliers.edit')
+    ->middleware('auth');
+
+Route::put('suppliers/{supplier}', [SupplierController::class, 'update'])
+    ->name('suppliers.update')
+    ->middleware('auth');
+
+Route::delete('suppliers/{supplier}', [SupplierController::class, 'destroy'])
+    ->name('suppliers.destroy')
+    ->middleware('auth');
+//IMPORTER ------------------------------------ END ------------------
 
 
 //CLIENT ------------------------------------ STARTS ------------------

@@ -40,6 +40,22 @@ class CreateWarehouseTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create('suppliers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('address')->nullable();
+            $table->string('stn_no')->nullable();
+            $table->string('phone_no')->nullable();
+            $table->string('ntn_no')->nullable();
+            $table->tinyInteger('enabled')->default('1');
+
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->foreign('account_id')->references('id')->on('accounts');
+
+            $table->timestamps();
+        });
+
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -111,6 +127,9 @@ class CreateWarehouseTables extends Migration
             $table->string('invoice_no');
             $table->unsignedBigInteger('file_id');
             $table->foreign('file_id')->references('id')->on('files');
+            $table->unsignedBigInteger('document_id')->nullable();
+            $table->foreign('document_id')->references('id')->on('documents');
+            $table->integer('tax_status');
             $table->date('date');
             $table->decimal('amount', 14, 2)->nullable();
             $table->decimal('s_tax', 14, 2)->nullable();
@@ -207,6 +226,7 @@ class CreateWarehouseTables extends Migration
     {
         Schema::dropIfExists('agents');
         Schema::dropIfExists('importers');
+        Schema::dropIfExists('suppliers');
         Schema::dropIfExists('clients');
         Schema::dropIfExists('files');
         Schema::dropIfExists('unit_types');

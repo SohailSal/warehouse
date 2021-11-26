@@ -28,6 +28,12 @@ class Account extends Model
         return $this->hasOne('App\Models\Importer', 'account_id');
     }
 
+
+    public function suppliers()
+    {
+        return $this->hasOne('App\Models\Supplier', 'account_id');
+    }
+
     public function entries()
     {
         return $this->hasMany('App\Models\Entry', 'account_id');

@@ -92,6 +92,23 @@ class AccountSeeder extends Seeder
             ]);
             $account->update(['number' => $this->snum($account)]);
 
+            // $group_id = \App\Models\AccountGroup::where('name', 'Short Term Liabilities')->where('company_id', session('company_id'))->first()->id;
+            // $account = Account::create([
+            //     'name' => 'Trade-Creditors',
+            //     'group_id' => $group_id,
+            //     'company_id' => session('company_id'),
+            // ]);
+            // $account->update(['number' => $this->snum($account)]);
+
+            // $group_id = \App\Models\AccountGroup::where('name', 'Non Fixed Assets')->where('company_id', session('company_id'))->first()->id;
+            // $account = Account::create([
+            //     'name' => 'Trade-Debtors',
+            //     'group_id' => $group_id,
+            //     'company_id' => session('company_id'),
+            // ]);
+            // $account->update(['number' => $this->snum($account)]);
+
+
             $opexp = ["Stock 1 Consumed", "Salaries & Wages", "Sales Tax", "Repair & Maintenance", "Rent, Rates & Taxes", "Utilities", "Depreciation Expense"];
             $group_id = \App\Models\AccountGroup::where('name', 'Operating Expenses')->where('company_id', session('company_id'))->first()->id;
             for ($i = 0; $i < count($opexp); $i++) {

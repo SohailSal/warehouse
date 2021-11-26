@@ -112,7 +112,7 @@ class ReceiptController extends Controller
                 'type_id' => 4,
                 'ref' => $reference,
                 'date' => $date,
-                'description' => 'Invoice to ' . $request->file_id['file_no'],
+                'description' => 'Receipt to ' . $request->file_id['file_no'],
                 'year_id' => session('year_id'),
                 'company_id' => session('company_id'),
             ]);
@@ -213,9 +213,6 @@ class ReceiptController extends Controller
     public function update(Receipt $receipt, Req $request)
     {
 
-        // Request::validate([
-        //     'amount' => ['required'],
-        // ]);
 
         Request::validate([
             'file_id' => ['required'],
@@ -244,33 +241,36 @@ class ReceiptController extends Controller
             $document->description = 'Invoice to ' . $request->file_id['file_no'];
             $document->save();
 
-
-
-            // dd($request->tax_status);
-            if ($request->tax_status != 2) {
-                $entries[0]->account_id = $request->file_id['account_id'];
+            // dd($request);
+            if ($request->tax_status == 2) {
+                // $entries[0]->account_id = $request->file_id['account_id'];
                 $entries[0]->credit = $request->amount;
                 $entries[1]->debit = $request->amount;
+                $entries[2]->delete();
                 $entries[0]->save();
                 $entries[1]->save();
             } else {
-                $entries[0]->account_id = $request->file_id['account_id'];
-                $entries[2]->debit = $request->i_tax;
+                // $entries[0]->account_id = $request->file_id['account_id'];
                 $entries[0]->credit = $request->total;
                 $entries[1]->debit = $request->amount;
+                if (count($entries) == 2) {
+                    Entry::create([
+                        'company_id' => session('company_id'),
+                        'account_id' => 18,
+                        'year_id' => session('year_id'),
+                        'document_id' => $document->id,
+                        'debit' => $request->i_tax,
+                        'credit' => 0,
+                    ]);
+                } else {
+                    $entries[2]->debit = $request->i_tax;
+                    $entries[2]->save();
+                }
                 $entries[0]->save();
                 $entries[1]->save();
-                $entries[2]->save();
             }
         });
 
-
-        // $receipt->date = Request::input('date');
-        // $receipt->amount = Request::input('amount');
-        // $receipt->i_tax = Request::input('i_tax');
-        // $receipt->s_tax = Request::input('s_tax');
-        // $receipt->com = Request::input('com');
-        // $receipt->save();
         return Redirect::route('receipts')->with('success', 'Receipt updated.');
     }
 
