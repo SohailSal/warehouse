@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Invoice;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -137,6 +138,9 @@ class CreateWarehouseTables extends Migration
             $table->id();
             $table->unsignedBigInteger('file_id');
             $table->foreign('file_id')->references('id')->on('files');
+            $table->unsignedBigInteger('document_id')->nullable();
+            $table->foreign('document_id')->references('id')->on('documents');
+            $table->integer('tax_status');
             $table->date('date');
             $table->string('receipt_no');
             $table->decimal('amount', 14, 2)->nullable();

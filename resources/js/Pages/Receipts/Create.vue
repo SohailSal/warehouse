@@ -14,32 +14,6 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
         <form @submit.prevent="form.post(route('receipts.store'))">
-          <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Client Name:</label
-            >
-            <select
-              v-model="form.client_id"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-            >
-              <option
-                v-for="client in clients"
-                :key="client.id"
-                :value="client.id"
-              >
-                {{ client.name }}
-              </option>
-            </select>
-            <div v-if="errors.client_id">{{ errors.client_id }}</div>
-          </div> -->
-
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Date:</label
             ><input
@@ -81,8 +55,8 @@
               >Without Incl. Tax :</label
             >
             <input
-              v-model="form.status"
-              name="status"
+              v-model="form.tax_status"
+              name="tax_status"
               type="radio"
               value="0"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
@@ -92,8 +66,8 @@
               >Include Tax :</label
             >
             <input
-              v-model="form.status"
-              name="status"
+              v-model="form.tax_status"
+              name="tax_status"
               type="radio"
               value="1"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
@@ -101,13 +75,14 @@
 
             <label class="my-2 mr-8 text-right w-24 font-bold">None :</label>
             <input
-              v-model="form.status"
-              name="status"
+              v-model="form.tax_status"
+              name="tax_status"
               type="radio"
               value="2"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
           </div>
+
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label
             ><input
@@ -128,15 +103,14 @@
             <!-- <div v-if="errors.amount">{{ errors.amount }}</div> -->
             <!-- </div>
           <div
-            v-if="form.status != 2"
             class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
           > -->
             <label
-              v-if="form.status != 2"
+              v-if="form.tax_status != 2"
               class="my-2 mr-8 text-right w-36 font-bold"
               >Income Tax:</label
             ><input
-              v-if="form.status != 2"
+              v-if="form.tax_status != 2"
               type="number"
               v-model="form.i_tax"
               class="
@@ -238,10 +212,9 @@ export default {
 
   setup(props) {
     const form = useForm({
-      status: 0,
+      tax_status: 0,
       total: null,
       file_id: props.files[0],
-
       date: new Date().toISOString().substr(0, 10),
       amount: null,
       i_tax: null,
@@ -252,12 +225,10 @@ export default {
   },
   methods: {
     cal_i_tax() {
-      if (this.form.status == 2) {
+      if (this.form.tax_status == 2) {
         this.form.i_tax = 0;
-        console.log("value 2");
-      } else if (this.form.status == 0) {
+      } else if (this.form.tax_status == 0) {
         this.form.i_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
-        console.log(this.form.i_tax);
       } else {
         this.form.i_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
         this.form.amount = parseInt(this.form.amount - this.form.i_tax).toFixed(
