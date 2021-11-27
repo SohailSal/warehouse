@@ -63,6 +63,14 @@
               value="1"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
+            <label class="my-2 mr-8 text-right w-24 font-bold">None :</label>
+            <input
+              v-model="form.tax_status"
+              name="tax_status"
+              type="radio"
+              value="2"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -88,7 +96,7 @@
             class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
           >
             <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Invoice Tax :</label
+              >Income Tax :</label
             ><input
               type="number"
               v-model="form.i_tax"

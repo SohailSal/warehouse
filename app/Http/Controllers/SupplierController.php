@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Company;
 use Illuminate\Database\Seeder;
-use App\Models\Importer;
+use App\Models\Supplier;
 use App\Models\Account;
 use App\Models\AccountGroup;
 use Artisan;
 
-class ImporterController extends Controller
+class SupplierController extends Controller
 {
 
     public function index()
@@ -30,7 +30,7 @@ class ImporterController extends Controller
         ]);
 
         //IMPORTER data
-        $query = Importer::paginate(6)
+        $query = Supplier::paginate(6)
             ->withQueryString()
             ->through(
                 fn ($impo) =>
@@ -47,7 +47,7 @@ class ImporterController extends Controller
 
 
         //Searching request
-        $query = Importer::query();
+        $query = Supplier::query();
         if (request('search')) {
             $query->where('name', 'LIKE', '%' . request('search') . '%');
         }
@@ -59,9 +59,9 @@ class ImporterController extends Controller
             );
         }
 
-        return Inertia::render('Importers/Index', [
+        return Inertia::render('Suppliers/Index', [
             'companies' => Company::all(),
-            'importer' => Importer::first(),
+            'supplier' => Supplier::first(),
             'balances' => $query->paginate(12),
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
@@ -69,15 +69,7 @@ class ImporterController extends Controller
 
     public function create()
     {
-        $checkacc = Account::where('company_id', session('company_id'));
-
-        if (!$checkacc->first()) {
-            $exitCode = Artisan::call('db:seed', [
-                '--class' => 'DatabaseSeeder',
-            ]);
-        }
-
-        return Inertia::render('Importers/Create');
+        return Inertia::render('Suppliers/Create');
     }
 
     public function store(Req $request)
@@ -86,12 +78,9 @@ class ImporterController extends Controller
             'name' => ['required'],
         ]);
         DB::transaction(function () use ($request) {
-            $accgroup = \App\Models\AccountGroup::where('name', 'Trade-Debtors')->where('company_id', session('company_id'))->first()->id;
-            // dd($accgroup);
+            $accgroup = \App\Models\AccountGroup::where('name', 'Trade-Creditors')->where('company_id', session('company_id'))->first()->id;
             $accnumber = Account::where('group_id', $accgroup)->get()->last();
-            // dd($accnumber);
             if ($accnumber) {
-                // dd($accnumber);
                 Account::create([
                     'number' => $accnumber->number + 1,
                     'name' => strtoupper($request->name),
@@ -100,7 +89,7 @@ class ImporterController extends Controller
                 ]);
             } else {
                 Account::create([
-                    'number' => 1003001,
+                    'number' => 2001001,
                     'name' => strtoupper($request->name),
                     'group_id' => $accgroup,
                     'company_id' => session('company_id'),
@@ -110,7 +99,7 @@ class ImporterController extends Controller
 
             $account = Account::all()->last();
 
-            Importer::create([
+            Supplier::create([
                 'name' => strtoupper($request->name),
                 'email' => $request->email,
                 'address' => $request->address,
@@ -121,25 +110,25 @@ class ImporterController extends Controller
 
             ]);
         });
-        return Redirect::route('importers')->with('success', 'Importer created');
+        return Redirect::route('suppliers')->with('success', 'Supplier created');
     }
 
-    public function edit(Importer $importer)
+    public function edit(Supplier $supplier)
     {
-        return Inertia::render('Importers/Edit', [
-            'importer' => [
-                'id' => $importer->id,
-                'name' => $importer->name,
-                'email' => $importer->email,
-                'address' => $importer->address,
-                'stn_no' => $importer->stn_no,
-                'phone_no' => $importer->phone_no,
-                'ntn_no' => $importer->ntn_no,
+        return Inertia::render('Suppliers/Edit', [
+            'supplier' => [
+                'id' => $supplier->id,
+                'name' => $supplier->name,
+                'email' => $supplier->email,
+                'address' => $supplier->address,
+                'stn_no' => $supplier->stn_no,
+                'phone_no' => $supplier->phone_no,
+                'ntn_no' => $supplier->ntn_no,
             ],
         ]);
     }
 
-    public function update(Importer $importer)
+    public function update(Supplier $supplier)
     {
         Request::validate([
             'name' => ['required'],
@@ -150,21 +139,21 @@ class ImporterController extends Controller
             'ntn_no' => ['nullable'],
         ]);
 
-        $importer->name = strtoupper(Request::input('name'));
-        $importer->email = Request::input('email');
-        $importer->address = Request::input('address');
-        $importer->stn_no = Request::input('stn_no');
-        $importer->phone_no = Request::input('phone_no');
-        $importer->ntn_no = Request::input('ntn_no');
+        $supplier->name = strtoupper(Request::input('name'));
+        $supplier->email = Request::input('email');
+        $supplier->address = Request::input('address');
+        $supplier->stn_no = Request::input('stn_no');
+        $supplier->phone_no = Request::input('phone_no');
+        $supplier->ntn_no = Request::input('ntn_no');
 
-        $importer->save();
+        $supplier->save();
 
-        return Redirect::route('importers')->with('success', 'Importer updated.');
+        return Redirect::route('suppliers')->with('success', 'Supplier updated.');
     }
 
-    public function destroy(Importer $importer)
+    public function destroy(Supplier $supplier)
     {
-        $importer->delete();
-        return Redirect::back()->with('success', 'Importer deleted.');
+        $supplier->delete();
+        return Redirect::back()->with('success', 'Supplier deleted.');
     }
 }

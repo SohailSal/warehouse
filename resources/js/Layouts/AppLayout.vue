@@ -326,6 +326,13 @@
                     >
                       Importer
                     </jet-dropdown-link>
+                    <jet-dropdown-link
+                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                      :href="route('suppliers')"
+                      :active="route().current('suppliers')"
+                    >
+                      Supplier
+                    </jet-dropdown-link>
 
                     <jet-dropdown-link
                       :href="route('clients')"
@@ -1042,7 +1049,7 @@ export default {
     JetResponsiveNavLink,
   },
 
-  data(){
+  data() {
     return {
       showingNavigationDropdown: false,
     };

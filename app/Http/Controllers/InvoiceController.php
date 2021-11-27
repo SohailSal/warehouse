@@ -96,10 +96,6 @@ class InvoiceController extends Controller
                 ]);
             }
 
-
-
-
-
             $file = File::where('id', $request->file_id['id'])->get()->first();
             $importer = Importer::where('id', $file->importer_id)->get()->first();
             //Refrence  Genrate
