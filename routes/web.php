@@ -17,6 +17,7 @@ use App\Http\Controllers\DashboardController;
 
 //Warehouse Controllers
 use App\Http\Controllers\ImporterController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\FileController;
@@ -374,6 +375,32 @@ Route::delete('importers/{importer}', [ImporterController::class, 'destroy'])
 //IMPORTER ------------------------------------ END ------------------
 
 
+//IMPORTER ------------------------------------ STARTS ------------------
+Route::get('suppliers', [SupplierController::class, 'index'])
+    ->name('suppliers')
+    ->middleware('auth');
+
+Route::get('suppliers/create', [SupplierController::class, 'create'])
+    ->name('suppliers.create')
+    ->middleware('auth');
+
+Route::post('suppliers', [SupplierController::class, 'store'])
+    ->name('suppliers.store')
+    ->middleware('auth');
+
+Route::get('suppliers/{supplier}/edit', [SupplierController::class, 'edit'])
+    ->name('suppliers.edit')
+    ->middleware('auth');
+
+Route::put('suppliers/{supplier}', [SupplierController::class, 'update'])
+    ->name('suppliers.update')
+    ->middleware('auth');
+
+Route::delete('suppliers/{supplier}', [SupplierController::class, 'destroy'])
+    ->name('suppliers.destroy')
+    ->middleware('auth');
+//IMPORTER ------------------------------------ END ------------------
+
 
 //CLIENT ------------------------------------ STARTS ------------------
 Route::get('clients', [ClientController::class, 'index'])
@@ -560,7 +587,17 @@ Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])
 
 
 
-//Invoice
+//Expenses
+Route::get('expenses/create', [PaymentController::class, 'expenses_create'])
+    ->name('expenses.create')
+    ->middleware('auth');
+
+Route::post('payments/create', [PaymentController::class, 'expenses_store'])
+    ->name('expenses.store')
+    ->middleware('auth');
+
+
+// Payment
 Route::get('payments', [PaymentController::class, 'index'])
     ->name('payments')
     ->middleware('auth');
@@ -568,6 +605,9 @@ Route::get('payments', [PaymentController::class, 'index'])
 Route::get('payments/create', [PaymentController::class, 'create'])
     ->name('payments.create')
     ->middleware('auth');
+
+
+
 
 Route::get('payments/{payment}', [PaymentController::class, 'show'])
     ->name('payments.show')

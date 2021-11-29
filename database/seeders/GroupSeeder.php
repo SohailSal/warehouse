@@ -31,6 +31,11 @@ class GroupSeeder extends Seeder
                 'company_id' => session('company_id'),
             ]);
             AccountGroup::create([
+                'name' => 'Trade-Debtors',
+                'type_id' => $type_id,
+                'company_id' => session('company_id'),
+            ]);
+            AccountGroup::create([
                 'name' => 'Accounts Receivables',
                 'type_id' => $type_id,
                 'company_id' => session('company_id'),
@@ -50,7 +55,12 @@ class GroupSeeder extends Seeder
                 'type_id' => $type_id,
                 'company_id' => session('company_id'),
             ]);
-
+            $type_id = \App\Models\AccountType::where('name', 'liabilities')->first()->id;
+            AccountGroup::create([
+                'name' => 'Trade-Creditors',
+                'type_id' => $type_id,
+                'company_id' => session('company_id'),
+            ]);
             $type_id = \App\Models\AccountType::where('name', 'Capital')->first()->id;
             AccountGroup::create([
                 'name' => 'Equity',
@@ -84,7 +94,7 @@ class GroupSeeder extends Seeder
                 'type_id' => $type_id,
                 'company_id' => session('company_id'),
             ]);
-         
+
             $type_id = \App\Models\AccountType::where('name', 'Revenue')->first()->id;
             AccountGroup::create([
                 'name' => 'Sales & Service',

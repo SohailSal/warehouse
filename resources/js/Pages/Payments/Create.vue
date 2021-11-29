@@ -7,50 +7,23 @@
     </template>
     <div
       v-if="$page.props.flash.success"
-      class="bg-yellow-600 text-white text-center"
+      class="bg-green-500 text-white text-center"
     >
       {{ $page.props.flash.success }}
+    </div>
+    <div
+      v-if="$page.props.flash.warning"
+      class="bg-yellow-600 text-white text-center"
+    >
+      {{ $page.props.flash.warning }}
     </div>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
+        <jet-button @click="create" class="mt-2 ml-2"
+          >Create Expense Type</jet-button
+        >
         <form @submit.prevent="form.post(route('payments.store'))">
-          <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold">File No :</label>
-            <select
-              v-model="form.file_id"
-              class="
-                pr-2
-                pb-2
-                w-full
-                lg:w-1/4
-                rounded-md
-                placeholder-indigo-300
-              "
-            >
-              <option v-for="file in files" :key="file.id" :value="file.id">
-                {{ file.file_no }}
-              </option>
-            </select>
-            <div v-if="errors.file_id">{{ errors.file_id }}</div>
-          </div> -->
-
-          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Select File :</label
-            >
-            <multiselect
-              style="width: 25%"
-              class="rounded-md border border-black"
-              v-model="form.file_id"
-              :options="files"
-              placeholder="Select File"
-              label="file_no"
-              track-by="id"
-            ></multiselect>
-            <div v-if="errors.file_id">{{ errors.file_id }}</div>
-          </div>
-
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Date:</label
             ><input
@@ -71,18 +44,122 @@
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">Payee:</label
+            ><input
+              type="text"
+              v-model="form.payee"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="text"
+              placeholder="Payee"
+            />
+            <div v-if="errors.payee">{{ errors.payee }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold">Debit :</label>
+            <multiselect
+              style="width: 25%"
+              class="rounded-md border border-black"
+              v-model="form.account_id"
+              :options="accounts"
+              placeholder="Select Name"
+              label="name"
+              track-by="id"
+            ></multiselect>
+            <div v-if="errors.account_id">{{ errors.account_id }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Description:</label
+            >
+            <textarea
+              v-model="form.description"
+              rows="4"
+              cols="100"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                leading-tight
+                text-transform:
+                capitalize
+              "
+              label="description"
+            ></textarea>
+            <div v-if="errors.description">{{ errors.description }}</div>
+          </div>
+
+          <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 ml-4 mr-5 text-right w-36 font-bold"
-              >Without Incl. Tax :</label
+              >Cash :</label
             >
             <input
-              v-model="form.status"
-              name="status"
+              v-model="form.p_status"
+              name="p_status"
               type="radio"
               value="0"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
+            <label class="my-2 ml-6 mr-5 text-right w-42 font-bold"
+              >Bank :</label
+            >
+            <input
+              v-model="form.p_status"
+              name="p_status"
+              type="radio"
+              value="1"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+          </div>
+          <div
+            v-if="form.p_status != 0"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          >
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Cheque No :</label
+            ><input
+              type="number"
+              v-model="form.cheque"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="date"
+              placeholder="0"
+            />
+            <div v-if="errors.h_tax">{{ errors.h_tax }}</div>
+          </div>
 
-            <label class="my-2 mr-5 text-right w-36 font-bold"
+          <div
+            v-if="form.p_status != 0"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          >
+            <label class="my-2 ml-4 mr-5 text-right w-36 font-bold"
+              >With Holding Tax :</label
+            >
+            <input
+              v-model="form.t_status"
+              name="t_status"
+              type="radio"
+              value="1"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+
+            <!-- <label class="my-2 mr-5 text-right w-36 font-bold"
               >Include Tax :</label
             >
             <input
@@ -91,14 +168,16 @@
               type="radio"
               value="1"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
-            />
+            /> -->
 
-            <label class="my-2 mr-5 text-right w-24 font-bold">None :</label>
+            <label class="my-2 ml-6 mr-5 text-right w-42 font-bold"
+              >Without Holding Tax :</label
+            >
             <input
-              v-model="form.status"
-              name="status"
+              v-model="form.t_status"
+              name="t_status"
               type="radio"
-              value="2"
+              value="0"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
           </div>
@@ -107,7 +186,7 @@
             <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label
             ><input
               type="number"
-              @change="cal_s_tax"
+              @change="cal_h_tax"
               v-model="form.amount"
               class="
                 pr-2
@@ -124,13 +203,14 @@
           </div>
 
           <div
-            v-if="form.status != 2"
+            v-if="form.t_status != 0 && form.p_status != 0"
             class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
           >
-            <label class="my-2 mr-8 text-right w-36 font-bold">Sales Tax:</label
+            <label class="my-2 mr-8 text-right w-36 font-bold"
+              >Holding Tax :</label
             ><input
               type="number"
-              v-model="form.s_tax"
+              v-model="form.h_tax"
               class="
                 pr-2
                 pb-2
@@ -143,9 +223,9 @@
               label="date"
               placeholder="0"
             />
-            <div v-if="errors.s_tax">{{ errors.s_tax }}</div>
+            <div v-if="errors.h_tax">{{ errors.h_tax }}</div>
           </div>
-
+          <!--
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Total:</label
             ><input
@@ -163,8 +243,8 @@
               label="date"
               placeholder="0"
             />
-            <div v-if="errors.total">{{ errors.total }}</div>
-          </div>
+            <div v-if="errors.total">{{ errors.total }}</div> -->
+          <!-- </div> -->
 
           <div
             class="
@@ -182,7 +262,7 @@
               type="submit"
               :disabled="form.processing"
             >
-              Create Invoice
+              Create Payment
             </button>
           </div>
         </form>
@@ -195,47 +275,58 @@
 import AppLayout from "@/Layouts/AppLayout";
 import { useForm } from "@inertiajs/inertia-vue3";
 import Multiselect from "@suadelabs/vue3-multiselect";
+import JetButton from "@/Jetstream/Button";
 
 export default {
   components: {
     AppLayout,
     Multiselect,
+    JetButton,
   },
 
   props: {
     errors: Object,
-    files: Array,
+    accounts: Array,
   },
 
   setup(props) {
     const form = useForm({
-      status: 0,
-      file_id: null,
+      //    'date', 'account_id', 'description', 'payee', 'cheque', 'amount', 'enabled'
+      t_status: 0,
+      p_status: 0,
       date: new Date().toISOString().substr(0, 10),
+      description: null,
+      account_id: null,
+      payee: null,
       amount: null,
-      s_tax: 0,
+      h_tax: 0,
+      cheque: null,
       total: null,
     });
     return { form };
   },
 
   methods: {
-    cal_s_tax() {
-      if (this.form.status == 2) {
-        this.form.s_tax = 0;
-        console.log("value 2");
-      } else if (this.form.status == 0) {
-        this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
-        console.log(this.form.s_tax);
+    create() {
+      this.$inertia.get(route("expenses.create"));
+    },
+
+    cal_h_tax() {
+      if (this.form.t_status == 0) {
+        this.form.h_tax = 0;
       } else {
-        this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
-        this.form.amount = parseInt(this.form.amount - this.form.s_tax).toFixed(
+        this.form.h_tax = parseInt((this.form.amount * 10) / 100).toFixed(2);
+        this.form.amount = parseInt(this.form.amount - this.form.h_tax).toFixed(
           2
         );
+        console.log(this.form.amount);
+        console.log(this.form.h_tax);
       }
+
       this.form.total = (
-        parseInt(this.form.amount) + parseInt(this.form.s_tax)
+        parseInt(this.form.amount) + parseInt(this.form.h_tax)
       ).toFixed(2);
+      console.log(this.form.total);
     },
   },
 

@@ -171,6 +171,7 @@ export default {
         stn_no: this.importer.stn_no,
         phone_no: this.importer.phone_no,
         ntn_no: this.importer.ntn_no,
+        account_id: this.importer.account_id,
       }),
     };
   },

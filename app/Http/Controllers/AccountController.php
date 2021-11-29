@@ -17,41 +17,41 @@ class AccountController extends Controller
     public function index()
     {
         if (AccountGroup::where('company_id', session('company_id'))->first()) {
-            
-        // //Validating request
-        // request()->validate([
-        //     'direction' => ['in:asc,desc'],
-        //     'field' => ['in:name,email']
-        // ]);
 
-        //Searching request
-        $query = Account::query();
-        if (request('search')) {
-            $query->where('name', 'LIKE', '%' . request('search') . '%');
-        }
-        // // Ordering request
-        // if (request()->has(['field', 'direction'])) {
-        //     $query->orderBy(
-        //         request('field'),
-        //         request('direction')
-        //     );
-        // }
+            // //Validating request
+            // request()->validate([
+            //     'direction' => ['in:asc,desc'],
+            //     'field' => ['in:name,email']
+            // ]);
 
-        $balances = $query
-            ->where('company_id', session('company_id'))
-            ->paginate(15)
-            ->through(
-                function ($account) {
-                    return
-                        [
-                            'id' => $account->id,
-                            'name' => $account->name,
-                            'group_id' => $account->group_id,
-                            'group_name' => $account->accountGroup->name,
-                            'delete' => Entry::where('account_id', $account->id)->first() ? false : true,
-                        ];
-                }
-            );
+            //Searching request
+            $query = Account::query();
+            if (request('search')) {
+                $query->where('name', 'LIKE', '%' . request('search') . '%');
+            }
+            // // Ordering request
+            // if (request()->has(['field', 'direction'])) {
+            //     $query->orderBy(
+            //         request('field'),
+            //         request('direction')
+            //     );
+            // }
+
+            $balances = $query
+                ->where('company_id', session('company_id'))
+                ->paginate(15)
+                ->through(
+                    function ($account) {
+                        return
+                            [
+                                'id' => $account->id,
+                                'name' => $account->name,
+                                'group_id' => $account->group_id,
+                                'group_name' => $account->accountGroup->name,
+                                'delete' => Entry::where('account_id', $account->id)->first() ? false : true,
+                            ];
+                    }
+                );
             return Inertia::render('Accounts/Index', [
                 // 'data' => $query->paginate(6),
                 'filters' => request()->all(['search', 'field', 'direction']),
@@ -90,7 +90,7 @@ class AccountController extends Controller
         if ($group_first) {
 
             return Inertia::render('Accounts/Create', [
-                'groups' => $groups, 
+                'groups' => $groups,
                 'group_first' => $group_first,
             ]);
         } else {
@@ -117,13 +117,13 @@ class AccountController extends Controller
         return Redirect::route('accounts')->with('success', 'Account created.');
     }
 
-   
+
     public function edit(Account $account)
     {
         $groups = \App\Models\AccountGroup::all()->where('company_id', session('company_id'))->map->only('id', 'name');
-    
+
         $group_first = AccountGroup::where('id', $account->group_id)->first();
-        
+
         return Inertia::render('Accounts/Edit', [
             'account' => [
                 'id' => $account->id,

@@ -16,8 +16,12 @@
               </div>
 
               <!-- Navigation Links -->
-              <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex bg-blue">
-                <jet-dropdown>
+
+              <!-- <template #accounting> </template> -->
+
+              <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== STARTS =========== -->
+              <div class="hidden space-x-8 sm:-my-px sm:ml-14 sm:flex bg-blue">
+                <!-- <jet-dropdown>
                   <template #trigger>
                     <span
                       class="
@@ -28,7 +32,6 @@
                         sm:ml-10 sm:flex
                       "
                     >
-                      <!-- px-3 -->
                       <button
                         type="button"
                         v-if="this.$page.props.co_id && this.$page.props.yr_id"
@@ -67,75 +70,7 @@
                       </button>
                     </span>
                   </template>
-
-                  <!-- <template #accounting> </template> -->
-
-                  <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== STARTS =========== -->
                   <template #content>
-                    <!-- <jet-dropdown-link
-                      :href="route('unittypes')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('unittypes')"
-                    >
-                      Unit Type
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('items')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('items')"
-                    >
-                      Item
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('invoices')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('invoices')"
-                    >
-                      Invoice
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('receipts')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('receipts')"
-                    >
-                      Receipt
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('quantities')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('quantities')"
-                    >
-                      Quantity
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('importers')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('importers')"
-                    >
-                      Importer
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('agents')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('agents')"
-                    >
-                      Agent
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('clients')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('clients')"
-                    >
-                      Client
-                    </jet-dropdown-link>
-                    <jet-dropdown-link
-                      :href="route('files')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('files')"
-                    >
-                      File
-                    </jet-dropdown-link> -->
-
                     <jet-dropdown-link
                       :href="route('companies')"
                       :active="route().current('companies')"
@@ -199,8 +134,8 @@
                       Ledger
                     </jet-dropdown-link>
                   </template>
-                  <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== ENDS =========== -->
-                </jet-dropdown>
+                </jet-dropdown> -->
+                <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== ENDS =========== -->
 
                 <!-- ACCOUNTING ITEMS ============================== START =============================== -->
                 <!-- <jet-nav-link
@@ -326,6 +261,13 @@
                     >
                       Importer
                     </jet-dropdown-link>
+                    <jet-dropdown-link
+                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                      :href="route('suppliers')"
+                      :active="route().current('suppliers')"
+                    >
+                      Supplier
+                    </jet-dropdown-link>
 
                     <jet-dropdown-link
                       :href="route('clients')"
@@ -375,6 +317,42 @@
                   File
                 </jet-nav-link>
 
+                <!-- <jet-nav-link
+                  :href="route('unittypes')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('unittypes')"
+                >
+                  Unit Type
+                </jet-nav-link>
+
+                <jet-nav-link
+                  :href="route('items')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('items')"
+                >
+                  Item
+                </jet-nav-link> -->
+                <jet-nav-link
+                  :href="route('invoices')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('invoices')"
+                >
+                  Invoice
+                </jet-nav-link>
+                <jet-nav-link
+                  :href="route('receipts')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('receipts')"
+                >
+                  Receipt
+                </jet-nav-link>
+                <jet-nav-link
+                  :href="route('payments')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('payments')"
+                >
+                  Payment
+                </jet-nav-link>
                 <jet-dropdown>
                   <template #trigger>
                     <span class="hidden sm:-my-px space-x-8 md:mt-4 sm:flex">
@@ -440,35 +418,6 @@
                   </template>
                   <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== ENDS =========== -->
                 </jet-dropdown>
-                <!-- <jet-nav-link
-                  :href="route('unittypes')"
-                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                  :active="route().current('unittypes')"
-                >
-                  Unit Type
-                </jet-nav-link>
-
-                <jet-nav-link
-                  :href="route('items')"
-                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                  :active="route().current('items')"
-                >
-                  Item
-                </jet-nav-link> -->
-                <jet-nav-link
-                  :href="route('invoices')"
-                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                  :active="route().current('invoices')"
-                >
-                  Invoice
-                </jet-nav-link>
-                <jet-nav-link
-                  :href="route('receipts')"
-                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                  :active="route().current('receipts')"
-                >
-                  Receipt
-                </jet-nav-link>
                 <jet-nav-link
                   :href="route('quantities')"
                   v-if="this.$page.props.co_id && this.$page.props.yr_id"
@@ -476,6 +425,7 @@
                 >
                   Quantity
                 </jet-nav-link>
+
                 <jet-nav-link
                   :href="route('deliveries')"
                   v-if="this.$page.props.co_id && this.$page.props.yr_id"

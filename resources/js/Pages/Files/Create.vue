@@ -321,8 +321,8 @@
 
             <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
                             <label class="my-2 mr-8 text-right w-36 font-bold"
-                                >Include Tax :</label
                             >
+                                >Include Tax :</label
                             <input
                                 v-model="form.status"
                                 name="status"
