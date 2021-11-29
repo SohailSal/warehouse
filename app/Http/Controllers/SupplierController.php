@@ -124,12 +124,14 @@ class SupplierController extends Controller
                 'stn_no' => $supplier->stn_no,
                 'phone_no' => $supplier->phone_no,
                 'ntn_no' => $supplier->ntn_no,
+                'account_id' => $supplier->account_id,
             ],
         ]);
     }
 
-    public function update(Supplier $supplier)
+    public function update(Supplier $supplier, Req $request)
     {
+        // dd($request);
         Request::validate([
             'name' => ['required'],
             'email' => ['nullable'],
@@ -138,15 +140,20 @@ class SupplierController extends Controller
             'phone_no' => ['nullable'],
             'ntn_no' => ['nullable'],
         ]);
+        DB::transaction(function () use ($request, $supplier) {
+            // dd($request);
+            $supplier->name = strtoupper($request->name);
+            $supplier->email = $request->email;
+            $supplier->address = $request->address;
+            $supplier->stn_no = $request->stn_no;
+            $supplier->phone_no = $request->phone_no;
+            $supplier->ntn_no = $request->ntn_no;
+            $supplier->save();
+            $account = Account::where('id', $request->account_id)->first();
+            $account->name = strtoupper($request->name);
+            $account->save();
+        });
 
-        $supplier->name = strtoupper(Request::input('name'));
-        $supplier->email = Request::input('email');
-        $supplier->address = Request::input('address');
-        $supplier->stn_no = Request::input('stn_no');
-        $supplier->phone_no = Request::input('phone_no');
-        $supplier->ntn_no = Request::input('ntn_no');
-
-        $supplier->save();
 
         return Redirect::route('suppliers')->with('success', 'Supplier updated.');
     }

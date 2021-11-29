@@ -16,6 +16,9 @@ use Carbon\Carbon;
 use \App\Models\File;
 use Inertia\Inertia;
 use App;
+use App\Models\Quantity;
+
+use function PHPSTORM_META\map;
 
 class InvoiceController extends Controller
 {
@@ -73,29 +76,8 @@ class InvoiceController extends Controller
             'amount' => ['required'],
         ]);
 
-        // dd($request);
 
         DB::transaction(function () use ($request) {
-
-            $invoice = Invoice::all()->last();
-            if ($invoice) {
-                Invoice::create([
-                    'file_id' => Request::input('file_id')['id'],
-                    'invoice_no' => $invoice->invoice_no + 1,
-                    'date' => Request::input('date'),
-                    'amount' => Request::input('amount'),
-                    's_tax' => Request::input('s_tax'),
-                ]);
-            } else {
-                Invoice::create([
-                    'file_id' => Request::input('file_id')['id'],
-                    'invoice_no' => 220000001,
-                    'date' => Request::input('date'),
-                    'amount' => Request::input('amount'),
-                    's_tax' => Request::input('s_tax'),
-                ]);
-            }
-
             $file = File::where('id', $request->file_id['id'])->get()->first();
             $importer = Importer::where('id', $file->importer_id)->get()->first();
             //Refrence  Genrate
@@ -113,10 +95,31 @@ class InvoiceController extends Controller
                 'year_id' => session('year_id'),
                 'company_id' => session('company_id'),
             ]);
-
-
-
             $document = Document::all()->last();
+
+            $invoice = Invoice::all()->last();
+            if ($invoice) {
+                Invoice::create([
+                    'file_id' => Request::input('file_id')['id'],
+                    'invoice_no' => $invoice->invoice_no + 1,
+                    'date' => Request::input('date'),
+                    'amount' => Request::input('amount'),
+                    'document_id' => $document->id,
+                    'tax_status' => Request::input('tax_status'),
+                    'document_id' => $document->id,
+                    's_tax' => Request::input('s_tax'),
+                ]);
+            } else {
+                Invoice::create([
+                    'file_id' => Request::input('file_id')['id'],
+                    'invoice_no' => 220000001,
+                    'date' => Request::input('date'),
+                    'amount' => Request::input('amount'),
+                    'tax_status' => Request::input('tax_status'),
+                    'document_id' => $document->id,
+                    's_tax' => Request::input('s_tax'),
+                ]);
+            }
             Entry::create([
                 'company_id' => session('company_id'),
                 'account_id' => $importer->account_id,
@@ -162,20 +165,79 @@ class InvoiceController extends Controller
             'invoice' => [
                 'id' => $invoice->id,
                 'date' => $invoice->date,
+                'file_id' => $invoice->file_id,
+                'tax_status' => $invoice->tax_status,
                 'amount' => $invoice->amount,
+                's_tax' => $invoice->s_tax,
+                'document_id' => $invoice->document_id,
+                'total' => $invoice->amount + $invoice->s_tax . '.00',
+
             ],
         ]);
     }
 
-    public function update(Invoice $invoice)
+    public function update(Invoice $invoice, Req $request)
     {
+        // dd($request);
         Request::validate([
             'amount' => ['required'],
         ]);
+        $document = Document::where('id', $request->document_id)->get()->first();
+        $entries = Entry::where('document_id', $request->document_id)->get();
+        $file = File::where('id', $request->file_id)->get()->first();
+        DB::transaction(function () use ($request, $invoice, $document, $entries, $file) {
 
-        $invoice->date = Request::input('date');
-        $invoice->amount = Request::input('amount');
-        $invoice->save();
+            $invoice->date = $request->date;
+            $invoice->tax_status = $request->tax_status;
+            $invoice->amount = $request->amount;
+            $invoice->s_tax = $request->s_tax;
+            $invoice->save();
+
+            $date = new Carbon($request->date);
+            $prefix = \App\Models\DocumentType::where('id', 4)->first()->prefix;
+            $date = $date->format('Y-m-d');
+            $ref_date_parts = explode("-", $date);
+            $reference = $prefix . "/" . $ref_date_parts[0] . "/" . $ref_date_parts[1] . "/" . $ref_date_parts[2];
+            //--End.
+            $document->ref = $reference;
+            $document->date = $request->date;
+            $document->description = 'Invoice to ' . $file->importers->name;
+            $document->save();
+
+            // dd($request);
+            if ($request->tax_status == 2) {
+                // $entries[0]->account_id = $request->file_id['account_id'];
+                $entries[0]->debit = $request->amount;
+                $entries[1]->credit = $request->amount;
+                $entries[2]->delete();
+                $entries[0]->save();
+                $entries[1]->save();
+            } else {
+                // $entries[0]->account_id = $request->file_id['account_id'];
+                $entries[0]->debit = $request->total;
+                $entries[1]->credit = $request->amount;
+                if (count($entries) == 2) {
+                    Entry::create([
+                        'company_id' => session('company_id'),
+                        'account_id' => 22,
+                        'year_id' => session('year_id'),
+                        'document_id' => $document->id,
+                        'debit' => 0,
+                        'credit' => $request->s_tax,
+                    ]);
+                } else {
+                    $entries[2]->credit = $request->s_tax;
+                    $entries[2]->save();
+                }
+                $entries[0]->save();
+                $entries[1]->save();
+            }
+        });
+
+
+        // $invoice->date = Request::input('date');
+        // $invoice->amount = Request::input('amount');
+        // $invoice->save();
 
         return Redirect::route('invoices')->with('success', 'Invoice updated.');
     }
@@ -188,6 +250,7 @@ class InvoiceController extends Controller
 
     public function pdf($invoice)
     {
+
         $files = Invoice::where('id', $invoice)->get()
             ->map(function ($invoice) {
 
@@ -220,12 +283,21 @@ class InvoiceController extends Controller
 
                 $date = new Carbon($invoice->date);
                 $endDate = new Carbon($endDate);
+
+                //Total Qty Receive
+                $quantity = Quantity::where('file_id', $invoice->files->id)->get();
+                $quanty = 0;
+                foreach ($quantity as $qtyy) {
+                    $quanty += $qtyy->qty;
+                }
+
                 return [
                     'id' => $invoice->id,
                     'file_no' => $invoice->files->file_no,
-                    'qty' => $invoice->files->qty,
+                    'invoice_no' => $invoice->invoice_no,
                     'description' => $invoice->files->description,
                     'amount' => $invoice->amount,
+                    'qty' => $quanty,
                     's_tax' => $invoice->s_tax,
                     'date_bond' => $date->format('M d, Y'),
                     'end_date' => $endDate->format('M d, Y'),
