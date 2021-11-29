@@ -100,6 +100,7 @@
             ><input
               type="number"
               v-model="form.i_tax"
+              readonly
               class="
                 pr-2
                 pb-2

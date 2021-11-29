@@ -84,11 +84,11 @@ class PaymentController extends Controller
 
         ]);
 
-        $account = Account::where('company_id', session('company_id'))->where('group_id', 15)->get()->last();
+        $account = Account::where('company_id', session('company_id'))->where('group_id', 17)->get()->last();
         Account::create([
             'name' => Request::input('name'),
             'number' => $account->number + 1,
-            'group_id' => 15,
+            'group_id' => 17,
             'company_id' => session('company_id'),
         ]);
 
@@ -98,8 +98,9 @@ class PaymentController extends Controller
 
     public function create()
     {
-        $accounts = Account::where('company_id', session('company_id'))->where('group_id', 15)->orwhere('group_id', 1)->get();
-        // $accounts = Account::all();
+        $accounts = Account::where('company_id', session('company_id'))->where('group_id', 17)->orwhere('group_id', 8)->get();
+
+        // dd($accounts); // $accounts = Account::all();
         if ($accounts->first()) {
             return Inertia::render('Payments/Create', [
                 'accounts' => $accounts,
@@ -231,7 +232,7 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        $accounts = Account::where('company_id', session('company_id'))->where('group_id', 15)->orwhere('group_id', 1)->get();
+        $accounts = Account::where('company_id', session('company_id'))->where('group_id', 17)->orwhere('group_id', 8)->get();
         return Inertia::render('Payments/Edit', [
             'accounts' => $accounts,
             'account' => Account::where('id', $payment->account_id)->first(),

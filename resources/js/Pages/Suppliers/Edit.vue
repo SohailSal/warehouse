@@ -171,6 +171,7 @@ export default {
         stn_no: this.supplier.stn_no,
         phone_no: this.supplier.phone_no,
         ntn_no: this.supplier.ntn_no,
+        account_id: this.supplier.account_id,
       }),
     };
   },

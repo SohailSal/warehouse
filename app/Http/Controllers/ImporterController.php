@@ -109,7 +109,6 @@ class ImporterController extends Controller
 
 
             $account = Account::all()->last();
-
             Importer::create([
                 'name' => strtoupper($request->name),
                 'email' => $request->email,
@@ -135,11 +134,12 @@ class ImporterController extends Controller
                 'stn_no' => $importer->stn_no,
                 'phone_no' => $importer->phone_no,
                 'ntn_no' => $importer->ntn_no,
+                'account_id' => $importer->account_id,
             ],
         ]);
     }
 
-    public function update(Importer $importer)
+    public function update(Importer $importer, Req $request)
     {
         Request::validate([
             'name' => ['required'],
@@ -150,14 +150,19 @@ class ImporterController extends Controller
             'ntn_no' => ['nullable'],
         ]);
 
-        $importer->name = strtoupper(Request::input('name'));
-        $importer->email = Request::input('email');
-        $importer->address = Request::input('address');
-        $importer->stn_no = Request::input('stn_no');
-        $importer->phone_no = Request::input('phone_no');
-        $importer->ntn_no = Request::input('ntn_no');
-
-        $importer->save();
+        DB::transaction(function () use ($request, $importer) {
+            // dd($request);
+            $importer->name = strtoupper($request->name);
+            $importer->email = $request->email;
+            $importer->address = $request->address;
+            $importer->stn_no = $request->stn_no;
+            $importer->phone_no = $request->phone_no;
+            $importer->ntn_no = $request->ntn_no;
+            $importer->save();
+            $account = Account::where('id', $request->account_id)->first();
+            $account->name = strtoupper($request->name);
+            $account->save();
+        });
 
         return Redirect::route('importers')->with('success', 'Importer updated.');
     }

@@ -39,8 +39,6 @@
               <th class="py-2 px-4 border">Item Name</th>
               <th class="py-2 px-4 border">Number</th>
               <th class="py-2 px-4 border">File Number</th>
-              <th class="py-2 px-4 border">Amount</th>
-
               <th class="py-2 px-4 border">Actions</th>
             </tr>
           </thead>
@@ -49,7 +47,6 @@
               <td class="py-1 px-4 border w-2/5">{{ item.item_id }}</td>
               <td class="py-1 px-4 border w-2/5">{{ item.qty }}</td>
               <td class="py-1 px-4 border w-2/5">{{ item.file_id }}</td>
-              <td class="py-1 px-4 border w-2/5">{{ item.invoice_id }}</td>
               <td class="py-1 px-4 border text-center">
                 <button
                   class="border bg-indigo-300 rounded-xl px-4 py-1 m-1"
