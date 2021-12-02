@@ -24,38 +24,44 @@ class DeliveryController extends Controller
 
         $query = Delivery::query();
 
-        // $file_id = $query->paginate(10)
-        //     ->through(function ($item) {
-        //         return [
-        //             'no' => $item->files->file_no,
-        //         ];
-        //     });
-
-        // // dd($file_id);
+      
         if (request('search')) {
-            $query->where('file_id', 'LIKE', '%' . request('search') . '%');
+            // $query->where('file_id', 'LIKE', '%' . request('search') . '%');
+            $query->join('files', 'files.id', '=', 'file_id')
+                ->select('deliveries.*')
+                ->where('files.file_no', 'LIKE', '%' . request('search') . '%');
         }
 
-
+           
         if (request('searche')) {
-            $query->where('item_id', 'LIKE', '%' . request('searche') . '%');
+            // $query->where('item_id', 'LIKE', '%' . request('searche') . '%');
+            $query->join('items', 'items.id', '=', 'item_id')
+                ->select('deliveries.*')
+                ->where('items.name', 'LIKE', '%' . request('searche') . '%');
         }
 
         if (request()->has(['field', 'direction'])) {
             $query->orderBy(request('field'), request('direction'));
-        } else {
-            $query->orderBy(('file_id'), ('asc'));
         }
+         else {
+            $query->orderBy(('deliveries.file_id'), ('asc'));
+        }
+        // dd($query/
 
 
         return Inertia::render('Delivery/Index', [
-            'filters' => request()->all(['search', 'searche', 'field', 'direction']),
+            'filters' => request()->all(['search', 'searche'
+            //  'field', 'direction'
+            ]),
             'balances' => $query->paginate(10)
                 ->through(function ($item) {
                     return [
+                        // dd($item),
                         'id' => $item->id,
                         'date' => $item->date,
-                        'file_id' => $item->files->file_no,
+                        'file_id' => $item->files ? $item->files->file_no
+                         
+                        : null,
                         'cash_no' => $item->Cash_no,
                         'vehicle_no' => $item->Vehicle_no,
                         'item_id' => $item->items->name,

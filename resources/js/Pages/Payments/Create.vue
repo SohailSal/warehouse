@@ -21,7 +21,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
         <jet-button @click="create" class="mt-2 ml-2"
-          >Create Expense Type</jet-button
+          >Create Account</jet-button
         >
         <form @submit.prevent="form.post(route('payments.store'))">
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
