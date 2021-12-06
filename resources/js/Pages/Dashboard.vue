@@ -75,8 +75,7 @@
                   bg-gray-600
                   text-white
                   rounded
-                  focus:outline-none
-                  focus:shadow-outline
+                  focus:outline-none focus:shadow-outline
                   px-1
                   hover:text-blue-200
                   w-52
@@ -145,8 +144,7 @@
                   bg-gray-600
                   text-white
                   hover:bg-gray-700
-                  focus:outline-none
-                  focus:shadow-outline
+                  focus:outline-none focus:shadow-outline
                 "
                 type="submit"
                 :disabled="form.processing"
