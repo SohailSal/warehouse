@@ -1421,8 +1421,8 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
 
               <!-- <template #accounting> </template> -->
 
-              <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== STARTS =========== -->
               <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex bg-blue">
+                <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== STARTS =========== -->
                 <jet-dropdown>
                   <template #trigger>
                     <span
@@ -1431,6 +1431,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                         sm:-my-px
                         space-x-8
                         md:mt-4
+                        py-2
                         sm:ml-10 sm:flex
                       "
                     >
@@ -1440,7 +1441,6 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                         class="
                           inline-flex
                           items-center
-                          py-2
                           border border-transparent
                           text-sm
                           leading-4
@@ -1455,7 +1455,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                           duration-150
                         "
                       >
-                        Menu
+                        Accounts & Transaction
 
                         <svg
                           class="ml-2 -mr-0.5 h-4 w-4"
@@ -1494,15 +1494,6 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                       :active="route().current('documenttypes')"
                     >
                       Vouchers
-                    </jet-dropdown-link>
-
-
-                    <jet-dropdown-link
-                      :href="route('reports')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('reports')"
-                    >
-                      Reports
                     </jet-dropdown-link> -->
 
                     <jet-dropdown-link
@@ -1535,6 +1526,14 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                       :active="route().current('ledgers')"
                     >
                       Ledger
+                    </jet-dropdown-link>
+
+                    <jet-dropdown-link
+                      :href="route('reports')"
+                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                      :active="route().current('reports')"
+                    >
+                      Reports
                     </jet-dropdown-link>
                   </template>
                 </jet-dropdown>
@@ -1662,14 +1661,14 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                       :href="route('importers')"
                       :active="route().current('importers')"
                     >
-                      Importer
+                      New Importer
                     </jet-dropdown-link>
                     <jet-dropdown-link
                       v-if="this.$page.props.co_id && this.$page.props.yr_id"
                       :href="route('suppliers')"
                       :active="route().current('suppliers')"
                     >
-                      Supplier
+                      New Supplier
                     </jet-dropdown-link>
 
                     <jet-dropdown-link
@@ -1677,7 +1676,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                       v-if="this.$page.props.co_id && this.$page.props.yr_id"
                       :active="route().current('clients')"
                     >
-                      Client
+                      New Client
                     </jet-dropdown-link>
 
                     <jet-dropdown-link
@@ -1685,7 +1684,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                       v-if="this.$page.props.co_id && this.$page.props.yr_id"
                       :active="route().current('agents')"
                     >
-                      Agent
+                      New Agent
                     </jet-dropdown-link>
                   </template>
                   <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== ENDS =========== -->
@@ -1719,6 +1718,72 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                 >
                   File
                 </jet-nav-link>
+                <!-- DROPDWON MENU FOR ENTRIES ITEM (Invoice, Receipt, Payment) =============== STARTS =========== -->
+                <jet-dropdown>
+                  <template #trigger>
+                    <span
+                      class="hidden sm:-my-px space-x-8 md:mt-4 sm:ml-2 sm:flex"
+                    >
+                      <button
+                        type="button"
+                        v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                        class="
+                          inline-flex
+                          items-center
+                          border border-transparent
+                          text-sm
+                          leading-4
+                          font-mediumla
+                          py-2
+                          rounded-md
+                          text-gray-500
+                          bg-white
+                          hover:text-gray-700
+                          focus:outline-none
+                          transition
+                          ease-in-out
+                          duration-150
+                        "
+                      >
+                        Entries
+
+                        <svg
+                          class="ml-2 -mr-0.5 h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </span>
+                  </template>
+                  <template #content>
+                    <jet-dropdown-link
+                      :href="route('invoices')"
+                      :active="route().current('invoices')"
+                    >
+                      New Invoice
+                    </jet-dropdown-link>
+                    <jet-dropdown-link
+                      :href="route('receipts')"
+                      :active="route().current('receipts')"
+                    >
+                      New Receipt
+                    </jet-dropdown-link>
+                    <jet-dropdown-link
+                      :href="route('payments')"
+                      :active="route().current('payments')"
+                    >
+                      New Payment
+                    </jet-dropdown-link>
+                  </template>
+                </jet-dropdown>
+                <!-- DROPDWON MENU FOR Entries  =============== ENDS =========== -->
 
                 <!-- <jet-nav-link
                   :href="route('unittypes')"
@@ -1734,7 +1799,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                   :active="route().current('items')"
                 >
                   Item
-                </jet-nav-link> -->
+                </jet-nav-link>
                 <jet-nav-link
                   :href="route('invoices')"
                   v-if="this.$page.props.co_id && this.$page.props.yr_id"
@@ -1755,7 +1820,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                   :active="route().current('payments')"
                 >
                   Payment
-                </jet-nav-link>
+                </jet-nav-link> -->
                 <jet-dropdown>
                   <template #trigger>
                     <span class="hidden sm:-my-px space-x-8 md:mt-4 sm:flex">
@@ -1804,19 +1869,18 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                   <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== STARTS =========== -->
                   <template #content>
                     <jet-dropdown-link
-                      :href="route('unittypes')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('unittypes')"
-                    >
-                      Item Type
-                    </jet-dropdown-link>
-
-                    <jet-dropdown-link
                       :href="route('items')"
                       v-if="this.$page.props.co_id && this.$page.props.yr_id"
                       :active="route().current('items')"
                     >
-                      Item
+                      New Item
+                    </jet-dropdown-link>
+                    <jet-dropdown-link
+                      :href="route('unittypes')"
+                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                      :active="route().current('unittypes')"
+                    >
+                      New Item Type
                     </jet-dropdown-link>
                   </template>
                   <!-- DROPDWON MENU FOR WAREHOUSR ITEM  =============== ENDS =========== -->
