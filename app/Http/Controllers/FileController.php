@@ -122,7 +122,8 @@ class FileController extends Controller
         // dd(Request::input('s_tax'));
         // dd(Request::input('qty'));
         Request::validate([
-            'file_no' => ['required'],
+            'file_no' => ['required', 'unique:files', 'max:255'],
+            'importer_id' => ['required'],
         ]);
 
         $file = File::create([
@@ -196,7 +197,8 @@ class FileController extends Controller
     public function update(File $file)
     {
         Request::validate([
-            'file_no' => ['required'],
+            'file_no' => ['required', 'unique:files', 'max:255'],
+            'importer_id' => ['required'],
         ]);
 
 

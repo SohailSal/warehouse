@@ -14,7 +14,7 @@ use App\Models\Agent;
 
 class AgentController extends Controller
 {
-    
+
     public function index()
     {
         //Validating request
@@ -33,8 +33,8 @@ class AgentController extends Controller
                     'name' => $agent->name,
                 ],
             );
-     
-     
+
+
         //Searching request
         $query = Agent::query();
         if (request('search')) {
@@ -47,7 +47,7 @@ class AgentController extends Controller
                 request('direction')
             );
         }
-     
+
         return Inertia::render('Agents/Index', [
             'companies' => Company::all(),
             'agent' => Agent::first(),
@@ -64,11 +64,12 @@ class AgentController extends Controller
     public function store()
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:agents', 'max:255'],
+
         ]);
-            $agent = Agent::create([
-                'name' => strtoupper(Request::input('name')),
-            ]);
+        $agent = Agent::create([
+            'name' => strtoupper(Request::input('name')),
+        ]);
 
         return Redirect::route('agents')->with('success', 'Agent created');
     }
@@ -86,7 +87,7 @@ class AgentController extends Controller
     public function update(Agent $agent)
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:agents', 'max:255'],
         ]);
 
         $agent->name = strtoupper(Request::input('name'));

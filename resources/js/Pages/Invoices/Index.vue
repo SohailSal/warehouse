@@ -34,6 +34,7 @@
         <table class="shadow-lg w-full text-center border mt-4 ml-2 rounded-xl">
           <thead>
             <tr class="bg-indigo-100">
+              <th class="py-2 px-4 border">Invoice No</th>
               <th class="py-2 px-4 border">File No</th>
               <th class="py-2 px-4 border">Date</th>
               <th class="py-2 px-4 border">Amount</th>
@@ -45,15 +46,18 @@
           <tbody>
             <tr v-for="item in data" :key="item.id">
               <td class="py-1 px-4 border" style="width: 15%">
+                {{ item.invoice_no }}
+              </td>
+              <td class="py-1 px-4 border" style="width: 10%">
                 {{ item.file_id }}
               </td>
               <td class="py-1 px-4 border" style="width: 15%">
                 {{ item.date }}
               </td>
-              <td class="py-1 px-4 border" style="width: 15%">
+              <td class="py-1 px-4 border" style="width: 10%">
                 {{ item.amount }}
               </td>
-              <td class="py-1 px-4 border" style="width: 15%">
+              <td class="py-1 px-4 border" style="width: 10%">
                 {{ item.s_tax }}
               </td>
               <td class="py-1 px-4 border" style="width: 15%">

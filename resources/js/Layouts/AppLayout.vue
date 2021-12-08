@@ -1455,7 +1455,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                           duration-150
                         "
                       >
-                        Accounts & Transaction
+                        Accounts
 
                         <svg
                           class="ml-2 -mr-0.5 h-4 w-4"
@@ -1510,30 +1510,6 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                       :active="route().current('accounts')"
                     >
                       Accounts
-                    </jet-dropdown-link>
-
-                    <jet-dropdown-link
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :href="route('documents')"
-                      :active="route().current('documents')"
-                    >
-                      Transactions
-                    </jet-dropdown-link>
-
-                    <jet-dropdown-link
-                      :href="route('ledgers')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('ledgers')"
-                    >
-                      Ledger
-                    </jet-dropdown-link>
-
-                    <jet-dropdown-link
-                      :href="route('reports')"
-                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
-                      :active="route().current('reports')"
-                    >
-                      Reports
                     </jet-dropdown-link>
                   </template>
                 </jet-dropdown>
@@ -1781,6 +1757,13 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                     >
                       New Payment
                     </jet-dropdown-link>
+                    <jet-dropdown-link
+                      v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                      :href="route('documents')"
+                      :active="route().current('documents')"
+                    >
+                      Other Transactions
+                    </jet-dropdown-link>
                   </template>
                 </jet-dropdown>
                 <!-- DROPDWON MENU FOR Entries  =============== ENDS =========== -->
@@ -1900,14 +1883,28 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
                 >
                   Delivery
                 </jet-nav-link>
-
                 <jet-nav-link
+                  :href="route('ledgers')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('ledgers')"
+                >
+                  Ledger
+                </jet-nav-link>
+                <jet-nav-link
+                  :href="route('reports')"
+                  v-if="this.$page.props.co_id && this.$page.props.yr_id"
+                  :active="route().current('reports')"
+                >
+                  Reports
+                </jet-nav-link>
+
+                <!-- <jet-nav-link
                   :href="route('warehousereports')"
                   v-if="this.$page.props.co_id && this.$page.props.yr_id"
                   :active="route().current('warehousereports')"
                 >
                   WarehouseReports
-                </jet-nav-link>
+                </jet-nav-link> -->
 
                 <!-- WAREHOUSE ITEMS ============================== END =============================== -->
               </div>

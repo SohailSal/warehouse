@@ -13,11 +13,11 @@ class UnitTypeController extends Controller
 {
     public function index()
     {
-     
+
         return Inertia::render('UnitTypes/Index', [
 
             'data' => UnitType::all(),
-                
+
 
             'companies' => Company::all()
                 ->map(
@@ -40,9 +40,11 @@ class UnitTypeController extends Controller
     public function store()
     {
         Request::validate([
-            'name' => ['required'],
+
+            'name' => ['required', 'unique:unit_types', 'max:255'],
+
         ]);
-        
+
         UnitType::create([
             'name' => Request::input('name'),
         ]);
@@ -67,7 +69,7 @@ class UnitTypeController extends Controller
     public function update(UnitType $unittype)
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:unit_types', 'max:255'],
         ]);
 
         $unittype->name = Request::input('name');

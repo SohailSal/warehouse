@@ -68,7 +68,8 @@ class ClientController extends Controller
     public function store()
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:clients', 'max:255'],
+            'email' => ['required', 'email', 'unique:clients,email'],
         ]);
         $client = Client::create([
             'name' => strtoupper(Request::input('name')),
@@ -98,8 +99,9 @@ class ClientController extends Controller
     public function update(Client $client)
     {
         Request::validate([
-            'name' => ['required'],
-            'email' => ['nullable'],
+
+            'name' => ['required', 'unique:clients', 'max:255'],
+            'email' => ['required', 'email', 'unique:clients,email'],
             'address' => ['nullable'],
             'phone_no' => ['nullable'],
             'ntn_no' => ['nullable'],

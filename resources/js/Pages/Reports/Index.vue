@@ -28,8 +28,7 @@
           p-2
           m-2
           inline-block
-          hover:bg-gray-600
-          hover:text-white
+          hover:bg-gray-600 hover:text-white
         "
       >
         <a href="trialbalance" target="_blank">Trial Balance</a>
@@ -43,8 +42,7 @@
           p-2
           m-2
           inline-block
-          hover:bg-gray-600
-          hover:text-white
+          hover:bg-gray-600 hover:text-white
         "
       >
         <a href="bs" target="_blank">Balance Sheet</a>
@@ -58,11 +56,23 @@
           p-2
           m-2
           inline-block
-          hover:bg-gray-600
-          hover:text-white
+          hover:bg-gray-600 hover:text-white
         "
       >
         <a href="pl" target="_blank">Profit or Loss A/C</a>
+      </div>
+      <div
+        class="
+          border
+          rounded-lg
+          shadow-md
+          p-2
+          m-2
+          inline-block
+          hover:bg-gray-600 hover:text-white
+        "
+      >
+        <a href="labourcontract" target="_blank">Labour Contract</a>
       </div>
 
       <!-- <div
@@ -170,6 +180,10 @@ export default {
     route() {
       // this.$inertia.post(route("companies.store"), this.form);
       this.$inertia.get(route("trialbalance"));
+    },
+
+    route() {
+      this.$inertia.get(route("labourcontract"));
     },
 
     edit(id) {

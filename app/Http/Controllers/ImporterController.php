@@ -83,7 +83,8 @@ class ImporterController extends Controller
     public function store(Req $request)
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:importers', 'max:255'],
+            'email' => ['required', 'email', 'unique:importers,email'],
         ]);
         DB::transaction(function () use ($request) {
             $accgroup = \App\Models\AccountGroup::where('name', 'Trade-Debtors')->where('company_id', session('company_id'))->first()->id;
@@ -142,8 +143,8 @@ class ImporterController extends Controller
     public function update(Importer $importer, Req $request)
     {
         Request::validate([
-            'name' => ['required'],
-            'email' => ['nullable'],
+            'name' => ['required', 'unique:importers', 'max:255'],
+            'email' => ['required', 'email', 'unique:importers,email'],
             'address' => ['nullable'],
             'stn_no' => ['nullable'],
             'phone_no' => ['nullable'],
