@@ -33,6 +33,7 @@ class InvoiceController extends Controller
                     return [
                         'id' => $invoice->id,
                         'file_id' => $invoice->files->file_no,
+                        'invoice_no' => $invoice->invoice_no,
                         $date = $invoice->date ? new Carbon($invoice->date) : null,
                         'date' => $date->format('M d, Y'),
                         'amount' => $invoice->amount,

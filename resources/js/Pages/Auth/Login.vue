@@ -1442,13 +1442,13 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
       </div>
 
       <div class="flex items-center justify-end mt-4">
-        <inertia-link
+        <!-- <inertia-link
           v-if="canResetPassword"
           :href="route('password.request')"
           class="underline text-sm text-gray-600 hover:text-gray-900"
         >
           Forgot your password?
-        </inertia-link>
+        </inertia-link> -->
 
         <jet-button
           class="ml-4"

@@ -26,6 +26,7 @@ class ReceiptController extends Controller
                 ->map(function ($receipt) {
                     return [
                         'id' => $receipt->id,
+                        'receipt_no' => $receipt->receipt_no,
                         'file_id' => $receipt->files->file_no,
                         'date' => $receipt->date,
                         'amount' => $receipt->amount,

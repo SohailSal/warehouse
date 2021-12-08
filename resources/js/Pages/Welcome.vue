@@ -1565,7 +1565,7 @@ fwDXDeM6KGXfzwAAAABJRU5ErkJggg==
           style="text-shadow: 4px 4px 16px #0000ff"
           class="text-sm font-bold bg-blend-screen text-white ml-5"
         >
-          Copyright @ 2021, mrspl.com.pk
+          Copyright @ 2021, Tulip Industries (Pvt) Limited.
         </p>
       </div>
     </div>
