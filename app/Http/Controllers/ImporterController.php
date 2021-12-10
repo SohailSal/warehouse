@@ -15,6 +15,7 @@ use App\Models\Company;
 use Illuminate\Database\Seeder;
 use App\Models\Importer;
 use App\Models\Account;
+use App\Models\File;
 use App\Models\AccountGroup;
 use Artisan;
 
@@ -42,6 +43,7 @@ class ImporterController extends Controller
                     'phone_no' => $impo->phone_no,
                     'stn_no' => $impo->stn_no,
                     'ntn_no' => $impo->ntn_no,
+                    'delete' => File::where('importer_id', $impo->id)->first() ? false : true,
                 ],
             );
 

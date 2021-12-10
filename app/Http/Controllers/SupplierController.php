@@ -42,6 +42,8 @@ class SupplierController extends Controller
                     'phone_no' => $impo->phone_no,
                     'stn_no' => $impo->stn_no,
                     'ntn_no' => $impo->ntn_no,
+                    'delete' => Account::where('id', $impo->id)->first() ? false : true,
+
                 ],
             );
 
