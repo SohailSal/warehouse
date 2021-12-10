@@ -89,11 +89,129 @@
     >
       <a href="pd">Generate pdf file</a>
     </div> -->
+
+      <div class="mt-6 flex">
+        <form
+          @submit.prevent="submit_tl"
+          action="trialbalance_date"
+          ref="form_tl"
+          class="inline-block"
+        >
+          <input
+            v-model="form.date_start"
+            type="date"
+            label="date"
+            placeholder="Enter Begin date:"
+            class="pr-2 ml-2 pb-2 rounded-md"
+            name="date_start"
+          />
+          <div v-if="errors.date_start">{{ errors.date_start }}</div>
+
+          <input
+            v-model="form.date_end"
+            type="date"
+            class="pr-2 ml-2 pb-2 rounded-md"
+            label="date"
+            placeholder="Enter End date:"
+            name="date_end"
+          />
+          <div v-if="errors.date_end">{{ errors.date_end }}</div>
+
+          <div
+            class="
+              border
+              rounded-lg
+              shadow-md
+              p-2
+              m-2
+              inline-block
+              hover:bg-gray-600 hover:text-white
+              bg-indigo-300
+            "
+          >
+            <button type="submit">Trial Balance</button>
+          </div>
+        </form>
+
+        <form @submit.prevent="submit_bs" action="bs_date" ref="form_bs">
+          <input
+            v-model="form.date_start"
+            type="date"
+            label="date"
+            placeholder="Enter Begin date:"
+            class="pr-2 ml-2 pb-2 rounded-md hidden"
+            name="date_start"
+          />
+          <div v-if="errors.date_start">{{ errors.date_start }}</div>
+
+          <input
+            v-model="form.date_end"
+            type="date"
+            class="pr-2 ml-2 pb-2 rounded-md hidden"
+            label="date"
+            placeholder="Enter End date:"
+            name="date_end"
+          />
+          <div v-if="errors.date_end">{{ errors.date_end }}</div>
+
+          <div
+            class="
+              border
+              rounded-lg
+              shadow-md
+              p-2
+              m-2
+              inline-block
+              hover:bg-gray-600 hover:text-white
+              bg-indigo-300
+            "
+          >
+            <button type="submit">Balance Sheet</button>
+          </div>
+        </form>
+
+        <form @submit.prevent="submit_pl" action="pl_date" ref="form_pl">
+          <input
+            v-model="form.date_start"
+            type="date"
+            label="date"
+            placeholder="Enter Begin date:"
+            class="pr-2 ml-2 pb-2 rounded-md hidden"
+            name="date_start"
+          />
+          <div v-if="errors.date_start">{{ errors.date_start }}</div>
+
+          <input
+            v-model="form.date_end"
+            type="date"
+            class="pr-2 ml-2 pb-2 rounded-md hidden"
+            label="date"
+            placeholder="Enter End date:"
+            name="date_end"
+          />
+          <div v-if="errors.date_end">{{ errors.date_end }}</div>
+
+          <div
+            class="
+              border
+              rounded-lg
+              shadow-md
+              p-2
+              m-2
+              inline-block
+              hover:bg-gray-600 hover:text-white
+              bg-indigo-300
+            "
+          >
+            <button type="submit">Profit or Loss A/C</button>
+          </div>
+        </form>
+      </div>
     </div>
   </app-layout>
 </template>
 
-<script>
+   <script>
 import AppLayout from "@/Layouts/AppLayout";
 import JetButton from "@/Jetstream/Button";
 import { useForm } from "@inertiajs/inertia-vue3";
@@ -115,87 +233,92 @@ export default {
   data() {
     return {
       co_id: this.$page.props.co_id,
-      //   form: this.$inertia.form({
-      //     account_id: this.account_first.id,
-      //     date_start: null,
-      //     date_end: null,
-      //   }),
-
-      //   form: this.$refs.form({
-      //     account_id: this.account_first.id,
-      //     date_start: "null",
-      //     date_end: null,
-      //   }),
-
-      //   form: {
-      //     account_id: this.account_first.id,
-      //     date_start: null,
-      //     date_end: null,
-      //     // begin: null,
-      //     // end: null,
-      //   },
+      form: {
+        date_start: this.date_start
+          ? this.date_start
+          : new Date().toISOString().substr(0, 10),
+        date_end: this.date_end
+          ? this.date_end
+          : new Date().toISOString().substr(0, 10),
+        // begin: null,
+        // end: null,
+      },
     };
   },
-  //   setup(props) {
-  //     const form = useForm({
-  //       account_id: props.account_first.id,
-  //       date_start: null,
-  //       date_end: "",
-  //     });
-  //     return { form };
-  //   },
-
+  // setup(props) {
+  //   const form = useForm({
+  //     date_start: null,
+  //     date_end: this.date_end
+  //       ? null
+  //       : // ? this.date_end
+  //         new Date().toISOString().substr(0, 10),
+  //   });
+  //   return { form };
+  // },
   methods: {
-    meth() {
-      this.form.get(route("range"));
+    submit_tl: function () {
+      this.$refs.form_tl.submit();
     },
-    //TO GENERATE AN PDF WITH BUTTON
-    submit: function () {
-      this.$refs.form.submit();
+    submit_bs: function () {
+      this.$refs.form_bs.submit();
     },
-    // submit() {
-    //   //   entries = this.entries;
-    //   //   if (this.difference === 0) {
-    //   this.form.post(route("range"));
-    //   //   this.$inertia.get(route("range"), this.form);
-    //   //   } else {
-    //   //     alert("Entry is not equal");
-    //   //   }
-    // },
-
-    create() {
-      this.$inertia.get(route("years.create"));
-    },
-
-    // route() {
-    //   this.$inertia.post(route("range"), this.form);
-    //   //   this.$inertia.get(route("range"));
-    // },
-
-    route() {
-      // this.$inertia.post(route("companies.store"), this.form);
-      this.$inertia.get(route("pd"));
-    },
-
-    route() {
-      // this.$inertia.post(route("companies.store"), this.form);
-      this.$inertia.get(route("trialbalance"));
-    },
-
-    route() {
-      this.$inertia.get(route("labourcontract"));
-    },
-
-    edit(id) {
-      this.$inertia.get(route("years.edit", id));
-    },
-
-    destroy(id) {
-      this.$inertia.delete(route("years.destroy", id));
-    },
-    coch() {
-      this.$inertia.get(route("companies.coch", this.co_id));
+    submit_pl: function () {
+      this.$refs.form_pl.submit();
     },
   },
 };
 </script>
+
+// methods: {
+//     meth() {
+//       this.form.get(route("range"));
+//     },
+//     //TO GENERATE AN PDF WITH BUTTON
+//     // submit: function () {
+//     //   this.$refs.form.submit();
+//     // },
+
+//     // submit() {
+//     //   //   entries = this.entries;
+//     //   //   if (this.difference === 0) {
+//     //   this.form.post(route("range"));
+//     //   //   this.$inertia.get(route("range"), this.form);
+//     //   //   } else {
+//     //   //     alert("Entry is not equal");
+//     //   //   }
+//     // },
+
+//     create() {
+//       this.$inertia.get(route("years.create"));
+//     },
+
+//     // route() {
+//     //   this.$inertia.post(route("range"), this.form);
+//     //   //   this.$inertia.get(route("range"));
+//     // },
+
+//     route() {
+//       // this.$inertia.post(route("companies.store"), this.form);
+//       this.$inertia.get(route("pd"));
+//     },
+
+//     route() {
+//       // this.$inertia.post(route("companies.store"), this.form);
+//       this.$inertia.get(route("trialbalance"));
+//     },
+
+//     route() {
+//       this.$inertia.get(route("labourcontract"));
+//     },
+
+//     edit(id) {
+//       this.$inertia.get(route("years.edit", id));
+//     },
+
+//     destroy(id) {
+//       this.$inertia.delete(route("years.destroy", id));
+//     },
+//     coch() {
+//       this.$inertia.get(route("companies.coch", this.co_id));
+//     },
+//   },

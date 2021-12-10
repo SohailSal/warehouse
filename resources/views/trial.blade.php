@@ -70,7 +70,13 @@
             <thead>
             <tr>
             <th align="left" style="width: 50%;">
-            <h3>Trial Balance</h3>
+            <!-- <h3>Trial Balance</h3> -->
+            <div style="display:flex">
+                <h3 style="display: inline-block">Trial Balance</h3>
+                @if($date_from && $date_to)
+                    <h4 style="display: inline-block">From {{ $date_from }} to {{ $date_to }}</h4>
+                @endif
+            <div>
             </th>
             <th colspan='2' align="right" style="width: 30%;">
                 <h5>Generated on: {{ $dt}}</h5>

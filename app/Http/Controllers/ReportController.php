@@ -257,7 +257,13 @@ class ReportController extends Controller
     public function trialbalance()
     {
         $data['accounts'] = Account::where('company_id', session('company_id'))->get();
-        $data['entry_obj'] = Entry::all()->where('company_id', session('company_id'));
+        $data['entry_obj'] = Entry::where('company_id', session('company_id'))->get();
+        
+        $data['date_start'] = null;
+        $data['date_end'] = null;
+        $data['date_from'] = null;
+        $data['date_to'] = null;
+
         $tb = App::make('dompdf.wrapper');
         // $pdf->loadView('pdf', compact('a'));
         $tb->loadView('trial', $data);
@@ -265,27 +271,90 @@ class ReportController extends Controller
         return $tb->stream('v.pdf');
     }
 
+    public function trialbalance_date(Req $req)
+    {
+        $data['accounts'] = Account::where('company_id', session('company_id'))
+            ->whereDate('created_at', '>=', $req->date_start)
+            ->whereDate('created_at', '<=', $req->date_end)
+            ->get();
+        $data['entry_obj'] = Entry::
+            where('company_id', session('company_id'))
+            ->whereDate('created_at', '>=', $req->date_start)
+            ->whereDate('created_at', '<=', $req->date_end)
+            ->get();
+
+        $data['date_start'] = $req->date_start;
+        $data['date_end'] = $req->date_end;
+
+        $data['date_from'] = new Carbon($data['date_start']);
+        $data['date_to'] = new Carbon($data['date_end']);
+        
+        $data['date_from'] = $data['date_from']->format('M d, Y');
+        $data['date_to'] = $data['date_to']->format('M d, Y');
+
+        $tb = App::make('dompdf.wrapper');
+        // $pdf->loadView('pdf', compact('a'));
+        $tb->loadView('trial', $data);
+        // $tb->loadView('trialbalance', $data);
+        return $tb->stream('v.pdf');
+    }
     public function bs()
     {
-        // $pdf = app('dompdf.wrapper');   
-        // $pdf->getDomPDF()->set_option("enable_php", true);
-        // $pdf->loadView('balanceSheet');
-        // return $pdf->stream('branches.pdf');
+        $data['date_start'] = null;
+        $data['date_end'] = null;
+        $data['date_from'] = null;
+        $data['date_to'] = null;
 
-
+        // $pdf = app('dompdf.wrapper');
         // $pdf = PDF::loadView('balanceSheet');
+
         $bs = App::make('dompdf.wrapper');
-        $bs->getDomPDF()->set_option("enable_php", true);
-        $bs->loadView('balanceSheet');
+        // $bs->getDomPDF()->set_option("enable_php", true);
+        $bs->loadView('balanceSheet', $data);
         return $bs->stream('bs.pdf');
+    }
+    public function bs_date(Req $req)
+    {
+        $data['date_start'] = $req->date_start;
+        $data['date_end'] = $req->date_end;
+
+        $data['date_from'] = new Carbon($data['date_start']);
+        $data['date_to'] = new Carbon($data['date_end']);
+        
+        $data['date_from'] = $data['date_from']->format('M d, Y');
+        $data['date_to'] = $data['date_to']->format('M d, Y');
 
         
+        $bs = App::make('dompdf.wrapper');
+        $bs->loadView('balanceSheet', $data);
+        return $bs->stream('bs.pdf');
     }
+    
 
     public function pl()
     {
+        $data['date_start'] = null;
+        $data['date_end'] = null;
+        $data['date_from'] = null;
+        $data['date_to'] = null;
+
         $pl = App::make('dompdf.wrapper');
-        $pl->loadView('profitOrLoss');
+        $pl->loadView('profitOrLoss', $data);
+        return $pl->stream('pl.pdf');
+    }
+    public function pl_date(Req $req)
+    {
+        $data['date_start'] = $req->date_start;
+        $data['date_end'] = $req->date_end;
+
+        $data['date_from'] = new Carbon($data['date_start']);
+        $data['date_to'] = new Carbon($data['date_end']);
+        
+        $data['date_from'] = $data['date_from']->format('M d, Y');
+        $data['date_to'] = $data['date_to']->format('M d, Y');
+
+        $pl = App::make('dompdf.wrapper');
+        $pl->loadView('profitOrLoss', $data);
         return $pl->stream('pl.pdf');
     }
 
@@ -297,6 +366,7 @@ class ReportController extends Controller
 
     public function store(Req $request)
     {
+        
         Request::validate([
             'begin' => ['required', 'date'],
             'end' => ['required', 'date'],
