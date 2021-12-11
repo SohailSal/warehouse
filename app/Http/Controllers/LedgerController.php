@@ -31,44 +31,6 @@ class LedgerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function index()
-    // {
-    //     // dd($request);
-    //     $accounts = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name');
-    //     // $account_first = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name')->first();
-
-    //     // $entries = Entry::query();
-
-
-    //     // if (request('account_id')) {
-    //     //     dd(request('account_id'));
-    //     //     $account_first = \App\Models\Account::all()->where('account_id', request('account_id'))->map->only('id', 'name')->first();
-    //     //     dd($account_first);
-    //     // } else {
-    //     //     // $account_first = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name')->first();
-    //     $account_first = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name')->first();
-    //     // }
-
-    //     // dd($account_first['i']);
-
-    //     // $entries->where('account_id', $account_first['id']);
-    //     // $entries->with('document');
-
-    //     // foreach ($entries as $ent) {
-    //     //     dd($ent->account_id);
-    //     // }
-    //     // dd($entries->account_id);
-
-
-
-    //     return Inertia::render('Ledgers/Index', [
-    //         'companies' => Company::all(),
-    //         // 'enteries' => $entries,
-    //         'account_first' => $account_first,
-    //         'accounts' => $accounts,
-
-    //     ]);
-    // }
 
     public function index(Request $request)
     {
@@ -76,19 +38,11 @@ class LedgerController extends Controller
         // $transaction = Document::where('company_id', session('company_id'))->where('year_id', session('year_id'))->first();
         // if($transaction){
 
-        $account_first = ['id' => 0];
+        $account_first = null;
         $accounts = \App\Models\Account::where('company_id', session('company_id'))->get();
-        // ->map->only('id', 'name');
         if ($request->account_id) {
             $account_first = \App\Models\Account::all()->where('company_id', session('company_id'))->where('id', $request->account_id)->map->only('id', 'name')->first();
         }
-        //  else {
-        //     $account_first = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name')->first();
-        // }
-
-        // dd($account_first);
-
-
 
         if ($request) {
 
@@ -98,11 +52,6 @@ class LedgerController extends Controller
 
             $start = $start->format('Y-m-d');
             $end = $end->format('Y-m-d');
-
-            // $account = 34;
-            // $start = "2021-08-01";
-            // $end = "2021-08-20";
-
 
             $data['start'] = $start;
 
@@ -128,10 +77,6 @@ class LedgerController extends Controller
 
 
             //----------------------------------------------- WORKING OF VUE ---------------------------------------------
-            // $fmt = new NumberFormatter('en_GB', NumberFormatter::CURRENCY);
-            // $amt = new NumberFormatter('en_GB', NumberFormatter::SPELLOUT);
-            // $fmt->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
-            // $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
             $prebal = 0;
             $data['lastbalance'] = 0;
             $ite = 0;
@@ -147,16 +92,12 @@ class LedgerController extends Controller
             $balance = [];
             $ite = 0;
             foreach ($data['entries'] as $value) {
-                // foreach ($entries as $value) {
                 $balance[$ite] = $data['lastbalance'] + floatval($value->debit) - floatval($value->credit);
                 $data['lastbalance'] = $balance[$ite];
                 $ite++;
             }
-            // $dt = \Carbon\Carbon::now(new DateTimeZone('Asia/Karachi'))->format('M d, Y - h:m a');
         }
 
-
-        // @foreach ($entries as $entry)
         foreach ($data['entries'] as $entry) {
             //     {{$entry->ref}}
             //     {{$entry->date}}
@@ -168,14 +109,10 @@ class LedgerController extends Controller
             $data['debits'] = $data['debits'] + $entry->debit;
             $data['credits'] = $data['credits'] + $entry->credit;
         }
-        // @endforeach
-
-        // dd($data['entries']);
 
         return Inertia::render('Ledgers/Index', [
             'companies' => Company::all(),
             'account_first' => $account_first,
-            // 'accounts' => $accounts,
             'accounts' => $accounts,
 
             'date_start' => $start,
@@ -183,32 +120,21 @@ class LedgerController extends Controller
             'entries' => $data['entries'],
             'debits' => $data['debits'],
             'credits' => $data['credits'],
-            // 'balance' => $data['lastbalance'],
             'balance' => $balance,
             'prebal' => $prebal,
         ]);
-    // }else{
-    //     return Redirect::route('documents')->with('warning', 'Transaction NOT FOUND, Please create an transaction first.');
-    // }
     }
 
     public function getledger($id)
 
     {
         dd($id);
-
-
         if ($id) {
-            // dd(request('account_id'));
             $account_first = \App\Models\Account::all()->where('account_id', request('account_id'))->map->only('id', 'name')->first();
-            // dd($account_first);
         } else {
-            // $account_first = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name')->first();
             $account_first = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name')->first();
         }
 
-
-        // dd($request->account_id);
         $accounts = \App\Models\Account::all()->where('company_id', session('company_id'))->map->only('id', 'name');
 
         $entries = Entry::all()->where('company_id', session('company_id'))->where('account_id', $id)
@@ -222,9 +148,7 @@ class LedgerController extends Controller
                 ];
             });
 
-        // return Redirect::back();
-
-        return Inertia::render('Ledgers/Index', [
+            return Inertia::render('Ledgers/Index', [
             'enteries' => $entries,
             // 'account_first' => $request->account_id,
             'companies' => Company::all(),

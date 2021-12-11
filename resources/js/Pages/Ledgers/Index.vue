@@ -200,9 +200,7 @@ export default {
       //   }),
 
       form: {
-        // account_id: this.account_first.id,
-        account_id: this.accounts[0],
-        // account_id: "",
+        account_id: this.account_first ? this.account_first : this.accounts[0],
         date_start: this.date_start
           ? this.date_start
           : new Date().toISOString().substr(0, 10),
