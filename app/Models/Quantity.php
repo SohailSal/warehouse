@@ -10,21 +10,21 @@ class Quantity extends Model
     use HasFactory;
 
     protected $fillable = [
-      'item_id' , 'qty', 'file_id' , 'invoice_id',
+        'item_id', 'qty', 'file_id', 'invoice_id',
     ];
 
     public function items()
     {
-        return $this->belongsTo('App\Models\Item','item_id');
+        return $this->belongsTo('App\Models\Item', 'item_id');
     }
-    
+
     public function invoices()
     {
-        return $this->belongsTo('App\Models\Invoice','invoice_id');
+        return $this->belongsTo('App\Models\Invoice', 'invoice_id');
     }
 
     public function files()
     {
-        return $this->belongsTo('App\Models\File','file_id');
+        return $this->belongsTo('App\Models\File', 'file_id');
     }
 }

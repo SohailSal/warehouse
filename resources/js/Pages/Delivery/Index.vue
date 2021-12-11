@@ -181,12 +181,12 @@
                   <span>PDF</span>
                 </inertia-link> -->
 
-                <button
+                <!-- <button
                   class="border bg-red-500 rounded-xl px-4 py-1 m-1"
                   @click="destroy(item.id)"
                 >
                   <span>Delete</span>
-                </button>
+                </button> -->
               </td>
             </tr>
             <tr v-if="balances.data.length === 0">

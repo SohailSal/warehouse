@@ -124,8 +124,10 @@
           </thead>
           <tbody>
             <tr v-for="item in balances.data" :key="item.id">
-              <td class="py-1 px-4 border">{{ item.name }}</td>
-              <td class="py-1 px-4 border text-center">
+              <td class="py-1 px-4 border" style="width: 75%">
+                {{ item.name }}
+              </td>
+              <td class="py-1 px-4 border text-center" style="width: 25%">
                 <button
                   class="border bg-indigo-300 rounded-xl px-4 py-1 m-1"
                   @click="edit(item.id)"
@@ -135,6 +137,7 @@
                 <button
                   class="border bg-red-500 rounded-xl px-4 py-1 m-1"
                   @click="destroy(item.id)"
+                  v-if="item.delete"
                 >
                   <span>Delete</span>
                 </button>

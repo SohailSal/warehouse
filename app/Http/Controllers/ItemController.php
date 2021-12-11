@@ -6,6 +6,7 @@ use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use App\Models\UnitType;
+use App\Models\Quantity;
 use App\Models\Company;
 use App\Models\Item;
 use Inertia\Inertia;
@@ -51,6 +52,7 @@ class ItemController extends Controller
                         'description' => $item->description,
                         'hscode' => $item->hscode,
                         'unit_id' => $item->unitTypes->name,
+                        'delete' => Quantity::where('item_id', $item->id)->first() ? false : true,
 
                     ];
                 }),

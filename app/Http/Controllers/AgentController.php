@@ -10,6 +10,7 @@ use Inertia\Inertia;
 
 use App\Models\Company;
 use App\Models\Agent;
+use App\Models\File;
 
 
 class AgentController extends Controller
@@ -31,6 +32,7 @@ class AgentController extends Controller
                 [
                     'id' => $agent->id,
                     'name' => $agent->name,
+                    'delete' => File::where('agent_id', $agent->id)->first() ? false : true,
                 ],
             );
 

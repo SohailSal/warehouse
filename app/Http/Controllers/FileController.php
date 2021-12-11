@@ -15,7 +15,7 @@ use App\Models\File;
 use App\Models\Agent;
 use App\Models\Importer;
 use App\Models\Client;
-
+use App\Models\Invoice;
 
 class FileController extends Controller
 {
@@ -68,6 +68,8 @@ class FileController extends Controller
                         'importer' => $file->importers ? $file->importers->name : null,
                         'client' => $file->clients ? $file->clients->name : null,
                         'agent' => $file->agents ? $file->agents->name : null,
+                        'delete' => Invoice::where('file_id', $file->id)->first() ? false : true,
+
                     ],
                 );
 

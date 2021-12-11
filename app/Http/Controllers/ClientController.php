@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 use App\Models\Company;
+use App\Models\File;
 use App\Models\Client;
 
 
@@ -35,6 +36,7 @@ class ClientController extends Controller
                     'address' => $client->address,
                     'phone_no' => $client->phone_no,
                     'ntn_no' => $client->ntn_no,
+                    'delete' => File::where('client_id', $client->id)->first() ? false : true,
                 ],
             );
 

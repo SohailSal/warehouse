@@ -121,9 +121,10 @@ class PaymentController extends Controller
     {
         Request::validate([
             'account_id' => ['required'],
+            'description' => ['required'],
             'amount' => ['required'],
         ]);
-        // dd($request);
+
         DB::transaction(function () use ($request) {
 
 
