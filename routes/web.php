@@ -111,13 +111,23 @@ Route::get('trialbalance', [ReportController::class, 'trialbalance'])
     ->name('trialbalance')
     ->middleware('auth');
 
+Route::get('trialbalance_date', [ReportController::class, 'trialbalance_date'])
+    ->name('trialbalance_date')
+    ->middleware('auth');
+
 //Balance Sheet -------------------- Starts ---------------------------
 Route::get('bs', [ReportController::class, 'bs'])
     ->name('bs')
     ->middleware('auth');
+Route::get('bs_date', [ReportController::class, 'bs_date'])
+    ->name('bs_date')
+    ->middleware('auth');
 
 Route::get('pl', [ReportController::class, 'pl'])
     ->name('pl')
+    ->middleware('auth');
+Route::get('pl_date', [ReportController::class, 'pl_date'])
+    ->name('pl_date')
     ->middleware('auth');
 
 

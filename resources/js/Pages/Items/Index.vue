@@ -154,6 +154,7 @@
                 <button
                   class="border bg-red-500 rounded-xl px-4 py-1 m-1"
                   @click="destroy(item.id)"
+                  v-if="item.delete"
                 >
                   <span>Delete</span>
                 </button>

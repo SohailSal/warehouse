@@ -30,6 +30,7 @@ class PaymentController extends Controller
                 ->map(function ($payment) {
                     return [
                         'id' => $payment->id,
+                        'payment_no' => $payment->payment_no,
                         'account_id' => $payment->accounts->name,
                         $date = $payment->date ? new Carbon($payment->date) : null,
                         'date' => $date->format('M d, Y'),
@@ -120,9 +121,10 @@ class PaymentController extends Controller
     {
         Request::validate([
             'account_id' => ['required'],
+            'description' => ['required'],
             'amount' => ['required'],
         ]);
-        // dd($request);
+
         DB::transaction(function () use ($request) {
 
 

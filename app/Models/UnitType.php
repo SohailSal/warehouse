@@ -15,10 +15,6 @@ class UnitType extends Model
 
     public function items()
     {
-        return $this->hasMany('App\Models\Item','unit_id');
+        return $this->hasMany('App\Models\Item', 'unit_id');
     }
-
- 
-
-  
 }

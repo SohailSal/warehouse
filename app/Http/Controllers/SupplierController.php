@@ -42,6 +42,8 @@ class SupplierController extends Controller
                     'phone_no' => $impo->phone_no,
                     'stn_no' => $impo->stn_no,
                     'ntn_no' => $impo->ntn_no,
+                    'delete' => Account::where('id', $impo->id)->first() ? false : true,
+
                 ],
             );
 
@@ -75,7 +77,8 @@ class SupplierController extends Controller
     public function store(Req $request)
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:suppliers', 'max:255'],
+            'email' => ['required', 'email', 'unique:suppliers,email'],
         ]);
         DB::transaction(function () use ($request) {
             $accgroup = \App\Models\AccountGroup::where('name', 'Trade-Creditors')->where('company_id', session('company_id'))->first()->id;
@@ -133,8 +136,8 @@ class SupplierController extends Controller
     {
         // dd($request);
         Request::validate([
-            'name' => ['required'],
-            'email' => ['nullable'],
+            'name' => ['required', 'unique:suppliers', 'max:255'],
+            'email' => ['required', 'email', 'unique:suppliers,email'],
             'address' => ['nullable'],
             'stn_no' => ['nullable'],
             'phone_no' => ['nullable'],

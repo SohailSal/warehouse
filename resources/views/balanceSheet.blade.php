@@ -29,7 +29,18 @@
             $year =  \App\Models\Year::where('company_id',session('company_id'))->where('enabled',1)->first();
 
                 $id1= \App\Models\AccountType::where('name','Assets')->first()->id;
-                $grps1 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id1)->get();
+                if($date_start && $date_end)
+                {
+                    $grps1 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id1)
+                        ->whereDate('created_at', '>=', $date_start)
+                        ->whereDate('created_at', '<=', $date_end)
+                        ->get();
+
+                }else
+                {
+                    $grps1 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id1)->get();
+                }
+
                 $gbalance1 = [];
                 $gite1 = 0;
                 foreach($grps1 as $group){
@@ -54,7 +65,17 @@
                 }
 
                 $id2= \App\Models\AccountType::where('name','Liabilities')->first()->id;
-                $grps2 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id2)->get();
+                if($date_start && $date_end)
+                {
+                    $grps2 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id2)
+                        ->whereDate('created_at', '>=', $date_start)
+                        ->whereDate('created_at', '<=', $date_end)
+                        ->get();
+
+                }else
+                {
+                    $grps2 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id2)->get();
+                }
                 $gbalance2 = [];
                 $gite2 = 0;
                 foreach($grps2 as $group){
@@ -79,7 +100,17 @@
                 }
 
                 $id3= \App\Models\AccountType::where('name','Capital')->first()->id;
-                $grps3 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id3)->get();
+                if($date_start && $date_end)
+                {
+                    $grps3 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id3)
+                        ->whereDate('created_at', '>=', $date_start)
+                        ->whereDate('created_at', '<=', $date_end)
+                        ->get();
+
+                }else
+                {
+                    $grps3 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id3)->get();
+                }
                 $gbalance3 = [];
                 $gite3 = 0;
                 foreach($grps3 as $group){
@@ -104,7 +135,17 @@
                 }
 
                 $id4= \App\Models\AccountType::where('name','Revenue')->first()->id;
-                $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)->get();
+                if($date_start && $date_end)
+                {
+                    $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)
+                        ->whereDate('created_at', '>=', $date_start)
+                        ->whereDate('created_at', '<=', $date_end)
+                        ->get();
+
+                }else
+                {
+                    $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)->get();
+                }
                 $gbalance4 = [];
                 $gite4 = 0;
                 foreach($grps4 as $group){
@@ -130,7 +171,17 @@
                 }
 
                 $id5= \App\Models\AccountType::where('name','Expenses')->first()->id;
-                $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)->get();
+                if($date_start && $date_end)
+                {
+                    $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)
+                        ->whereDate('created_at', '>=', $date_start)
+                        ->whereDate('created_at', '<=', $date_end)
+                        ->get();
+
+                }else
+                {
+                    $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)->get();
+                }
                 $gbalance5 = [];
                 $gite5 = 0;
                 foreach($grps5 as $group){
@@ -166,7 +217,13 @@
         <thead>
             <tr>
                 <th align="left" style="width: 50%;">
-                    <h3>Balance Sheet</h3>
+                    <!-- <h3>Balance Sheet</h3> -->
+                    <div style="display:flex">
+                        <h3 style="display: inline-block">Balance Sheet</h3>
+                        @if($date_from && $date_to)
+                            <h4 style="display: inline-block">From {{ $date_from }} to {{ $date_to }}</h4>
+                        @endif
+                    <div>
                 </th>
                 <th colspan='2' align="right" style="width: 30%;">
                     <h5>Generated on: {{ $dt}}</h5>

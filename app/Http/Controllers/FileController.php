@@ -15,7 +15,7 @@ use App\Models\File;
 use App\Models\Agent;
 use App\Models\Importer;
 use App\Models\Client;
-
+use App\Models\Invoice;
 
 class FileController extends Controller
 {
@@ -68,6 +68,8 @@ class FileController extends Controller
                         'importer' => $file->importers ? $file->importers->name : null,
                         'client' => $file->clients ? $file->clients->name : null,
                         'agent' => $file->agents ? $file->agents->name : null,
+                        'delete' => Invoice::where('file_id', $file->id)->first() ? false : true,
+
                     ],
                 );
 
@@ -122,7 +124,8 @@ class FileController extends Controller
         // dd(Request::input('s_tax'));
         // dd(Request::input('qty'));
         Request::validate([
-            'file_no' => ['required'],
+            'file_no' => ['required', 'unique:files', 'max:255'],
+            'importer_id' => ['required'],
         ]);
 
         $file = File::create([
@@ -196,7 +199,8 @@ class FileController extends Controller
     public function update(File $file)
     {
         Request::validate([
-            'file_no' => ['required'],
+            'file_no' => ['required', 'unique:files', 'max:255'],
+            'importer_id' => ['required'],
         ]);
 
 

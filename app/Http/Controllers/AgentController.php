@@ -10,11 +10,12 @@ use Inertia\Inertia;
 
 use App\Models\Company;
 use App\Models\Agent;
+use App\Models\File;
 
 
 class AgentController extends Controller
 {
-    
+
     public function index()
     {
         //Validating request
@@ -31,10 +32,11 @@ class AgentController extends Controller
                 [
                     'id' => $agent->id,
                     'name' => $agent->name,
+                    'delete' => File::where('agent_id', $agent->id)->first() ? false : true,
                 ],
             );
-     
-     
+
+
         //Searching request
         $query = Agent::query();
         if (request('search')) {
@@ -47,7 +49,7 @@ class AgentController extends Controller
                 request('direction')
             );
         }
-     
+
         return Inertia::render('Agents/Index', [
             'companies' => Company::all(),
             'agent' => Agent::first(),
@@ -64,11 +66,12 @@ class AgentController extends Controller
     public function store()
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:agents', 'max:255'],
+
         ]);
-            $agent = Agent::create([
-                'name' => strtoupper(Request::input('name')),
-            ]);
+        $agent = Agent::create([
+            'name' => strtoupper(Request::input('name')),
+        ]);
 
         return Redirect::route('agents')->with('success', 'Agent created');
     }
@@ -86,7 +89,7 @@ class AgentController extends Controller
     public function update(Agent $agent)
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:agents', 'max:255'],
         ]);
 
         $agent->name = strtoupper(Request::input('name'));

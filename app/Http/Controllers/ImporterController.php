@@ -15,6 +15,7 @@ use App\Models\Company;
 use Illuminate\Database\Seeder;
 use App\Models\Importer;
 use App\Models\Account;
+use App\Models\File;
 use App\Models\AccountGroup;
 use Artisan;
 
@@ -42,6 +43,7 @@ class ImporterController extends Controller
                     'phone_no' => $impo->phone_no,
                     'stn_no' => $impo->stn_no,
                     'ntn_no' => $impo->ntn_no,
+                    'delete' => File::where('importer_id', $impo->id)->first() ? false : true,
                 ],
             );
 
@@ -83,7 +85,8 @@ class ImporterController extends Controller
     public function store(Req $request)
     {
         Request::validate([
-            'name' => ['required'],
+            'name' => ['required', 'unique:importers', 'max:255'],
+            'email' => ['required', 'email', 'unique:importers,email'],
         ]);
         DB::transaction(function () use ($request) {
             $accgroup = \App\Models\AccountGroup::where('name', 'Trade-Debtors')->where('company_id', session('company_id'))->first()->id;
@@ -142,8 +145,8 @@ class ImporterController extends Controller
     public function update(Importer $importer, Req $request)
     {
         Request::validate([
-            'name' => ['required'],
-            'email' => ['nullable'],
+            'name' => ['required', 'unique:importers', 'max:255'],
+            'email' => ['required', 'email', 'unique:importers,email'],
             'address' => ['nullable'],
             'stn_no' => ['nullable'],
             'phone_no' => ['nullable'],

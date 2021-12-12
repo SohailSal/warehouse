@@ -36,33 +36,37 @@
         <table class="shadow-lg w-full text-center border mt-4 ml-2 rounded-xl">
           <thead>
             <tr class="bg-indigo-100">
+              <th class="py-2 px-4 border">Vouher No</th>
               <th class="py-2 px-4 border">Debit</th>
               <th class="py-2 px-4 border">Date</th>
               <th class="py-2 px-4 border">Description</th>
               <th class="py-2 px-4 border">Cheque No</th>
-              <th class="py-2 px-4 border">payee</th>
+              <!-- <th class="py-2 px-4 border">payee</th> -->
               <th class="py-2 px-4 border">Amount</th>
               <th class="py-2 px-4 border">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in data" :key="item.id">
+              <td class="py-1 px-4 border" style="width: 10%">
+                {{ item.payment_no }}
+              </td>
               <td class="py-1 px-4 border" style="width: 15%">
                 {{ item.account_id }}
               </td>
-              <td class="py-1 px-4 border" style="width: 15%">
+              <td class="py-1 px-4 border" style="width: 12%">
                 {{ item.date }}
               </td>
-              <td class="py-1 px-4 border" style="width: 25%">
+              <td class="py-1 px-4 border" style="width: 20%">
                 {{ item.description }}
               </td>
-              <td class="py-1 px-4 border" style="width: 15%">
+              <td class="py-1 px-4 border" style="width: 10%">
                 {{ item.cheque }}
               </td>
-              <td class="py-1 px-4 border" style="width: 15%">
+              <!-- <td class="py-1 px-4 border" style="width: 10%">
                 {{ item.payee }}
-              </td>
-              <td class="py-1 px-4 border" style="width: 15%">
+              </td> -->
+              <td class="py-1 px-4 border" style="width: 10%">
                 {{ item.amount }}
               </td>
               <td class="py-1 px-4 border text-center">
@@ -72,21 +76,20 @@
                 >
                   <span>Edit</span>
                 </button>
-                <!-- <div
+                <div
                   class="
                     border
-                    bg-indigo-300
-                    rounded-xl
-                    px-4
-                    py-1
-                    m-1
+                    rounded-lg
+                    shadow-md
+                    p-2
+                    m-2
                     inline-block
+                    hover:bg-gray-600 hover:text-white
                   "
                 >
-                  <a v-bind:href="'/pdf/' + item.id" target="_target"
-                    >Invoice pdf</a
-                  >
-                </div> -->
+                  <a href="paymentVoucher" target="_blank">Payment Voucher</a>
+                </div>
+
                 <button
                   class="border bg-red-500 rounded-xl px-4 py-1 m-1"
                   @click="destroy(item.id)"
@@ -122,6 +125,9 @@ export default {
   },
 
   methods: {
+    route() {
+      this.$inertia.get(route("paymentVoucher"));
+    },
     create() {
       this.$inertia.get(route("payments.create"));
     },

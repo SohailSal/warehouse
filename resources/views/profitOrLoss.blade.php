@@ -29,7 +29,17 @@
             $year =  \App\Models\Year::where('company_id',session('company_id'))->where('enabled',1)->first();
 
                 $id4= \App\Models\AccountType::where('name','Revenue')->first()->id;
-                $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)->get();
+                if($date_start && $date_end)
+                {
+                    $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)
+                        ->whereDate('created_at', '>=', $date_start)
+                        ->whereDate('created_at', '<=', $date_end)
+                        ->get();
+
+                }else
+                {
+                    $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)->get();
+                }
                 $gbalance4 = [];
                 $gite4 = 0;
                 foreach($grps4 as $group){
@@ -59,7 +69,17 @@
                 }
 
                 $id5= \App\Models\AccountType::where('name','Expenses')->first()->id;
-                $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)->get();
+                if($date_start && $date_end)
+                {
+                    $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)
+                        ->whereDate('created_at', '>=', $date_start)
+                        ->whereDate('created_at', '<=', $date_end)
+                        ->get();
+
+                }else
+                {
+                    $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)->get();
+                }
                 $gbalance5 = [];
                 $gite5 = 0;
                 foreach($grps5 as $group){
@@ -97,7 +117,13 @@
         <thead>
             <tr>
                 <th align="left" style="width: 50%;">
-                    <h3>Profit or Loss Account</h3>
+                    <!-- <h3>Profit or Loss Account</h3> -->
+                    <div style="display:flex">
+                        <h3 style="display: inline-block">Profit or Loss Account</h3>
+                        @if($date_from && $date_to)
+                            <h4 style="display: inline-block">From {{ $date_from }} to {{ $date_to }}</h4>
+                        @endif
+                    <div>
                 </th>
                 <th colspan='2' align="right" style="width: 30%;">
                     <h5>Generated on: {{ $dt}}</h5>
