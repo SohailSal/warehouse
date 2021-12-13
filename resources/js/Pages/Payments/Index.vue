@@ -87,7 +87,9 @@
                     hover:bg-gray-600 hover:text-white
                   "
                 >
-                  <a href="paymentVoucher" target="_blank">Payment Voucher</a>
+                  <a v-bind:href="'/paymentVoucher/' + item.id" target="_blank"
+                    >Payment Voucher</a
+                  >
                 </div>
 
                 <button

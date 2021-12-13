@@ -252,6 +252,7 @@ class DeliveryController extends Controller
                     'code' => $delivery->files->file_code,
                     'no_of_pkgs' => $delivery->files->qty,
                     'importer' => $delivery->files->importers->name,
+                    'in_bond' => $delivery->files->bond_no,
                     'descrip' => $delivery->files->description,
                     'file_no' => $delivery->files->file_no,
                     'index' => $delivery->files->index_no,

@@ -19,17 +19,23 @@
     </div>
 
     <table style="width:100%">
+    <tr>
+        <td style="width:15%">Voucher No :</td>
+        <td style="border-bottom:1px solid black;">{{$payments['payment_no']}}</td>
+        <td style="width:7%"></td>
+        <!-- <td style="width:25%;border-bottom:1px solid black;"></td> -->
+      </tr>
       <tr>
         <td style="width:10%">PAYEE</td>
-        <td style="border-bottom:1px solid black;"></td>
+        <td style="border-bottom:1px solid black;">{{$payments['payee']}}</td>
         <td style="width:7%">Date</td>
-        <td style="width:25%;border-bottom:1px solid black;"></td>
+        <td style="width:25%;border-bottom:1px solid black;">{{$payments['date']}}</td>
       </tr>
     </table>
     <table style="width:100%;margin-bottom:20px">
       <tr>
-        <td style="width:10%">DEBIT</td>
-        <td style="border-bottom:1px solid black;"></td>
+        <td style="width:15%">DEBIT</td> 
+        <td style="border-bottom:1px solid black;">{{$payments['debit']}}</td>
       </tr>
     </table>
 
@@ -49,17 +55,22 @@
       </tr> -->
       <tbody style="height:250px;">
         <tr>
-          <td style="width:75%;text-align: center; border-collapse: collapse;border: 1px solid black;padding: 50px 0px 240px 0px;"></td>
-          <td style="widht:20%;text-align: center; border-collapse: collapse;border: 1px solid black;padding: 50px 0px 240px 0px;"></td>
+          <td style="width:75%;text-align: left; border-collapse: collapse;border: 1px solid black;padding: 50px 0px 240px 0px;"><strong>Particular :</strong>  {{$payments['description']}} <div></div><strong>Cheque No: </strong>{{$payments['cheque']}}</td>
+          <td style="widht:20%;text-align: center; border-collapse: collapse;border: 1px solid black;padding: 50px 0px 240px 0px;">{{$payments['amount']}}  </td>
           <td style="width:5%;text-align: center; border-collapse: collapse;border: 1px solid black;padding: 50px 0px 240px 0px;"></td>
         </tr>
       </tbody>
 
       <tfoot>
         <tr>
+          <td style="width:75%;border-collapse: collapse;border:1px solid;font-weight:bold">With Holding Tax </td>
+          <td style="widht:20%;border-collapse: collapse;border:1px solid;text-align:center;">{{$payments['h_tax']}}</td>
+          <td style="width:5%;border-collapse: collapse;text-align:center;"></td>
+        </tr>
+        <tr>
           <td style="width:75%;border-collapse: collapse;border:1px solid;font-weight:bold">Total Rupees </td>
-          <td style="widht:20%;border-collapse: collapse;border:1px solid;text-align:center;"></td>
-          <!-- <td style="width:5%;border-collapse: collapse;text-align:center;"></td> -->
+          <td style="widht:20%;border-collapse: collapse;border:1px solid;font-weight:bold; text-align:center;">{{$payments['amount'] + $payments['h_tax'].'.00'}} </td>
+          <td style="width:5%;border-collapse: collapse;text-align:center;"></td>
         </tr>
       </tfoot>
 

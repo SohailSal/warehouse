@@ -21,6 +21,7 @@ use App\Models\DocumentType;
 use App\Models\Invoice;
 use App\Models\Receipt;
 use App\Models\User;
+use App\Models\Payment;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
@@ -91,10 +92,25 @@ class WarehouseReportController extends Controller
     }
 
     // FOR paymentVoucher GENERATION -------------------------- --------
-    public function paymentVoucher()
-    {
+    public function paymentVoucher($pay)
+    {  
+
+        $payments = Payment::where('id' , $pay)->get()
+        ->map(function ($payment){
+            $date = new Carbon($payment->date); 
+            return[
+                'date' => $date->format('M d, Y'),
+                'payee' => $payment->payee,
+                'payment_no' => $payment->payment_no,
+                'debit' => $payment->accounts ? $payment->accounts->name : '',
+                'description' => $payment->description,
+                'amount' => $payment->amount,
+                'h_tax' => $payment->h_tax,
+                'cheque' => $payment->cheque,
+            ];
+        })->first();
         $tb = App::make('dompdf.wrapper');
-        $tb->loadView('paymentVoucher');
+        $tb->loadView('paymentVoucher' ,compact('payments'));
         return $tb->stream('paymentVoucher.pdf');
     }
 

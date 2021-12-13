@@ -73,13 +73,13 @@
             IB No : 
         </td>
         <td style="width:35%;text-align:left;border-bottom: 1px solid black">
-            Don't know
+            {{ $delivery[0]['in_bond'] }}
         </td>
         <td style="width:15%;text-align:right;">
             EB No. : 
         </td>
         <td style="width:35%;text-align:center;border-bottom: 1px solid black">
-            Don't know
+            
         </td>
     </tr>
     <tr>

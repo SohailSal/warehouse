@@ -79,7 +79,7 @@ Route::get('labourcontract', [WarehouseReportController::class, 'labourcontract'
     ->name('labourcontract')
     ->middleware('auth');
 
-Route::get('paymentVoucher', [WarehouseReportController::class, 'paymentVoucher'])
+Route::get('paymentVoucher/{id}', [WarehouseReportController::class, 'paymentVoucher'])
     ->name('paymentVoucher')
     ->middleware('auth');
 
