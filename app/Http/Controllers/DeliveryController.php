@@ -24,7 +24,7 @@ class DeliveryController extends Controller
 
         $query = Delivery::query();
 
-      
+
         if (request('search')) {
             // $query->where('file_id', 'LIKE', '%' . request('search') . '%');
             $query->join('files', 'files.id', '=', 'file_id')
@@ -32,7 +32,7 @@ class DeliveryController extends Controller
                 ->where('files.file_no', 'LIKE', '%' . request('search') . '%');
         }
 
-           
+
         if (request('searche')) {
             // $query->where('item_id', 'LIKE', '%' . request('searche') . '%');
             $query->join('items', 'items.id', '=', 'item_id')
@@ -42,16 +42,16 @@ class DeliveryController extends Controller
 
         if (request()->has(['field', 'direction'])) {
             $query->orderBy(request('field'), request('direction'));
-        }
-         else {
+        } else {
             $query->orderBy(('deliveries.file_id'), ('asc'));
         }
         // dd($query/
 
 
         return Inertia::render('Delivery/Index', [
-            'filters' => request()->all(['search', 'searche'
-            //  'field', 'direction'
+            'filters' => request()->all([
+                'search', 'searche'
+                //  'field', 'direction'
             ]),
             'balances' => $query->paginate(10)
                 ->through(function ($item) {
@@ -60,8 +60,8 @@ class DeliveryController extends Controller
                         'id' => $item->id,
                         'date' => $item->date,
                         'file_id' => $item->files ? $item->files->file_no
-                         
-                        : null,
+
+                            : null,
                         'cash_no' => $item->Cash_no,
                         'vehicle_no' => $item->Vehicle_no,
                         'item_id' => $item->items->name,
@@ -111,6 +111,9 @@ class DeliveryController extends Controller
     {
         Request::validate([
             'deliveries.*.file_id' => 'required',
+            'deliveries.*.item_id' => 'required',
+            'deliveries.*.qty' => 'required',
+
         ]);
 
 
@@ -183,7 +186,10 @@ class DeliveryController extends Controller
     public function update(Delivery $delivery)
     {
         Request::validate([
+            'file_id' => ['required'],
             'date' => ['required'],
+            'item_id' => ['required'],
+            'qty' => ['required'],
         ]);
 
 
@@ -246,6 +252,7 @@ class DeliveryController extends Controller
                     'code' => $delivery->files->file_code,
                     'no_of_pkgs' => $delivery->files->qty,
                     'importer' => $delivery->files->importers->name,
+                    'in_bond' => $delivery->files->bond_no,
                     'descrip' => $delivery->files->description,
                     'file_no' => $delivery->files->file_no,
                     'index' => $delivery->files->index_no,

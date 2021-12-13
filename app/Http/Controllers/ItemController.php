@@ -134,8 +134,8 @@ class ItemController extends Controller
     public function update(Item $item)
     {
         Request::validate([
-            'name' => ['required', 'unique:items', 'max:255'],
-            'hscode' => ['required', 'unique:items', 'max:255'],
+            'name' => ['required', 'max:255'],
+            'hscode' => ['required', 'max:255'],
 
         ]);
 

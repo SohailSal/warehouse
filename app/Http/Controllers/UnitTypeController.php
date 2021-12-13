@@ -69,7 +69,7 @@ class UnitTypeController extends Controller
     public function update(UnitType $unittype)
     {
         Request::validate([
-            'name' => ['required', 'unique:unit_types', 'max:255'],
+            'name' => ['required', 'max:255'],
         ]);
 
         $unittype->name = Request::input('name');

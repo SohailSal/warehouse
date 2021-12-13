@@ -30,7 +30,7 @@ class SupplierController extends Controller
         ]);
 
         //IMPORTER data
-        $query = Supplier::paginate(6)
+        $query = Supplier::paginate(12)
             ->withQueryString()
             ->through(
                 fn ($impo) =>
@@ -49,7 +49,6 @@ class SupplierController extends Controller
 
 
         //Searching request
-        $query = Supplier::query();
         if (request('search')) {
             $query->where('name', 'LIKE', '%' . request('search') . '%');
         }
@@ -64,7 +63,7 @@ class SupplierController extends Controller
         return Inertia::render('Suppliers/Index', [
             'companies' => Company::all(),
             'supplier' => Supplier::first(),
-            'balances' => $query->paginate(12),
+            'balances' => $query,
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
     }
@@ -136,8 +135,8 @@ class SupplierController extends Controller
     {
         // dd($request);
         Request::validate([
-            'name' => ['required', 'unique:suppliers', 'max:255'],
-            'email' => ['required', 'email', 'unique:suppliers,email'],
+            'name' => ['required',  'max:255'],
+            'email' => ['required', 'email'],
             'address' => ['nullable'],
             'stn_no' => ['nullable'],
             'phone_no' => ['nullable'],

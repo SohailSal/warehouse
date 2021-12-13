@@ -25,7 +25,7 @@ class AgentController extends Controller
         ]);
 
         // Client data query
-        $query = Agent::paginate(6)
+        $query = Agent::paginate(12)
             ->withQueryString()
             ->through(
                 fn ($agent) =>
@@ -38,7 +38,6 @@ class AgentController extends Controller
 
 
         //Searching request
-        $query = Agent::query();
         if (request('search')) {
             $query->where('name', 'LIKE', '%' . request('search') . '%');
         }
@@ -53,7 +52,7 @@ class AgentController extends Controller
         return Inertia::render('Agents/Index', [
             'companies' => Company::all(),
             'agent' => Agent::first(),
-            'balances' => $query->paginate(12),
+            'balances' => $query,
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
     }
@@ -89,7 +88,7 @@ class AgentController extends Controller
     public function update(Agent $agent)
     {
         Request::validate([
-            'name' => ['required', 'unique:agents', 'max:255'],
+            'name' => ['required', 'max:255'],
         ]);
 
         $agent->name = strtoupper(Request::input('name'));

@@ -31,7 +31,7 @@ class ImporterController extends Controller
         ]);
 
         //IMPORTER data
-        $query = Importer::paginate(6)
+        $query = Importer::paginate(12)
             ->withQueryString()
             ->through(
                 fn ($impo) =>
@@ -49,7 +49,6 @@ class ImporterController extends Controller
 
 
         //Searching request
-        $query = Importer::query();
         if (request('search')) {
             $query->where('name', 'LIKE', '%' . request('search') . '%');
         }
@@ -64,7 +63,7 @@ class ImporterController extends Controller
         return Inertia::render('Importers/Index', [
             'companies' => Company::all(),
             'importer' => Importer::first(),
-            'balances' => $query->paginate(12),
+            'balances' => $query,
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
     }
@@ -145,8 +144,8 @@ class ImporterController extends Controller
     public function update(Importer $importer, Req $request)
     {
         Request::validate([
-            'name' => ['required', 'unique:importers', 'max:255'],
-            'email' => ['required', 'email', 'unique:importers,email'],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email'],
             'address' => ['nullable'],
             'stn_no' => ['nullable'],
             'phone_no' => ['nullable'],
