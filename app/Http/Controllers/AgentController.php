@@ -89,7 +89,7 @@ class AgentController extends Controller
     public function update(Agent $agent)
     {
         Request::validate([
-            'name' => ['required', 'unique:agents', 'max:255'],
+            'name' => ['required', 'max:255'],
         ]);
 
         $agent->name = strtoupper(Request::input('name'));

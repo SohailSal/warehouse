@@ -20,7 +20,8 @@
         </option>
       </select>
       <!-- <div v-if="errors.type">{{ errors.type }}</div> -->
-      <div
+      <!-- Trial Balance Button -->
+      <!-- <div
         class="
           border
           rounded-lg
@@ -32,9 +33,10 @@
         "
       >
         <a href="trialbalance" target="_blank">Trial Balance</a>
-      </div>
+      </div> -->
 
-      <div
+      <!-- Balance Sheet  Button-->
+      <!-- <div
         class="
           border
           rounded-lg
@@ -46,9 +48,10 @@
         "
       >
         <a href="bs" target="_blank">Balance Sheet</a>
-      </div>
+      </div> -->
 
-      <div
+      <!-- Profit And Loss  Button-->
+      <!-- <div
         class="
           border
           rounded-lg
@@ -60,8 +63,10 @@
         "
       >
         <a href="pl" target="_blank">Profit or Loss A/C</a>
-      </div>
-      <div
+      </div> -->
+
+      <!-- Labour Contract  Button-->
+      <!-- <div
         class="
           border
           rounded-lg
@@ -73,7 +78,7 @@
         "
       >
         <a href="labourcontract" target="_blank">Labour Contract</a>
-      </div>
+      </div> -->
 
       <!-- <div
       class="

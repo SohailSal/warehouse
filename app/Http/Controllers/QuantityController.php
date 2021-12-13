@@ -92,6 +92,7 @@ class QuantityController extends Controller
         Request::validate([
             'quantities.*.item_id' => 'required',
             'quantities.*.qty' => 'required',
+            'quantities.*.file_id' => 'required',
         ]);
         $quantities = $request->quantities;
         foreach ($quantities as $quantity) {
@@ -136,6 +137,7 @@ class QuantityController extends Controller
         Request::validate([
             'item_id' => ['required'],
             'qty' => ['required'],
+            'file_id' => ['required'],
         ]);
 
         $quantity->item_id = Request::input('item_id')['id'];

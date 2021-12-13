@@ -136,8 +136,8 @@ class SupplierController extends Controller
     {
         // dd($request);
         Request::validate([
-            'name' => ['required', 'unique:suppliers', 'max:255'],
-            'email' => ['required', 'email', 'unique:suppliers,email'],
+            'name' => ['required',  'max:255'],
+            'email' => ['required', 'email'],
             'address' => ['nullable'],
             'stn_no' => ['nullable'],
             'phone_no' => ['nullable'],

@@ -2,7 +2,8 @@
   <app-layout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Dashboard - {{ this.$page.props.co_id }} - {{ this.$page.props.yr_id }}
+        Dashboard
+        <!-- // {{ this.$page.props.co_id }} - {{ this.$page.props.yr_id }}  -->
       </h2>
       <!-- <div
         class="px-4 py-2 bg-gray-100 border-t border-gray-200 flex justify-start items-center"
@@ -30,62 +31,28 @@
         <div
           class="
             bg-gray-700
-            text-white text-3xl
+            text-white text-4xl
             p-2
+            text-center
             overflow-hidden
             shadow-xl
             sm:rounded-lg
           "
         >
-          Welcome to MZ ERP - Warehouse
+          Welcome to Tulip Industreis (Pvt) Limited
         </div>
 
         <!-- <welcome /> -->
         <!-- v-if="can['edit']" -->
-        <div
-          class="
-            inline-flex
-            py-2
-            px-4
-            bg-gray-800
-            text-white
-            m-4
-            rounded-lg
-            shadow-lg
-            overflow-auto
-            md:w-1/2
-          "
-        >
-          <!-- <form method="GET" action="https://sa.com.pk/dashboard"> -->
-          <form @submit.prevent="form.post(route('dashboard.roleassign'))">
-            <!-- <input
+
+        <!-- Role Assign UI Start -->
+        <!-- <form method="GET" action="https://sa.com.pk/dashboard"> -->
+        <!-- <input
               type="hidden"
               name="_token"
               value="XuypUXXROQ6QQNxAGf4fsWaWfUPUJm3PXQyIbKSV"
             /> -->
-            <div class="flex-col m-2">
-              <h3>Assign usage rights to another user</h3>
-            </div>
-            <div class="flex-col m-2">
-              <label class="inline-flex text-white mb-2 w-20">Email:</label>
-              <input
-                type="text"
-                v-model="form.email"
-                class="
-                  bg-gray-600
-                  text-white
-                  rounded
-                  focus:outline-none focus:shadow-outline
-                  px-1
-                  hover:text-blue-200
-                  w-52
-                "
-                label="email"
-                placeholder="Enter Email of User"
-              />
-              <div v-if="errors.email">{{ errors.email }}</div>
-            </div>
-            <!-- <div class="flex-col m-2">`  1
+        <!-- <div class="flex-col m-2">`  1
               <label class="inline-flex text-white mb-2 w-20">Company:</label>
               <select
                 v-model="form.company_id"
@@ -110,7 +77,7 @@
                 </option>
               </select>
             </div> -->
-            <!-- <div class="flex-col m-2">
+        <!-- <div class="flex-col m-2">
               <label class="inline-flex text-white mb-2 w-20">Role:</label>
               <select
                 v-model="form.role"
@@ -132,6 +99,44 @@
                 </option>
               </select>
             </div> -->
+        <!-- <div
+          class="
+            inline-flex
+            py-2
+            px-4
+            bg-gray-800
+            text-white
+            m-4
+            rounded-lg
+            shadow-lg
+            overflow-auto
+            md:w-1/2
+          "
+        >
+          <form @submit.prevent="form.post(route('dashboard.roleassign'))">
+            <div class="flex-col m-2">
+              <h3>Assign usage rights to another user</h3>
+            </div>
+            <div class="flex-col m-2">
+              <label class="inline-flex text-white mb-2 w-20">Email:</label>
+              <input
+                type="text"
+                v-model="form.email"
+                class="
+                  bg-gray-600
+                  text-white
+                  rounded
+                  focus:outline-none focus:shadow-outline
+                  px-1
+                  hover:text-blue-200
+                  w-52
+                "
+                label="email"
+                placeholder="Enter Email of User"
+              />
+              <div v-if="errors.email">{{ errors.email }}</div>
+            </div>
+
             <div class="flex-col m-2">
               <button
                 class="
@@ -153,7 +158,8 @@
               </button>
             </div>
           </form>
-        </div>
+        </div> -->
+        <!-- Role Assign UI end -->
         <!-- <div v-if="$page.props.flash.success" class="bg-yellow-600 text-white">
           {{ $page.props.flash.success }}
         </div>
