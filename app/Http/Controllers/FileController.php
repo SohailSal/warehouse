@@ -199,7 +199,7 @@ class FileController extends Controller
     public function update(File $file)
     {
         Request::validate([
-            'file_no' => ['required', 'unique:files', 'max:255'],
+            'file_no' => ['required', 'max:255'],
             'importer_id' => ['required'],
         ]);
 

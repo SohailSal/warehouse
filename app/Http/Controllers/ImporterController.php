@@ -145,8 +145,8 @@ class ImporterController extends Controller
     public function update(Importer $importer, Req $request)
     {
         Request::validate([
-            'name' => ['required', 'unique:importers', 'max:255'],
-            'email' => ['required', 'email', 'unique:importers,email'],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email'],
             'address' => ['nullable'],
             'stn_no' => ['nullable'],
             'phone_no' => ['nullable'],

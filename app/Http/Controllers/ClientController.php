@@ -102,8 +102,8 @@ class ClientController extends Controller
     {
         Request::validate([
 
-            'name' => ['required', 'unique:clients', 'max:255'],
-            'email' => ['required', 'email', 'unique:clients,email'],
+            'name' => ['required',  'max:255'],
+            'email' => ['required', 'email'],
             'address' => ['nullable'],
             'phone_no' => ['nullable'],
             'ntn_no' => ['nullable'],
