@@ -19,7 +19,7 @@ use App\Models\DocumentType;
 use App\Models\User;
 use Inertia\Inertia;
 use Carbon\Carbon;
-
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\DB;
 // use Crypt;
 use Illuminate\Support\Facades\Crypt;
@@ -49,7 +49,8 @@ class ReportController extends Controller
     public function ledger($id)
     {
         $year = Year::where('company_id', session('company_id'))->where('enabled', 1)->first();
-        $acc = Account::where('company_id', session('company_id'))->where('id', Crypt::decrypt($id))->first();
+        // $acc = Account::where('company_id', session('company_id'))->where('id', Crypt::decrypt($id))->first();
+        $acc = Account::where('company_id', session('company_id'))->where('id', $id)->first();
 
         $entries = DB::table('documents')
             ->join('entries', 'documents.id', '=', 'entries.document_id')
@@ -57,7 +58,8 @@ class ReportController extends Controller
             ->whereDate('documents.date', '<=', $year->end)
             ->where('documents.company_id', session('company_id'))
             ->select('entries.account_id', 'entries.debit', 'entries.credit', 'documents.ref', 'documents.date', 'documents.description')
-            ->where('entries.account_id', '=', Crypt::decrypt($id))
+            // ->where('entries.account_id', '=', Crypt::decrypt($id))
+            ->where('entries.account_id', '=', $id)
             ->get();
 
         $previous = DB::table('documents')
@@ -65,70 +67,27 @@ class ReportController extends Controller
             ->whereDate('documents.date', '<', $year->begin)
             ->where('documents.company_id', session('company_id'))
             ->select('entries.debit', 'entries.credit')
-            ->where('entries.account_id', '=', Crypt::decrypt($id))
+            // ->where('entries.account_id', '=', Crypt::decrypt($id))
+            ->where('entries.account_id', '=', $id)
             ->get();
 
         //        $entries = Entry::where('account_id',Crypt::decrypt($id))->where('company_id',session('company_id'))->get();
         $period = "From " . strval($year->begin) . " to " . strval($year->end);
-        $pdf = PDF::loadView('led', compact('entries', 'previous', 'year', 'period', 'acc'));
+        $pdf = PDF::loadView('range', compact('entries', 'previous', 'year', 'period', 'acc'));
         return $pdf->stream($acc->name . ' - ' . $acc->accountGroup->name . '.pdf');
     }
 
 
-    // public function rangeLedger($account_id, $date_start, $date_end)
-    public function rangeLedger(Req $request)
+    // To generate ledger report in pdf --------------------------- LEDGER ---------------
+    public function rangeLedger(Req $request, $id)
     {
-        // dd($account_id . '  ' . $date_start . ' ' . $date_end);
-        // $account_id = $request->input('account_id');
-        // $account_id = $request->input('date_start');
-        // dd($account_id);
-
-
-        // Request::validate([
-        //     $request->account_id => ['required'],
-        //     $request->date_start => ['required'],
-        //     $request->date_end => ['required'],
-        //     // 'account_id' => ['required'],
-        //     // 'date_start' => ['required'],
-        //     // 'date_end' => ['required'],
-        // ]);
-
-        // $acc_id = Request::input('account_id');
-        // dd($acc_id);
-        // 'address' => Request::input('address'),
-        // $date = new Carbon($request->date);
-
-        // $start = new Carbon(Request::input('date_start'));
-        // $end = new Carbon(Request::input('date_end'));
-        // $account = Request::input('account_id');
-
         $start = new Carbon($request->input('date_start'));
         $end = new Carbon($request->input('date_end'));
-        $account = $request->input('account_id');
+        // $account = $request->input('account_id');
+        $account = $id;
 
         $start = $start->format('Y-m-d');
         $end = $end->format('Y-m-d');
-
-
-        // $start = $request->input('date_start');
-        // $end = $request->input('date_end');
-        // $account = $request->input('account_id');
-
-        // $start = "2021-09-03";
-        // $end = "2021-09-23";
-
-
-
-        // $account = $account_id;
-        // $start = new Carbon($date_start);
-        // $end = new Carbon($date_end);
-
-        // $start = $start->format('Y-m-d');
-        // $end = $end->format('Y-m-d');
-
-        // $start = "skjdf";
-        // $end = "skjdf";
-        // $account = 47;
 
         $entries = DB::table('documents')
             ->join('entries', 'documents.id', '=', 'entries.document_id')

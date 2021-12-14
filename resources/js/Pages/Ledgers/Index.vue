@@ -12,8 +12,12 @@
 
       <!-- <div class=""> -->
       <!-- <form @submit.prevent="submit" action="range" ref="form"> -->
-
-      <form @submit.prevent="submit">
+      <form
+        @submit.prevent="submit_range"
+        v-bind:action="'range/' + form.account_id['id']"
+        ref="form_range"
+      >
+        <!-- <form @submit.prevent="submit"> -->
         <!-- class="rounded-md border border-black" -->
         <multiselect
           class="
@@ -100,6 +104,27 @@
             {{ type.name }}
           </option>
         </select>
+
+        <div
+          class="
+            border
+            rounded-lg
+            shadow-md
+            p-2
+            m-2
+            inline-block
+            hover:bg-gray-600 hover:text-white
+            bg-indigo-300
+          "
+        >
+          <button type="submit">Ledger Report</button>
+          <!-- <a href="'ledger/'" target="_blank">Payment Voucher</a> -->
+          <!-- <a href="/range" target="_blank">Ledger Report</a> -->
+          <!-- <a v-bind:href="'/ledger/' + form.account_id['id']" target="_blank"
+            >Ledger Report</a
+          > -->
+        </div>
+
         <table class="shadow-lg w-full border mt-4 mx-2 rounded-xl">
           <thead>
             <tr class="bg-indigo-100">
@@ -222,6 +247,9 @@ export default {
   //   },
 
   methods: {
+    submit_range: function () {
+      this.$refs.form_range.submit();
+    },
     getledger() {
       //   console.log(this.form.account_id);
       //   this.$inertia.get(route("getledger", this.form.account_id));
