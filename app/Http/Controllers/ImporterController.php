@@ -29,24 +29,9 @@ class ImporterController extends Controller
             'direction' => ['in:asc,desc'],
             'field' => ['in:name,email']
         ]);
-
-        //IMPORTER data
-        $query = Importer::paginate(12)
-            ->withQueryString()
-            ->through(
-                fn ($impo) =>
-                [
-                    'id' => $impo->id,
-                    'name' => $impo->name,
-                    'email' => $impo->email,
-                    'address' => $impo->address,
-                    'phone_no' => $impo->phone_no,
-                    'stn_no' => $impo->stn_no,
-                    'ntn_no' => $impo->ntn_no,
-                    'delete' => File::where('importer_id', $impo->id)->first() ? false : true,
-                ],
-            );
-
+         
+        
+        $query = Importer::query();
 
         //Searching request
         if (request('search')) {
@@ -63,7 +48,22 @@ class ImporterController extends Controller
         return Inertia::render('Importers/Index', [
             'companies' => Company::all(),
             'importer' => Importer::first(),
-            'balances' => $query,
+            'balances' => $query->paginate(10)
+            ->through(
+                function ($impo) {
+                    return
+                    [
+                        'id' => $impo->id,
+                        'name' => $impo->name,
+                        'email' => $impo->email,
+                        'address' => $impo->address,
+                        'phone_no' => $impo->phone_no,
+                        'stn_no' => $impo->stn_no,
+                        'ntn_no' => $impo->ntn_no,
+                        'delete' => File::where('importer_id', $impo->id)->first() ? false : true,
+                    ]; 
+                }
+                ),
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
     }

@@ -22,6 +22,7 @@
         <multiselect
           class="
             ml-2
+            mt-2
             w-full
             inline-block
             lg:w-1/4

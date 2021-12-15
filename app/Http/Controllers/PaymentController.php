@@ -23,11 +23,35 @@ class PaymentController extends Controller
      */
     public function index()
     {
+        //Validating request
+        request()->validate([
+            'direction' => ['in:asc,desc'],
+            'field' => ['in:file_id']
+        ]);
+
+        $query = Payment::query();
+
+        //Searching request
+        if (request('search')) {
+            $query->where('payment_no', 'LIKE', '%' . request('search') . '%');
+        }
+        if (request('searche')) {
+            $query->join('accounts', 'accounts.id', '=', 'account_id')
+                ->select('payments.*')
+                ->where('accounts.name', 'LIKE', '%' . request('searche') . '%');
+        }
+
+        if (request()->has(['field', 'direction'])) {
+            $query->orderBy(request('field'), request('direction'));
+        }
 
         return Inertia::render('Payments/Index', [
-
-            'data' => Payment::all()
-                ->map(function ($payment) {
+            'filters' => request()->all([
+                'search', 'searche'
+                //  'field', 'direction'
+            ]),
+            'balances' => $query->paginate(10)
+                ->through(function ($payment) {
                     return [
                         'id' => $payment->id,
                         'payment_no' => $payment->payment_no,
@@ -38,10 +62,8 @@ class PaymentController extends Controller
                         'payee' => $payment->payee,
                         'cheque' => $payment->cheque,
                         'amount' => $payment->amount,
-
                     ];
                 }),
-
             'companies' => Company::all()
                 ->map(
                     function ($com) {
@@ -51,7 +73,6 @@ class PaymentController extends Controller
                         ];
                     }
                 ),
-
         ]);
     }
 

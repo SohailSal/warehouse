@@ -28,7 +28,7 @@ class FileController extends Controller
         // $agent = Agent::first();
 
         if ($importer) {
-            // if($importer && $client && $agent){
+            
             //Validating request
             request()->validate([
                 'direction' => ['in:asc,desc'],
@@ -40,10 +40,23 @@ class FileController extends Controller
             //Searching request
             $query = File::query();
 
-            // Client data query
-            // $query = File::paginate(6)
-            $query = File::paginate(12)
-                // ->withQueryString()
+            if (request('search')) {
+                $query->where('file_no', 'LIKE', '%' . request('search') . '%');
+            }
+
+            //Ordering request
+            if (request()->has(['field', 'direction'])) {
+                $query->orderBy(
+                    request('field'),
+                    request('direction')
+                );
+            }
+
+            return Inertia::render('Files/Index', [
+                'companies' => Company::all(),
+                'file' => File::first(),
+                // 'balances' => $query->paginate(12),
+                'balances' => $query->paginate(12)
                 ->through(
                     fn ($file) =>
                     [
@@ -71,24 +84,7 @@ class FileController extends Controller
                         'delete' => Invoice::where('file_id', $file->id)->first() ? false : true,
 
                     ],
-                );
-
-            if (request('search')) {
-                $query->where('file_no', 'LIKE', '%' . request('search') . '%');
-            }
-            //Ordering request
-            if (request()->has(['field', 'direction'])) {
-                $query->orderBy(
-                    request('field'),
-                    request('direction')
-                );
-            }
-
-            return Inertia::render('Files/Index', [
-                'companies' => Company::all(),
-                'file' => File::first(),
-                // 'balances' => $query->paginate(12),
-                'balances' => $query,
+                ),
                 'filters' => request()->all(['search', 'field', 'direction'])
             ]);
         } else {

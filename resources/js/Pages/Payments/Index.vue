@@ -20,6 +20,22 @@
     <!-- <div class=""> -->
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <jet-button @click="create" class="mt-2 ml-2">Create Payment</jet-button>
+      <input
+        type="search"
+        v-if="balances.data"
+        v-model="params.search"
+        aria-label="Search"
+        placeholder="Search by Voucher no."
+        class="pr-2 pb-2 w-full lg:w-1/4 ml-6 rounded-md placeholder-indigo-300"
+      />
+      <input
+        type="search"
+        v-if="balances.data"
+        v-model="params.searche"
+        aria-label="Search"
+        placeholder="Search by Debit"
+        class="pr-2 pb-2 w-full lg:w-1/4 ml-2 rounded-md placeholder-indigo-300"
+      />
       <select
         v-model="co_id"
         class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right"
@@ -47,7 +63,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in data" :key="item.id">
+            <tr v-for="item in balances.data" :key="item.id">
               <td class="py-1 px-4 border" style="width: 10%">
                 {{ item.payment_no }}
               </td>
@@ -101,8 +117,12 @@
                 </button>
               </td>
             </tr>
+            <tr v-if="balances.data.length === 0">
+              <td class="border-t px-6 py-4" colspan="4">No Record found.</td>
+            </tr>
           </tbody>
         </table>
+        <paginator class="mt-6" :balances="balances" />
       </div>
     </div>
   </app-layout>
@@ -111,25 +131,42 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import JetButton from "@/Jetstream/Button";
+import Paginator from "@/Layouts/Paginator";
+import { pickBy } from "lodash";
+import { throttle } from "lodash";
 
 export default {
   components: {
     AppLayout,
     JetButton,
+    Paginator,
+    throttle,
+    pickBy,
   },
 
-  props: ["data", "companies"],
+  props: {
+    balances: Object,
+    filters: Object,
+    companies: Object,
+  },
 
   data() {
     return {
       co_id: this.$page.props.co_id,
+
+      params: {
+        search: this.filters.search,
+        searche: this.filters.searche,
+        field: this.filters.field,
+        direction: this.filters.direction,
+      },
     };
   },
 
   methods: {
-    route() {
-      this.$inertia.get(route("paymentVoucher"));
-    },
+    // route() {
+    //   this.$inertia.get(route("paymentVoucher"));
+    // },
     create() {
       this.$inertia.get(route("payments.create"));
     },
@@ -143,6 +180,23 @@ export default {
     },
     coch() {
       this.$inertia.get(route("companies.coch", this.co_id));
+    },
+    sort(field) {
+      this.params.field = field;
+      this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
+    },
+  },
+  watch: {
+    params: {
+      handler: throttle(function () {
+        console.log(this.params);
+        let params = pickBy(this.params);
+        this.$inertia.get(this.route("payments"), params, {
+          replace: true,
+          preserveState: true,
+        });
+      }, 150),
+      deep: true,
     },
   },
 };

@@ -24,23 +24,7 @@ class ClientController extends Controller
             'field' => ['in:name,email']
         ]);
 
-        // Client data query
-        $query = Client::paginate(12)
-            ->withQueryString()
-            ->through(
-                fn ($client) =>
-                [
-                    'id' => $client->id,
-                    'name' => $client->name,
-                    'email' => $client->email,
-                    'address' => $client->address,
-                    'phone_no' => $client->phone_no,
-                    'ntn_no' => $client->ntn_no,
-                    'delete' => File::where('client_id', $client->id)->first() ? false : true,
-                ],
-            );
-
-
+        $query = Client::query();
         //Searching request
         if (request('search')) {
             $query->where('name', 'LIKE', '%' . request('search') . '%');
@@ -56,7 +40,19 @@ class ClientController extends Controller
         return Inertia::render('Clients/Index', [
             'companies' => Company::all(),
             'client' => Client::first(),
-            'balances' => $query,
+            'balances' => $query->paginate(12)
+            ->through(
+                fn ($client) =>
+                [
+                    'id' => $client->id,
+                    'name' => $client->name,
+                    'email' => $client->email,
+                    'address' => $client->address,
+                    'phone_no' => $client->phone_no,
+                    'ntn_no' => $client->ntn_no,
+                    'delete' => File::where('client_id', $client->id)->first() ? false : true,
+                ],
+            ),
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
     }
