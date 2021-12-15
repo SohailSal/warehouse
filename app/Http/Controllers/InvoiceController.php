@@ -24,12 +24,39 @@ class InvoiceController extends Controller
 {
     public function index()
     {
+        request()->validate([
+            'direction' => ['in:asc,desc'],
+            'field' => ['in:file_id']
+        ]);
 
+        $query = Invoice::query();
+
+
+        if (request('searche')) {
+            // $query->where('file_id', 'LIKE', '%' . request('search') . '%');
+            $query->join('files', 'files.id', '=', 'file_id')
+                ->select('invoices.*')
+                ->where('files.file_no', 'LIKE', '%' . request('searche') . '%');
+        }
+
+        if (request('search')) {
+            $query->where('invoice_no', 'LIKE', '%' . request('search') . '%');
+        }
+
+        if (request()->has(['field', 'direction'])) {
+            $query->orderBy(request('field'), request('direction'));
+        } else {
+            $query->orderBy(('invoices.file_id'), ('asc'));
+        }
 
         return Inertia::render('Invoices/Index', [
-
-            'data' => Invoice::all()
-                ->map(function ($invoice) {
+            'filters' => request()->all([
+                'search', 'searche'
+                //  'field', 'direction'
+            ]),
+            // $balances = $query->paginate(10)
+            'balances' => $query->paginate(10)
+                ->through(function ($invoice) {
                     return [
                         'id' => $invoice->id,
                         'file_id' => $invoice->files->file_no,
@@ -42,6 +69,7 @@ class InvoiceController extends Controller
 
                     ];
                 }),
+            // dd($balances),
 
             'companies' => Company::all()
                 ->map(

@@ -18,12 +18,39 @@ class ReceiptController extends Controller
 {
     public function index()
     {
+        request()->validate([
+            'direction' => ['in:asc,desc'],
+            'field' => ['in:file_id']
+        ]);
+
+        $query = Receipt::query();
+        if (request('searche')) {
+            // $query->where('file_id', 'LIKE', '%' . request('search') . '%');
+            $query->join('files', 'files.id', '=', 'file_id')
+                ->select('receipts.*')
+                ->where('files.file_no', 'LIKE', '%' . request('searche') . '%');
+        }
+
+        if (request('search')) {
+            $query->where('receipt_no', 'LIKE', '%' . request('search') . '%');
+        }
+
+        if (request()->has(['field', 'direction'])) {
+            $query->orderBy(request('field'), request('direction'));
+        } else {
+            $query->orderBy(('receipts.file_id'), ('asc'));
+        }
+
 
 
         return Inertia::render('Receipts/Index', [
+            'filters' => request()->all([
+                'search', 'searche'
+                //  'field', 'direction'
+            ]),
 
-            'data' => Receipt::all()
-                ->map(function ($receipt) {
+            'balances' => $query->paginate(10)
+                ->through(function ($receipt) {
                     return [
                         'id' => $receipt->id,
                         'receipt_no' => $receipt->receipt_no,
