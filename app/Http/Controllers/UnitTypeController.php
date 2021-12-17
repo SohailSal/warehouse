@@ -7,18 +7,46 @@ use Illuminate\Support\Facades\Request;
 use App\Models\UnitType;
 use App\Models\Company;
 use App\Models\Document;
+use App\Models\Item;
 use Inertia\Inertia;
 
 class UnitTypeController extends Controller
 {
     public function index()
     {
+        //Validating request
+            request()->validate([
+                'direction' => ['in:asc,desc'],
+                'field' => ['in:name,email']
+            ]);
+
+            //Searching request
+            $query = UnitType::query();
+
+            if (request('search')) {
+                $query->where('name', 'LIKE', '%' . request('search') . '%');
+            }
+
+            //Ordering request
+            if (request()->has(['field', 'direction'])) {
+                $query->orderBy(
+                    request('field'),
+                    request('direction')
+                );
+            }
+
 
         return Inertia::render('UnitTypes/Index', [
 
-            'data' => UnitType::all(),
-
-
+            'balances' => $query->paginate(12)
+                ->through(
+                    fn ($unittype) =>
+                    [
+                        'name' => $unittype->name,
+                        'delete' => Item::where('unit_id', $unittype->id)->first() ? false : true,
+                    ]
+                ),
+            'filters' => request()->all(['search', 'field', 'direction']),
             'companies' => Company::all()
                 ->map(
                     function ($com) {
@@ -28,7 +56,6 @@ class UnitTypeController extends Controller
                         ];
                     }
                 ),
-
         ]);
     }
 

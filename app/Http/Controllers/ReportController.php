@@ -232,15 +232,9 @@ class ReportController extends Controller
 
     public function trialbalance_date(Req $req)
     {
-        $data['accounts'] = Account::where('company_id', session('company_id'))
-            ->whereDate('created_at', '>=', $req->date_start)
-            ->whereDate('created_at', '<=', $req->date_end)
-            ->get();
-        $data['entry_obj'] = Entry::
-            where('company_id', session('company_id'))
-            ->whereDate('created_at', '>=', $req->date_start)
-            ->whereDate('created_at', '<=', $req->date_end)
-            ->get();
+        $data['accounts'] = Account::where('company_id', session('company_id'))->get();
+        $data['entry_obj'] = Entry::where('company_id', session('company_id'))->get();
+            
 
         $data['date_start'] = $req->date_start;
         $data['date_end'] = $req->date_end;

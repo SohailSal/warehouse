@@ -37,8 +37,12 @@
                         $entries = Illuminate\Support\Facades\DB::table('documents')
                             ->join('entries', 'documents.id', '=', 'entries.document_id')
                             ->whereDate('documents.date', '<=', $year->end)
+                            // ->whereDate('documents.date', '>=', $date_start)
+                            // ->whereDate('documents.date', '<=', $date_end)
                             ->where('documents.company_id',session('company_id'))
                             ->where('entries.account_id','=',$account->id)
+                            ->whereDate('entries.created_at', '>=', $date_start)
+                            ->whereDate('entries.created_at', '<=', $date_end)
                             ->select('entries.debit', 'entries.credit')
                             ->get();
                         $cnt = count($entries);

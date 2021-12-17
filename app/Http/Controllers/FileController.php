@@ -35,8 +35,6 @@ class FileController extends Controller
                 'field' => ['in:name,email']
             ]);
 
-
-
             //Searching request
             $query = File::query();
 
@@ -54,8 +52,6 @@ class FileController extends Controller
 
             return Inertia::render('Files/Index', [
                 'companies' => Company::all(),
-                'file' => File::first(),
-                // 'balances' => $query->paginate(12),
                 'balances' => $query->paginate(12)
                 ->through(
                     fn ($file) =>
@@ -82,7 +78,6 @@ class FileController extends Controller
                         'client' => $file->clients ? $file->clients->name : null,
                         'agent' => $file->agents ? $file->agents->name : null,
                         'delete' => Invoice::where('file_id', $file->id)->first() ? false : true,
-
                     ],
                 ),
                 'filters' => request()->all(['search', 'field', 'direction'])

@@ -13,7 +13,7 @@
       <jet-button @click="create" class="mt-4 ml-2">Create</jet-button>
       <input
         type="search"
-        v-if="file"
+        v-if="balances"
         v-model="params.search"
         aria-label="Search"
         placeholder="Search..."
@@ -137,7 +137,6 @@ export default {
     balances: Object,
     filters: Object,
     companies: Object,
-    file: Object,
   },
 
   data() {
