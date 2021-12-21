@@ -129,7 +129,6 @@ class ReceiptController extends Controller
         ]);
 
         DB::transaction(function () use ($request) {
-
             $date = new Carbon($request->date);
             $prefix = \App\Models\DocumentType::where('id', 4)->first()->prefix;
             $date = $date->format('Y-m-d');
@@ -153,6 +152,7 @@ class ReceiptController extends Controller
                     'receipt_no' => $receipt->receipt_no + 1,
                     'date' => Request::input('date'),
                     'document_id' => $document->id,
+                    // 's_tax_status' => Request::input('s_tax_status'),
                     'tax_status' => Request::input('tax_status'),
                     'amount' => Request::input('amount'),
                     'i_tax' => Request::input('i_tax'),
@@ -167,6 +167,7 @@ class ReceiptController extends Controller
                     'document_id' => $document->id,
                     'tax_status' => Request::input('tax_status'),
                     'amount' => Request::input('amount'),
+                    // 's_tax_status' => Request::input('s_tax_status'),
                     'i_tax' => Request::input('i_tax'),
                     's_tax' => Request::input('s_tax'),
                     'com' => Request::input('com'),
@@ -202,6 +203,17 @@ class ReceiptController extends Controller
                     'year_id' => session('year_id'),
                     'document_id' => $document->id,
                     'debit' => $request->i_tax,
+                    'credit' => 0,
+                ]);
+            }
+            if ($request->s_tax != 0) {
+
+                Entry::create([
+                    'company_id' => session('company_id'),
+                    'account_id' => 22,
+                    'year_id' => session('year_id'),
+                    'document_id' => $document->id,
+                    'debit' => $request->s_tax,
                     'credit' => 0,
                 ]);
             }

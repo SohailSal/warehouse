@@ -77,8 +77,8 @@
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 ml-4 mr-5 text-right w-36 font-bold"
-              >Without Incl. Tax :</label
+            <label class="my-2 ml-4 mr-5 text-right w-30 font-bold"
+              >Without Incl. Sales Tax :</label
             >
             <input
               v-model="form.tax_status"
@@ -88,8 +88,8 @@
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
 
-            <label class="my-2 mr-5 text-right w-36 font-bold"
-              >Include Tax :</label
+            <label class="my-2 mr-5 ml-2 text-right w-36 font-bold"
+              >Include Sales Tax :</label
             >
             <input
               v-model="form.tax_status"
@@ -99,7 +99,7 @@
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
 
-            <label class="my-2 mr-5 text-right w-24 font-bold">None :</label>
+            <label class="my-2 mr-5 text-right w-16 font-bold">None :</label>
             <input
               v-model="form.tax_status"
               name="tax_status"
@@ -240,7 +240,7 @@ export default {
         );
       }
       this.form.total = (
-        parseInt(this.form.amount) + parseInt(this.form.s_tax)
+        parseInt(this.form.amount) + parseInt(this.form.i_tax)
       ).toFixed(2);
     },
   },
