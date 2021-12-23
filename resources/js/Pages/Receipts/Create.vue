@@ -58,6 +58,7 @@
             >
             <input
               v-model="form.tax_status"
+              @change="cal_check_income"
               name="tax_status"
               type="radio"
               value="1"
@@ -128,7 +129,7 @@
             ><input
               type="number"
               v-model="form.amount"
-              @select="cal_i_tax"
+              @change="cal_i_tax"
               class="
                 pr-2
                 pb-2
@@ -320,6 +321,9 @@ export default {
       this.form.i_tax = 0;
       this.form.s_tax = 0;
       this.form.s_tax_status = 0;
+      this.cal_i_tax();
+    },
+    cal_check_income() {
       this.cal_i_tax();
     },
   },

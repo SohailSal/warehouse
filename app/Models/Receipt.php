@@ -10,7 +10,7 @@ class Receipt extends Model
     use HasFactory;
 
     protected $fillable = [
-        'file_id', 'date', 'document_id', 'tax_status', 'amount', 'i_tax', 's_tax', 'com', 'receipt_no'
+        'file_id', 'date', 'document_id', 'tax_status', 's_tax_status', 'amount', 'i_tax', 's_tax', 'com', 'receipt_no'
     ];
 
     public function files()

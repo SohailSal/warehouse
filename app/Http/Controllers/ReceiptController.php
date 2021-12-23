@@ -121,7 +121,6 @@ class ReceiptController extends Controller
 
     public function store(Req $request)
     {
-
         Request::validate([
             'file_id' => ['required'],
             'date' => ['required'],
@@ -152,8 +151,8 @@ class ReceiptController extends Controller
                     'receipt_no' => $receipt->receipt_no + 1,
                     'date' => Request::input('date'),
                     'document_id' => $document->id,
-                    // 's_tax_status' => Request::input('s_tax_status'),
                     'tax_status' => Request::input('tax_status'),
+                    's_tax_status' => Request::input('s_tax_status'),
                     'amount' => Request::input('amount'),
                     'i_tax' => Request::input('i_tax'),
                     's_tax' => Request::input('s_tax'),
@@ -167,7 +166,7 @@ class ReceiptController extends Controller
                     'document_id' => $document->id,
                     'tax_status' => Request::input('tax_status'),
                     'amount' => Request::input('amount'),
-                    // 's_tax_status' => Request::input('s_tax_status'),
+                    's_tax_status' => Request::input('s_tax_status'),
                     'i_tax' => Request::input('i_tax'),
                     's_tax' => Request::input('s_tax'),
                     'com' => Request::input('com'),
@@ -240,12 +239,13 @@ class ReceiptController extends Controller
                 'date' => $receipt->date,
                 'document_id' => $receipt->document_id,
                 'tax_status' => $receipt->tax_status,
+                's_tax_status' => $receipt->s_tax_status,
                 'file_id' => $receipt->file_id,
                 'amount' => $receipt->amount,
                 'i_tax' => $receipt->i_tax,
                 's_tax' => $receipt->s_tax,
                 'com' => $receipt->com,
-                'total' => $receipt->amount + $receipt->i_tax,
+                'total' => $receipt->amount + $receipt->i_tax + $receipt->s_tax,
             ],
         ]);
     }
@@ -262,14 +262,14 @@ class ReceiptController extends Controller
         $document = Document::where('id', $request->document_id)->get()->first();
         $entries = Entry::where('document_id', $request->document_id)->get();
         DB::transaction(function () use ($request, $receipt, $document, $entries) {
-
             $receipt->date = $request->date;
             $receipt->tax_status = $request->tax_status;
+            $receipt->s_tax_status = $request->s_tax_status;
             $receipt->amount = $request->amount;
             $receipt->i_tax = $request->i_tax;
+            $receipt->s_tax = $request->s_tax;
             $receipt->com = $request->com;
             $receipt->save();
-
             $date = new Carbon($request->date);
             $prefix = \App\Models\DocumentType::where('id', 4)->first()->prefix;
             $date = $date->format('Y-m-d');
@@ -278,36 +278,68 @@ class ReceiptController extends Controller
             //--End.
             $document->ref = $reference;
             $document->date = $request->date;
-            $document->description = 'Invoice to ' . $request->file_id['file_no'];
+            $document->description = 'Receipt to ' . $request->file_id['file_no'];
             $document->save();
-
             // dd($request);
-            if ($request->tax_status == 2) {
-                // $entries[0]->account_id = $request->file_id['account_id'];
+            if ($request->tax_status == 0) {
                 $entries[0]->credit = $request->amount;
                 $entries[1]->debit = $request->amount;
-                $entries[2]->delete();
+                if (count($entries) == 3 || count($entries) == 4) {
+                    $entries[2]->delete();
+                    if (count($entries) == 4) {
+                        $entries[3]->delete();
+                    }
+                }
                 $entries[0]->save();
                 $entries[1]->save();
             } else {
                 // $entries[0]->account_id = $request->file_id['account_id'];
                 $entries[0]->credit = $request->total;
                 $entries[1]->debit = $request->amount;
-                if (count($entries) == 2) {
-                    Entry::create([
-                        'company_id' => session('company_id'),
-                        'account_id' => 18,
-                        'year_id' => session('year_id'),
-                        'document_id' => $document->id,
-                        'debit' => $request->i_tax,
-                        'credit' => 0,
-                    ]);
-                } else {
-                    $entries[2]->debit = $request->i_tax;
-                    $entries[2]->save();
+
+                if ($request->i_tax != 0) {
+                    if (count($entries) == 3 || count($entries) == 4) {
+                        $entries[2]->debit = $request->i_tax;
+                        $entries[2]->save();
+                    } else {
+                        // dd('else');
+                        Entry::create([
+                            'company_id' => session('company_id'),
+                            'account_id' => 18,
+                            'year_id' => session('year_id'),
+                            'document_id' => $document->id,
+                            'debit' => $request->i_tax,
+                            'credit' => 0,
+                        ]);
+                    }
                 }
-                $entries[0]->save();
-                $entries[1]->save();
+
+                if ($request->s_tax_status == 1) {
+                    if (count($entries) == 4) {
+                        $entries[3]->debit = $request->s_tax;
+                        $entries[3]->save();
+                    } else {
+                        Entry::create([
+                            'company_id' => session('company_id'),
+                            'account_id' => 22,
+                            'year_id' => session('year_id'),
+                            'document_id' => $document->id,
+                            'debit' => $request->s_tax,
+                            'credit' => 0,
+                        ]);
+                    }
+                } else {
+                    if (count($entries) == 4) {
+                        $entries[3]->delete();
+                    }
+                }
+
+                // else {
+                //     $entries[2]->debit = $request->i_tax;
+                //     $entries[2]->save();
+                // }
+                // $entries[0]->save();
+                // $entries[1]->save();
             }
         });
 
