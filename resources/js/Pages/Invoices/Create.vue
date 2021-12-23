@@ -99,7 +99,7 @@
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
 
-            <label class="my-2 mr-5 text-right w-24 font-bold">None :</label>
+            <label class="my-2 mr-5 text-right w-16 font-bold">None :</label>
             <input
               v-model="form.tax_status"
               name="tax_status"
@@ -243,7 +243,7 @@ export default {
         );
       }
       this.form.total = (
-        parseInt(this.form.amount) + parseInt(this.form.s_tax)
+        parseInt(this.form.amount) + parseInt(this.form.i_tax)
       ).toFixed(2);
     },
   },
