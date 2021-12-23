@@ -156,6 +156,7 @@
               name="t_status"
               type="radio"
               value="1"
+              @click="change_h_tax(1)"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
 
@@ -178,6 +179,7 @@
               name="t_status"
               type="radio"
               value="0"
+              @click="change_h_tax(0)"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
           </div>
@@ -224,6 +226,29 @@
               placeholder="0"
             />
             <div v-if="errors.h_tax">{{ errors.h_tax }}</div>
+          </div>
+
+          <div
+            v-if="form.t_status != 0 && form.p_status != 0"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          >
+            <label class="my-2 mr-8 text-right w-36 font-bold">Total :</label
+            ><input
+              type="number"
+              v-model="total"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              readonly
+              label="date"
+              placeholder="0"
+            />
+            <div v-if="errors.total">{{ errors.total }}</div>
           </div>
           <!--
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -290,6 +315,7 @@ export default {
   },
 
   setup(props) {
+    total: 0;
     const form = useForm({
       //    'date', 'account_id', 'description', 'payee', 'cheque', 'amount', 'enabled'
       t_status: 0,
@@ -315,6 +341,7 @@ export default {
       if (this.form.t_status == 0) {
         this.form.h_tax = 0;
       } else {
+        this.total = this.form.amount;
         this.form.h_tax = parseInt((this.form.amount * 10) / 100).toFixed(2);
         this.form.amount = parseInt(this.form.amount - this.form.h_tax).toFixed(
           2
@@ -327,6 +354,16 @@ export default {
         parseInt(this.form.amount) + parseInt(this.form.h_tax)
       ).toFixed(2);
       console.log(this.form.total);
+    },
+    change_h_tax(status) {
+      if (status == 1) {
+        this.form.amount = this.form.amount - this.form.h_tax;
+        this.total = parseInt(this.form.amount) + parseInt(this.form.h_tax);
+      }
+      if (status == 0) {
+        this.form.amount =
+          parseInt(this.form.amount) + parseInt(this.form.h_tax);
+      }
     },
   },
 
