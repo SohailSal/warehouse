@@ -95,7 +95,7 @@
           @update:model-value="coch"
         >
         </multiselect> -->
-        <select
+        <!-- <select
           v-model="co_id"
           class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right"
           label="company"
@@ -104,7 +104,7 @@
           <option v-for="type in companies" :key="type.id" :value="type.id">
             {{ type.name }}
           </option>
-        </select>
+        </select> -->
 
         <div
           class="

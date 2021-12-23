@@ -19,7 +19,7 @@
         placeholder="Search..."
         class="pr-2 pb-2 w-full lg:w-1/4 ml-6 rounded-md placeholder-indigo-300"
       />
-      <select
+      <!-- <select
         v-model="co_id"
         v-if="companies[0]"
         class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right mt-2"
@@ -30,7 +30,7 @@
         <option v-for="type in companies" :key="type.id" :value="type.id">
           {{ type.name }}
         </option>
-      </select>
+      </select> -->
       <button
         class="border bg-indigo-300 rounded-xl px-4 py-1 mx-1"
         @click="itemCreate"

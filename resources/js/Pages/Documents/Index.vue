@@ -32,7 +32,7 @@
       <!-- class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right" -->
 
       <!-- class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md" -->
-      <select
+      <!-- <select
         v-model="co_id"
         class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right"
         label="company"
@@ -41,9 +41,9 @@
         <option v-for="type in companies" :key="type.id" :value="type.id">
           {{ type.name }}
         </option>
-      </select>
+      </select> -->
       <!-- <div v-if="errors.type">{{ errors.type }}</div> -->
-      <select
+      <!-- <select
         v-model="yr_id"
         class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right"
         label="year"
@@ -52,7 +52,7 @@
         <option v-for="type in years" :key="type.id" :value="type.id">
           {{ type.name }}
         </option>
-      </select>
+      </select> -->
       <!-- <div v-if="errors.type">{{ errors.type }}</div> -->
       <!-- </div> -->
       <!-- <div class="w-full px-8"> -->

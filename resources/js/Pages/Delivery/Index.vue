@@ -34,7 +34,7 @@
         placeholder="Search By Item Name"
         class="pr-2 pb-2 w-full lg:w-1/4 ml-1 rounded-md placeholder-indigo-300"
       />
-      <select
+      <!-- <select
         v-model="co_id"
         class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right"
         label="company"
@@ -43,7 +43,7 @@
         <option v-for="type in companies" :key="type.id" :value="type.id">
           {{ type.name }}
         </option>
-      </select>
+      </select> -->
       <!-- </div> -->
       <!-- <div v-if="errors.type">{{ errors.type }}</div> -->
       <div class="">

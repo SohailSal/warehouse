@@ -9,7 +9,7 @@
       </div>
       <!-- <jet-button @click="create" class="mt-4 ml-8">Create</jet-button> -->
 
-      <select
+      <!-- <select
         v-model="co_id"
         class="pr-2 ml-2 pb-2 w-full lg:w-1/4 rounded-md float-right m-2"
         label="company"
@@ -18,7 +18,7 @@
         <option v-for="type in companies" :key="type.id" :value="type.id">
           {{ type.name }}
         </option>
-      </select>
+      </select> -->
       <!-- <div v-if="errors.type">{{ errors.type }}</div> -->
       <!-- Trial Balance Button -->
       <!-- <div
