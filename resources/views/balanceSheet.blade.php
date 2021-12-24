@@ -29,17 +29,7 @@
             $year =  \App\Models\Year::where('company_id',session('company_id'))->where('enabled',1)->first();
 
                 $id1= \App\Models\AccountType::where('name','Assets')->first()->id;
-                if($date_start && $date_end)
-                {
-                    $grps1 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id1)
-                        ->whereDate('created_at', '>=', $date_start)
-                        ->whereDate('created_at', '<=', $date_end)
-                        ->get();
-
-                }else
-                {
-                    $grps1 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id1)->get();
-                }
+                $grps1 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id1)->get();
 
                 $gbalance1 = [];
                 $gite1 = 0;
@@ -47,12 +37,14 @@
                     $balance = 0;
                     $lastbalance = 0;
                     foreach($group->accounts as $account){
-
+                        
                         $entries = Illuminate\Support\Facades\DB::table('documents')
                             ->join('entries', 'documents.id', '=', 'entries.document_id')
                             ->whereDate('documents.date', '<=', $year->end)
                             ->where('documents.company_id',session('company_id'))
                             ->where('entries.account_id','=',$account->id)
+                            ->whereDate('entries.created_at', '>=', $date_start)
+                            ->whereDate('entries.created_at', '<=', $date_end)
                             ->select('entries.debit', 'entries.credit')
                             ->get();
 
@@ -65,17 +57,8 @@
                 }
 
                 $id2= \App\Models\AccountType::where('name','Liabilities')->first()->id;
-                if($date_start && $date_end)
-                {
-                    $grps2 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id2)
-                        ->whereDate('created_at', '>=', $date_start)
-                        ->whereDate('created_at', '<=', $date_end)
-                        ->get();
-
-                }else
-                {
-                    $grps2 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id2)->get();
-                }
+                $grps2 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id2)->get();
+                
                 $gbalance2 = [];
                 $gite2 = 0;
                 foreach($grps2 as $group){
@@ -88,6 +71,8 @@
                             ->whereDate('documents.date', '<=', $year->end)
                             ->where('documents.company_id',session('company_id'))
                             ->where('entries.account_id','=',$account->id)
+                            ->whereDate('entries.created_at', '>=', $date_start)
+                            ->whereDate('entries.created_at', '<=', $date_end)
                             ->select('entries.debit', 'entries.credit')
                             ->get();
 
@@ -100,17 +85,8 @@
                 }
 
                 $id3= \App\Models\AccountType::where('name','Capital')->first()->id;
-                if($date_start && $date_end)
-                {
-                    $grps3 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id3)
-                        ->whereDate('created_at', '>=', $date_start)
-                        ->whereDate('created_at', '<=', $date_end)
-                        ->get();
-
-                }else
-                {
-                    $grps3 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id3)->get();
-                }
+                $grps3 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id3)->get();
+                
                 $gbalance3 = [];
                 $gite3 = 0;
                 foreach($grps3 as $group){
@@ -122,7 +98,9 @@
                             ->join('entries', 'documents.id', '=', 'entries.document_id')
                             ->whereDate('documents.date', '<=', $year->end)
                             ->where('documents.company_id',session('company_id'))
-                            ->where('entries.account_id','=',$account->id)
+                            ->where('entries.account_id','=',$account->id) 
+                            ->whereDate('entries.created_at', '>=', $date_start)
+                            ->whereDate('entries.created_at', '<=', $date_end)
                             ->select('entries.debit', 'entries.credit')
                             ->get();
 
@@ -135,17 +113,8 @@
                 }
 
                 $id4= \App\Models\AccountType::where('name','Revenue')->first()->id;
-                if($date_start && $date_end)
-                {
-                    $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)
-                        ->whereDate('created_at', '>=', $date_start)
-                        ->whereDate('created_at', '<=', $date_end)
-                        ->get();
-
-                }else
-                {
-                    $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)->get();
-                }
+                $grps4 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id4)->get();
+                
                 $gbalance4 = [];
                 $gite4 = 0;
                 foreach($grps4 as $group){
@@ -158,6 +127,8 @@
                             ->whereDate('documents.date', '<=', $year->end)
                             ->where('documents.company_id',session('company_id'))
                             ->where('entries.account_id','=',$account->id)
+                             ->whereDate('entries.created_at', '>=', $date_start)
+                        ->whereDate('entries.created_at', '<=', $date_end)
                             ->select('entries.debit', 'entries.credit')
                             ->get();
 
@@ -172,16 +143,8 @@
 
                 $id5= \App\Models\AccountType::where('name','Expenses')->first()->id;
                 if($date_start && $date_end)
-                {
-                    $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)
-                        ->whereDate('created_at', '>=', $date_start)
-                        ->whereDate('created_at', '<=', $date_end)
-                        ->get();
-
-                }else
-                {
-                    $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)->get();
-                }
+                $grps5 = \App\Models\AccountGroup::where('company_id',session('company_id'))->where('type_id',$id5)->get();
+                
                 $gbalance5 = [];
                 $gite5 = 0;
                 foreach($grps5 as $group){
@@ -194,6 +157,8 @@
                             ->whereDate('documents.date', '<=', $year->end)
                             ->where('documents.company_id',session('company_id'))
                             ->where('entries.account_id','=',$account->id)
+                            ->whereDate('entries.created_at', '>=', $date_start)
+                            ->whereDate('entries.created_at', '<=', $date_end)
                             ->select('entries.debit', 'entries.credit')
                             ->get();
 

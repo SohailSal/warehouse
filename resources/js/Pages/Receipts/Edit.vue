@@ -25,60 +25,65 @@
             <div v-if="errors.date">{{ errors.date }}</div>
           </div>
 
-          <!-- <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Select Importer :</label
-            >
-            <multiselect
-              style="width: 25%"
-              class="rounded-md border border-black"
-              v-model="form.file_id"
-              :options="files"
-              placeholder="Select File"
-              label="file_no"
-              track-by="id"
-            ></multiselect> -->
-          <!-- @update:model-value="updateSelected" -->
-          <!-- <div v-if="errors.file_id">{{ errors.file_id }}</div>
-          </div> -->
+          <!-- Income Tax Radio Button -->
+
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 ml-4 mr-8 text-right w-36 font-bold"
-              >Without Incl. Tax :</label
+            <label class="my-2 ml-4 mr-8 text-right w-42 font-bold"
+              >Income Tax Deducted :</label
             >
             <input
+              v-model="form.tax_status"
+              @change="cal_check_income"
+              name="tax_status"
+              type="radio"
+              value="1"
+              class="pr-2 pb-2 rounded-md placeholder-indigo-300"
+            />
+
+            <label class="my-2 mr-8 text-right w-24 font-bold">None :</label>
+            <input
+              @change="cal_none_i_tax"
               v-model="form.tax_status"
               name="tax_status"
               type="radio"
               value="0"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
+          </div>
 
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Include Tax :</label
+          <!-- Sale Tax Radio Button -->
+          <div
+            v-if="form.tax_status == 1"
+            class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
+          >
+            <label class="my-2 ml-6 mr-9 text-right w-42 font-bold"
+              >Sales Tax Deducted :</label
             >
             <input
-              v-model="form.tax_status"
-              name="tax_status"
+              v-model="form.s_tax_status"
+              name="s_tax_status"
               type="radio"
               value="1"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
+
             <label class="my-2 mr-8 text-right w-24 font-bold">None :</label>
             <input
-              v-model="form.tax_status"
-              name="tax_status"
+              @change="cal_none_s_tax"
+              v-model="form.s_tax_status"
+              name="s_tax_status"
               type="radio"
-              value="2"
+              value="0"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold">Amount :</label
+            <label class="my-2 mr-8 text-right w-36 font-bold">Amount:</label
             ><input
               type="number"
-              @change="cal_i_tax"
               v-model="form.amount"
+              @change="cal_i_tax"
               class="
                 pr-2
                 pb-2
@@ -87,20 +92,25 @@
                 rounded-md
                 placeholder-indigo-300
               "
+              label="date"
+              placeholder="10,000"
             />
-            <div v-if="errors.amount">{{ errors.amount }}</div>
-          </div>
-
+            <!-- <div v-if="errors.amount">{{ errors.amount }}</div> -->
+            <!-- </div>
           <div
-            v-if="form.tax_status != 2"
             class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap"
-          >
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Income Tax :</label
-            ><input
+          > -->
+            <!-- v-if="form.tax_status != 2" -->
+            <label
+              class="my-2 mr-8 text-right w-36 font-bold"
+              v-if="form.tax_status == 1"
+              >Income Tax:</label
+            >
+            <!-- v-if="form.tax_status != 2" -->
+            <input
+              v-if="form.tax_status == 1"
               type="number"
               v-model="form.i_tax"
-              readonly
               class="
                 pr-2
                 pb-2
@@ -109,12 +119,15 @@
                 rounded-md
                 placeholder-indigo-300
               "
+              readonly
+              placeholder="50"
             />
-            <div v-if="errors.i_tax">{{ errors.i_tax }}</div>
+            <br />
           </div>
+          <div class="ml-52" v-if="errors.amount">{{ errors.amount }}</div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 mr-8 text-right w-36 font-bold">Com :</label
+            <label class="my-2 mr-8 text-right w-36 font-bold">Com:</label
             ><input
               type="number"
               v-model="form.com"
@@ -126,10 +139,33 @@
                 rounded-md
                 placeholder-indigo-300
               "
+              label="date"
+              placeholder="50"
             />
             <div v-if="errors.com">{{ errors.com }}</div>
-          </div>
 
+            <label
+              class="my-2 mr-8 text-right w-36 font-bold"
+              v-if="form.s_tax_status == 1 && form.tax_status == 1"
+              >Sales Tax:</label
+            ><input
+              type="number"
+              v-model="form.s_tax"
+              @change="cal_s_tax"
+              v-if="form.s_tax_status == 1 && form.tax_status == 1"
+              class="
+                pr-2
+                pb-2
+                w-full
+                lg:w-1/4
+                rounded-md
+                placeholder-indigo-300
+              "
+              label="date"
+              placeholder="50"
+            />
+            <div v-if="errors.s_tax">{{ errors.s_tax }}</div>
+          </div>
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
             <label class="my-2 mr-8 text-right w-36 font-bold">Total :</label
             ><input
@@ -143,8 +179,10 @@
                 rounded-md
                 placeholder-indigo-300
               "
+              placeholder="10,000"
               readonly
             />
+            <div v-if="errors.com">{{ errors.com }}</div>
           </div>
           <div
             class="
@@ -193,8 +231,10 @@ export default {
         file_id: this.receipt.files,
         document_id: this.receipt.document_id,
         tax_status: this.receipt.tax_status,
+        s_tax_status: this.receipt.s_tax_status,
         amount: this.receipt.amount,
         i_tax: this.receipt.i_tax,
+        s_tax: this.receipt.s_tax,
         total: this.receipt.total,
         com: this.receipt.com,
       }),
@@ -206,19 +246,41 @@ export default {
       this.$inertia.put(route("receipts.update", this.receipt.id), this.form);
     },
     cal_i_tax() {
-      if (this.form.tax_status == 2) {
-        this.form.i_tax = 0;
-      } else if (this.form.tax_status == 0) {
-        this.form.i_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
+      if (this.form.tax_status == 1) {
+        this.form.i_tax = parseInt((this.form.amount * 10) / 100).toFixed(2);
       } else {
-        this.form.i_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
-        this.form.amount = parseInt(this.form.amount - this.form.i_tax).toFixed(
-          2
-        );
+        this.form.i_tax = 0;
       }
       this.form.total = (
         parseInt(this.form.amount) + parseInt(this.form.i_tax)
       ).toFixed(2);
+    },
+    cal_s_tax() {
+      if (this.form.s_tax_status == 1) {
+        let x = (
+          parseInt(this.form.amount) + parseInt(this.form.s_tax)
+        ).toFixed(2);
+        this.form.total = parseInt(x) + parseInt(this.form.i_tax);
+      } else {
+        this.form.s_tax = 0;
+      }
+    },
+    cal_none_s_tax() {
+      if (this.form.s_tax_status == 0) {
+        this.form.s_tax = 0;
+        this.cal_i_tax();
+      } else {
+        this.cal_i_tax();
+      }
+    },
+    cal_none_i_tax() {
+      this.form.i_tax = 0;
+      this.form.s_tax = 0;
+      this.form.s_tax_status = 0;
+      this.cal_i_tax();
+    },
+    cal_check_income() {
+      this.cal_i_tax();
     },
   },
 };

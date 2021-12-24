@@ -14,11 +14,42 @@ class QuantityController extends Controller
 {
     public function index()
     {
+        //Validating request
+        request()->validate([
+            'direction' => ['in:asc,desc'],
+            'field' => ['in:name,email']
+        ]);
+
+        //Searching request
+        $query = Quantity::query();
+
+        //Searching request
+        if (request('search')) {
+            $query->join('files', 'files.id', '=', 'file_id')
+                ->select('quantities.*')
+                ->where('files.file_no', 'LIKE', '%' . request('search') . '%');
+        }
+        if (request('searche')) {
+            $query->join('items', 'items.id', '=', 'item_id')
+                ->select('quantities.*')
+                ->where('items.name', 'LIKE', '%' . request('searche') . '%');
+        }
+
+        //Ordering request
+        if (request()->has(['field', 'direction'])) {
+            $query->orderBy(
+                request('field'),
+                request('direction')
+            );
+        }
 
         return Inertia::render('Quantity/Index', [
-
-            'data' => Quantity::all()
-                ->map(function ($quantity) {
+            'filters' => request()->all([
+                'search', 'searche'
+                //  'field', 'direction'
+            ]),
+            'balances' => $query->paginate(10)
+                ->through(function ($quantity) {
                     return [
                         'id' => $quantity->id,
                         'item_id' => $quantity->items->name,
@@ -27,8 +58,6 @@ class QuantityController extends Controller
                         'invoice_id' => $quantity->invoices,
                     ];
                 }),
-
-
             'companies' => Company::all()
                 ->map(
                     function ($com) {
@@ -38,7 +67,6 @@ class QuantityController extends Controller
                         ];
                     }
                 ),
-
         ]);
     }
 

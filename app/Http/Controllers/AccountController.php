@@ -46,6 +46,7 @@ class AccountController extends Controller
                             [
                                 'id' => $account->id,
                                 'name' => $account->name,
+                                'number' => $account->number,
                                 'group_id' => $account->group_id,
                                 'group_name' => $account->accountGroup->name,
                                 'delete' => Entry::where('account_id', $account->id)->first() ? false : true,
@@ -87,6 +88,8 @@ class AccountController extends Controller
         // $group_first = \App\Models\AccountGroup::all('id', 'name')->first();
         $group_first = \App\Models\AccountGroup::all()->where('company_id', session('company_id'))->map->only('id', 'name')->first();
 
+        
+
         if ($group_first) {
 
             return Inertia::render('Accounts/Create', [
@@ -106,17 +109,41 @@ class AccountController extends Controller
             'number' => ['nullable'],
             'group' => ['required'],
         ]);
-
-        Account::create([
+   
+        $account = Account::create([
             'name' => Request::input('name'),
-            'number' => Request::input('number'),
             'group_id' => Request::input('group')['id'],
             'company_id' => session('company_id'),
         ]);
+        $account->update(['number' => $this->snum($account)]);
 
         return Redirect::route('accounts')->with('success', 'Account created.');
     }
 
+    function snum($account)
+    {
+        $ty = $account->accountGroup->accountType;
+        $grs = $ty->accountGroups->where('company_id', session('company_id'));
+        $grindex = 1;
+        $grselindex = 0;
+        $grsel = null;
+        $number = 0;
+        foreach ($grs as $gr) {
+            if ($gr->name == $account->accountGroup->name) {
+                $grselindex = $grindex;
+                $grsel = $gr;
+            }
+            ++$grindex;
+        }
+        if (count($grsel->accounts) == 1) {
+            $number = $ty->id . sprintf("%'.03d", $grselindex) . sprintf("%'.03d", 1);
+        } else {
+            $lastac = Account::orderBy('id', 'desc')->where('company_id', session('company_id'))->where('group_id', $grsel->id)->skip(1)->first()->number;
+            $lastst = Str::substr($lastac, 4, 3);
+            $number = $ty->id . sprintf("%'.03d", $grselindex) . sprintf("%'.03d", ++$lastst);
+        }
+        return $number;
+    }
 
     public function edit(Account $account)
     {

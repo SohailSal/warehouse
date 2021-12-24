@@ -17,6 +17,7 @@ class DeliveryController extends Controller
 {
     public function index()
     {
+        //Validating request
         request()->validate([
             'direction' => ['in:asc,desc'],
             'field' => ['in:file_id']
@@ -24,15 +25,13 @@ class DeliveryController extends Controller
 
         $query = Delivery::query();
 
-
+        //Searching request
         if (request('search')) {
             // $query->where('file_id', 'LIKE', '%' . request('search') . '%');
             $query->join('files', 'files.id', '=', 'file_id')
                 ->select('deliveries.*')
                 ->where('files.file_no', 'LIKE', '%' . request('search') . '%');
         }
-
-
         if (request('searche')) {
             // $query->where('item_id', 'LIKE', '%' . request('searche') . '%');
             $query->join('items', 'items.id', '=', 'item_id')
@@ -45,8 +44,6 @@ class DeliveryController extends Controller
         } else {
             $query->orderBy(('deliveries.file_id'), ('asc'));
         }
-        // dd($query/
-
 
         return Inertia::render('Delivery/Index', [
             'filters' => request()->all([
@@ -68,9 +65,6 @@ class DeliveryController extends Controller
                         'qty' => $item->qty,
                     ];
                 }),
-
-
-
             'companies' => Company::all()
                 ->map(
                     function ($com) {
@@ -80,7 +74,6 @@ class DeliveryController extends Controller
                         ];
                     }
                 ),
-
         ]);
     }
 

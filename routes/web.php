@@ -132,11 +132,11 @@ Route::get('pl_date', [ReportController::class, 'pl_date'])
 
 
 //Ledger Sheet -------------------- Starts ---------------------------
-// Route::post('ledger/{id}', [ReportController::class, 'ledger'])
-//     ->name('ledger')
+// Route::get('ledger/{id}', [ReportController::class, 'ledger'])
+//     ->name('ledger.pdf')
 //     ->middleware('auth');
-
-Route::get('range', [ReportController::class, 'rangeLedger'])
+//GENERATING LEDGER PDF REPORT ------------------
+Route::get('range/{id}', [ReportController::class, 'rangeLedger'])
     ->name('range')
     ->middleware('auth');
 

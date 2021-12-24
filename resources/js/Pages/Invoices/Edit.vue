@@ -42,8 +42,8 @@
           <!-- <div v-if="errors.file_id">{{ errors.file_id }}</div>
           </div> -->
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
-            <label class="my-2 ml-4 mr-8 text-right w-36 font-bold"
-              >Without Incl. Tax :</label
+            <label class="my-2 ml-4 mr-5 text-right w-38 font-bold"
+              >Sales Tax Excluded :</label
             >
             <input
               v-model="form.tax_status"
@@ -53,8 +53,8 @@
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
 
-            <label class="my-2 mr-8 text-right w-36 font-bold"
-              >Include Tax :</label
+            <label class="my-2 ml-2 mr-5 text-right w-38 font-bold"
+              >Sales Tax Included :</label
             >
             <input
               v-model="form.tax_status"
@@ -63,7 +63,7 @@
               value="1"
               class="pr-2 pb-2 rounded-md placeholder-indigo-300"
             />
-            <label class="my-2 mr-8 text-right w-24 font-bold">None :</label>
+            <label class="my-2 mr-5 text-right w-24 font-bold">None :</label>
             <input
               v-model="form.tax_status"
               name="tax_status"
@@ -193,7 +193,9 @@ export default {
       } else if (this.form.tax_status == 0) {
         this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
       } else {
-        this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
+        this.form.s_tax = parseInt(
+          this.form.amount - this.form.amount / 1.13
+        ).toFixed(2);
         this.form.amount = parseInt(this.form.amount - this.form.s_tax).toFixed(
           2
         );

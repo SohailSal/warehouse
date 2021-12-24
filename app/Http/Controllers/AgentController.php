@@ -24,18 +24,7 @@ class AgentController extends Controller
             'field' => ['in:name']
         ]);
 
-        // Client data query
-        $query = Agent::paginate(12)
-            ->withQueryString()
-            ->through(
-                fn ($agent) =>
-                [
-                    'id' => $agent->id,
-                    'name' => $agent->name,
-                    'delete' => File::where('agent_id', $agent->id)->first() ? false : true,
-                ],
-            );
-
+        $query = Agent::query();
 
         //Searching request
         if (request('search')) {
@@ -52,7 +41,15 @@ class AgentController extends Controller
         return Inertia::render('Agents/Index', [
             'companies' => Company::all(),
             'agent' => Agent::first(),
-            'balances' => $query,
+            'balances' => $query->paginate(12)
+            ->through(
+                fn ($agent) =>
+                [
+                    'id' => $agent->id,
+                    'name' => $agent->name,
+                    'delete' => File::where('agent_id', $agent->id)->first() ? false : true,
+                ],
+            ),
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
     }

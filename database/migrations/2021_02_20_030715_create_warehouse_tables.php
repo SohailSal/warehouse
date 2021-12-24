@@ -160,6 +160,7 @@ class CreateWarehouseTables extends Migration
             $table->unsignedBigInteger('document_id')->nullable();
             $table->foreign('document_id')->references('id')->on('documents');
             $table->integer('tax_status');
+            $table->integer('s_tax_status');
             $table->date('date');
             $table->string('receipt_no');
             $table->decimal('amount', 14, 2)->nullable();

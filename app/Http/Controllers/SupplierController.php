@@ -29,23 +29,8 @@ class SupplierController extends Controller
             'field' => ['in:name,email']
         ]);
 
-        //IMPORTER data
-        $query = Supplier::paginate(12)
-            ->withQueryString()
-            ->through(
-                fn ($impo) =>
-                [
-                    'id' => $impo->id,
-                    'name' => $impo->name,
-                    'email' => $impo->email,
-                    'address' => $impo->address,
-                    'phone_no' => $impo->phone_no,
-                    'stn_no' => $impo->stn_no,
-                    'ntn_no' => $impo->ntn_no,
-                    'delete' => Account::where('id', $impo->id)->first() ? false : true,
-
-                ],
-            );
+        //Supplier data
+        $query = Supplier::query();
 
 
         //Searching request
@@ -63,7 +48,21 @@ class SupplierController extends Controller
         return Inertia::render('Suppliers/Index', [
             'companies' => Company::all(),
             'supplier' => Supplier::first(),
-            'balances' => $query,
+            'balances' => $query->paginate(12)
+            ->through(
+                fn ($impo) =>
+                [
+                    'id' => $impo->id,
+                    'name' => $impo->name,
+                    'email' => $impo->email,
+                    'address' => $impo->address,
+                    'phone_no' => $impo->phone_no,
+                    'stn_no' => $impo->stn_no,
+                    'ntn_no' => $impo->ntn_no,
+                    'delete' => Account::where('id', $impo->id)->first() ? false : true,
+
+                ],
+            ),
             'filters' => request()->all(['search', 'field', 'direction'])
         ]);
     }
