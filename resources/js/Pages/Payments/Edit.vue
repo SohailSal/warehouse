@@ -24,7 +24,23 @@
               label="date"
               placeholder="xyz"
             />
-            <div v-if="errors.date">{{ errors.date }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.date"
+            >
+              {{ errors.date }}
+            </div>
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -43,7 +59,23 @@
               label="text"
               placeholder="Payee"
             />
-            <div v-if="errors.payee">{{ errors.payee }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.payee"
+            >
+              {{ errors.payee }}
+            </div>
           </div>
 
           <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
@@ -57,7 +89,23 @@
               label="name"
               track-by="id"
             ></multiselect>
-            <div v-if="errors.account_id">{{ errors.account_id }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.account_id"
+            >
+              {{ errors.account_id }}
+            </div>
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -80,7 +128,23 @@
               "
               label="description"
             ></textarea>
-            <div v-if="errors.description">{{ errors.description }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.description"
+            >
+              {{ errors.description }}
+            </div>
           </div>
 
           <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -172,7 +236,23 @@
               label="date"
               placeholder="10,000"
             />
-            <div v-if="errors.amount">{{ errors.amount }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.amount"
+            >
+              {{ errors.amount }}
+            </div>
           </div>
 
           <!-- v-if="form.t_status != 0 && form.p_status != 0" -->

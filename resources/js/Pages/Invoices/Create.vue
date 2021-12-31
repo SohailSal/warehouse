@@ -54,7 +54,22 @@
               label="file_no"
               track-by="id"
             ></multiselect>
-            <div v-if="errors.file_id">{{ errors.file_id }}</div>
+            <div
+              class="
+                ml-2
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.file_id"
+            >
+              {{ errors.file_id }}
+            </div>
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -73,7 +88,22 @@
               label="date"
               placeholder="xyz"
             />
-            <div v-if="errors.date">{{ errors.date }}</div>
+            <div
+              class="
+                ml-2
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.date"
+            >
+              {{ errors.date }}
+            </div>
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -126,7 +156,22 @@
               label="date"
               placeholder="10,000"
             />
-            <div v-if="errors.amount">{{ errors.amount }}</div>
+            <div
+              class="
+                ml-2
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.amount"
+            >
+              {{ errors.amount }}
+            </div>
           </div>
 
           <div
@@ -225,19 +270,26 @@ export default {
     return { form };
   },
 
+  watch: {
+    amount: function (new_Value, old_Value) {
+      console.log("hello");
+    },
+    //   if (this.errors) {
+    // this.firstError = this.errors[Object.keys(this.errors)[0]];
+    // this.isError = true;
+    //   }
+  },
+
   methods: {
     cal_s_tax() {
       if (this.form.tax_status == 2) {
         this.form.s_tax = 0;
-        console.log("value 2");
       } else if (this.form.tax_status == 0) {
         this.form.s_tax = parseInt((this.form.amount * 13) / 100).toFixed(2);
-        console.log(this.form.s_tax);
       } else {
         this.form.s_tax = parseInt(
           this.form.amount - this.form.amount / 1.13
         ).toFixed(2);
-        console.log("sale tax" + this.form.s_tax);
         this.form.amount = parseInt(this.form.amount - this.form.s_tax).toFixed(
           2
         );

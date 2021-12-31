@@ -7,6 +7,21 @@
     </template>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
       <div class="">
+        <div
+          class="
+            text-center
+            bg-red-100
+            border border-red-400
+            text-red-700
+            px-4
+            py-2
+            rounded
+          "
+          role="alert"
+          v-if="isError"
+        >
+          {{ firstError }}
+        </div>
         <form @submit.prevent="submit">
           <div class="grid grid-cols-2">
             <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -27,9 +42,9 @@
                 label="file_no"
                 placeholder="Enter File No :"
               />
-              <div v-if="errors.file_no">
+              <!-- <div v-if="errors.file_no">
                 {{ errors.file_no }}
-              </div>
+              </div> -->
             </div>
 
             <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -405,9 +420,9 @@
                 label="name"
                 track-by="id"
               ></multiselect>
-              <div v-if="errors.importer_id">
+              <!-- <div v-if="errors.importer_id">
                 {{ errors.importer_id }}
-              </div>
+              </div> -->
             </div>
 
             <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
@@ -523,6 +538,14 @@ export default {
   methods: {
     submit() {
       this.$inertia.put(route("files.update", this.file.id), this.form);
+    },
+  },
+  watch: {
+    errors: function () {
+      if (this.errors) {
+        this.firstError = this.errors[Object.keys(this.errors)[0]];
+        this.isError = true;
+      }
     },
   },
 };

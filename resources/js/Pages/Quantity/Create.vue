@@ -14,7 +14,22 @@
 
     <div class="max-w-7xl mx-auto pb-2">
       <div class="relative mt-5 flex-row border-t border-b border-gray-200">
-        <div v-if="isError">{{ firstError }}</div>
+        <div
+          class="
+            text-center
+            bg-red-100
+            border border-red-400
+            text-red-700
+            px-4
+            py-2
+            rounded
+            relative
+          "
+          role="alert"
+          v-if="isError"
+        >
+          {{ firstError }}
+        </div>
         <form @submit.prevent="form.post(route('quantities.store'))">
           <div class="">
             <table class="shadow-lg border mt-4 mb-4 ml-12 rounded-xl w-11/12">
