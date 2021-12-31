@@ -22,7 +22,23 @@
                 placeholder-indigo-300
               "
             />
-            <div v-if="errors.date">{{ errors.date }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.date"
+            >
+              {{ errors.date }}
+            </div>
           </div>
 
           <!-- <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
@@ -88,7 +104,24 @@
                 placeholder-indigo-300
               "
             />
-            <div v-if="errors.amount">{{ errors.amount }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.amount"
+            >
+              <!-- v-if="errors.amount" -->
+              {{ errors.amount }}
+            </div>
           </div>
 
           <div

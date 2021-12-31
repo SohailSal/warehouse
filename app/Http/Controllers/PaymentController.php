@@ -100,7 +100,6 @@ class PaymentController extends Controller
 
     public function expenses_store()
     {
-
         Request::validate([
             'name' => ['required'],
 
@@ -284,7 +283,11 @@ class PaymentController extends Controller
     {
 
         Request::validate([
+            'account_id' => ['required'],
+            'description' => ['required'],
             'amount' => ['required'],
+
+
         ]);
         $document = Document::where('id', $request->document_id)->get()->first();
         $entries = Entry::where('document_id', $request->document_id)->get();

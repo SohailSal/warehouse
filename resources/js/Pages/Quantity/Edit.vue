@@ -21,7 +21,23 @@
               label="name"
               track-by="id"
             ></multiselect>
-            <div v-if="errors.item_id">{{ errors.item_id }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.item_id"
+            >
+              {{ errors.item_id }}
+            </div>
           </div>
 
           <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -40,7 +56,23 @@
               placeholder="Enter Quantity"
               label="qty"
             />
-            <div v-if="errors.qty">{{ errors.qty }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.qty"
+            >
+              {{ errors.qty }}
+            </div>
           </div>
 
           <div class="p-2 mr-2 mb-2 ml-6 flex flex-wrap">
@@ -56,7 +88,23 @@
               label="file_no"
               track-by="id"
             ></multiselect>
-            <div v-if="errors.file_id">{{ errors.file_id }}</div>
+            <div
+              class="
+                ml-2
+                text-center
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.file_id"
+            >
+              {{ errors.file_id }}
+            </div>
           </div>
 
           <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
