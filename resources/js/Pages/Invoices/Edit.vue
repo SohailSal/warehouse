@@ -119,6 +119,7 @@
               role="alert"
               v-if="errors.amount"
             >
+              <!-- v-if="errors.amount" -->
               {{ errors.amount }}
             </div>
           </div>
