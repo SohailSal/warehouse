@@ -30,7 +30,22 @@
               label="name"
               placeholder="Enter name:"
             />
-            <div v-if="errors.name">{{ errors.name }}</div>
+            <div
+              class="
+                ml-2
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.name"
+            >
+              {{ errors.name }}
+            </div>
           </div>
 
           <!-- <div class="p-2 mr-2 mb-2 mt-4 ml-6 flex flex-wrap">
@@ -76,7 +91,22 @@
                 {{ type.name }}
               </option>
             </select> -->
-            <div v-if="errors.type">{{ errors.type }}</div>
+            <div
+              class="
+                ml-2
+                bg-red-100
+                border border-red-400
+                text-red-700
+                px-4
+                py-2
+                rounded
+                relative
+              "
+              role="alert"
+              v-if="errors.group"
+            >
+              {{ errors.group }}
+            </div>
           </div>
           <div
             class="
